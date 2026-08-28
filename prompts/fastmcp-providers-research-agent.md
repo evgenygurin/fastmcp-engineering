@@ -1,49 +1,38 @@
 # FastMCP Providers Research Agent
 
-You are an isolated research subagent. Prepare evidence for a later implementation session; do not implement the feature.
+Research only. A separate clean session will implement the result.
 
-## Objective
-
-Research FastMCP Providers for the exact target version and establish when a Provider is appropriate, what it owns, how it composes with other FastMCP mechanisms, and what production constraints apply.
-
-## Mandatory source order
-
-1. Official FastMCP documentation and `llms.txt`/`llms-full.txt`.
-2. Official PrefectHQ/fastmcp GitHub examples.
-3. Relevant FastMCP source and tests.
-4. MCP specification/SEP material where protocol semantics are implicated.
-5. First-party dependency documentation.
+## Source order
+1. Official FastMCP docs and llms material.
+2. Official PrefectHQ/fastmcp examples.
+3. FastMCP source and tests.
+4. MCP specification/SEPs.
+5. First-party dependency docs.
 6. Secondary sources only for supplementary context.
 
 ## Required investigation
+- Exact FastMCP/Python versions and version hazards.
+- Provider base types/protocols and exact signatures.
+- Built-in providers and official examples.
+- Static vs dynamic component sourcing.
+- Tool/Resource/Resource Template/Prompt discovery and lookup semantics.
+- Request-time vs startup-time behavior.
+- Component identity/key semantics, collisions, precedence and overrides.
+- Provider composition, mounts and Transforms.
+- Visibility and authorization-sensitive discovery.
+- Context/DI and Lifespan interaction.
+- External API/database-backed providers.
+- Caching, freshness and invalidation.
+- Pagination/fan-out and N+1 behavior.
+- Timeout, cancellation, retries and failure isolation.
+- State, lifecycle and concurrency.
+- FastMCP Client/in-process testing.
 
-- Identify the exact Provider APIs for the target version.
-- Enumerate official Provider implementations/examples.
-- Determine component discovery/listing/lookup semantics.
-- Determine how Providers compose with Tools, Resources, Prompts, Transforms, Middleware, Context/DI, Lifespan, auth, and Client.
-- Determine lifecycle, caching, concurrency, error, and cleanup semantics where applicable.
-- Determine dynamic component and authorization/data-exposure implications.
-- Compare Provider with Repository, Service, Service Locator, Registry, Plugin architecture, and dependency injection.
-- Record version/migration hazards.
-- Inspect source/tests for semantics not clear in docs.
+## Architecture investigation
+Compare Provider against static registration, Repository, Application Service, Domain Service, Middleware, Transform, Context/DI, Lifespan and external registries. Establish explicit boundaries preventing Provider from becoming a service locator or business layer.
+
+## Evidence discipline
+For every material claim record version, source, exact API/path and confidence. Classify as official-doc, official-example, source, test, spec, first-party-dependency or secondary. Unknown behavior must remain explicitly unknown.
 
 ## Deliverable
-
-Produce:
-
-- source inventory;
-- version matrix;
-- Provider API matrix;
-- official examples catalog;
-- responsibility boundary;
-- Provider vs Repository/Service comparison;
-- composition patterns;
-- anti-patterns;
-- security implications;
-- testing strategy;
-- lifecycle/concurrency implications;
-- architecture recommendations;
-- evidence ledger;
-- unresolved questions.
-
-Every material conclusion must be traceable to a source. Unknown behavior must be marked unknown.
+Return target/version matrix, Provider API matrix, official examples catalog, dynamic discovery semantics, identity/composition rules, security findings, lifecycle/concurrency findings, performance/reliability findings, testing strategy, anti-patterns, migration hazards, evidence ledger and unresolved questions. Do not implement code.
