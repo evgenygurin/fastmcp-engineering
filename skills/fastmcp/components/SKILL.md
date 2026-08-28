@@ -1,106 +1,87 @@
----
-name: fastmcp-components
-description: Design and implement FastMCP Tools, Resources, and Prompts as thin MCP delivery adapters after evidence-first research, architecture review, and public-contract design.
----
-
 # FastMCP Components
 
-## Mission
+Design Tools, Resources, Resource Templates, and Prompts as thin MCP adapters over explicit application capabilities. Exact APIs are version-sensitive: research the target release first.
 
-Design MCP-facing Tools, Resources, and Prompts without leaking business logic, persistence, or external integration concerns into the protocol adapter.
+## Mandatory research gate
+1. Read `AGENTS.md` and engineering contracts.
+2. Identify exact FastMCP/Python versions.
+3. Read official docs for every component type involved.
+4. Inspect relevant official PrefectHQ/fastmcp examples.
+5. Inspect source/tests for ambiguous identity, registration, schema, execution, and error semantics.
+6. Check MCP specification/SEP material for protocol claims.
+7. Check first-party dependency docs for Pydantic and directly involved libraries.
+8. Record evidence before coding.
 
-## Mandatory prerequisites
+FastMCP currently documents Tools as executable capabilities, Resources as readable data, and Prompts as reusable message templates. Official docs must be rechecked for the target release.
 
-Before implementation:
+## Component decision
+- Tool: invoke an operation or cause an action.
+- Resource: read addressable data.
+- Resource Template: read data parameterized by a URI template.
+- Prompt: provide reusable message/instruction templates.
 
-1. Read `AGENTS.md`.
-2. Read the applicable skill and verification contracts.
-3. Read the Architecture Governor and Pattern Selection artifacts.
-4. Build a Skill Context Package for the target feature.
-5. Identify the exact FastMCP version.
-6. Read the relevant official FastMCP documentation.
-7. Inspect relevant official examples.
-8. Inspect source/tests when API semantics are ambiguous or version-sensitive.
-9. Check MCP specification/SEP material when protocol semantics are involved.
+Do not force a requirement into a component when its semantics do not fit.
 
-Do not proceed on remembered FastMCP APIs.
-
-## Procedure
-
-### 1. Classify the capability
-
-Determine whether the requirement is primarily:
-
-- an executable operation → Tool;
-- addressable/read-oriented contextual data → Resource;
-- reusable prompt/instruction content → Prompt;
-- cross-cutting behavior → Middleware;
-- component discovery/composition → Provider;
-- systematic component transformation → Transform.
-
-Do not choose Tool by default.
-
-### 2. Define the public contract
-
-Specify inputs, outputs, errors, authorization semantics, side effects, idempotency, pagination/freshness where relevant, and observable behavior.
-
-Treat MCP schema as an external contract. Do not expose persistence or domain models merely because their schemas are convenient.
-
-### 3. Locate application boundary
-
-Map the component to an application use case or explicitly justified boundary. Keep business rules outside the MCP adapter.
-
-### 4. Implement the thinnest adapter
-
-The component should primarily:
+## Architecture
 
 ```text
-MCP input
-   ↓
-MCP adapter
-   ↓
-Application boundary
-   ↓
-MCP result/error mapping
+MCP client / LLM
+      ↓
+FastMCP component adapter
+      ↓
+Application port / use case
+      ↓
+Domain
+      ↓
+Infrastructure adapter
 ```
 
-Use FastMCP-native Context/DI, auth, middleware, providers, transforms, and lifecycle mechanisms when appropriate instead of inventing equivalent infrastructure.
+The adapter owns MCP-facing naming, descriptions, schemas, result shaping, Context access where required, and protocol error translation. Application/domain layers must not depend on FastMCP decorators or runtime Context merely because an MCP component invokes them.
 
-### 5. Verify
+## Tools
 
-At minimum, verify:
+Define a stable semantic name, model-facing description, typed input/output contract, authorization boundary, side effects/idempotency, and error semantics. Do not expose internal CRUD methods one-to-one unless that is genuinely the desired agent capability. Avoid giant tools containing unrelated workflows.
 
-- registration/discovery;
-- input/output schema;
-- success behavior;
-- validation failures;
-- authorization behavior;
-- application failure mapping;
-- relevant integration behavior through the documented FastMCP Client/testing seam;
-- architecture boundaries;
-- static quality.
+## Resources
 
-Add regression coverage for defects.
+Resources are readable data capabilities, not disguised actions. Define stable URIs and explicit template semantics. Hidden mutations are prohibited unless deliberately justified. Verify binary content, MIME types, structured content, cache hints, and resource-template APIs for the target version.
 
-## Rejection criteria
+## Prompts
 
-Reject the implementation if:
+Prompts are reusable message templates. Keep business operations and data access outside them unless explicitly part of the verified contract. Arguments require clear descriptions and deterministic serialization.
 
-- the component contains business invariants;
-- the component queries persistence directly without an approved architectural exception;
-- the component constructs concrete external SDK clients;
-- a Resource is being used as generic RPC;
-- a Prompt is being used to enforce authorization;
-- public MCP contracts accidentally expose internal ORM/domain objects;
-- a native FastMCP mechanism would solve the problem more appropriately and no justification exists for a custom mechanism;
-- required official research has not been performed.
+## Schema / Pydantic
+
+FastMCP derives schemas from Python signatures and validates boundary inputs/outputs. Use Pydantic for complex/reusable boundary contracts and ordinary annotations for simple contracts. Treat required fields, defaults, enums, output shapes and descriptions as compatibility-sensitive API changes. Never expose ORM entities, DB sessions, secrets, or infrastructure structures accidentally.
+
+## Identity / registration
+
+Determine canonical component identity for the target version. When composing Providers, Transforms, mounts, or programmatic registration, verify collision, deduplication, precedence, and visibility semantics from first-party evidence. FastMCP repository guidance identifies `FastMCPComponent.key` as the canonical identity surface; verify exact target-version behavior before relying on it.
+
+## Errors
+
+Distinguish invalid input, authentication/authorization failure, expected application/domain rejection, transient infrastructure failure, and unexpected programmer failure. Do not swallow exceptions merely to return friendly strings or leak internal details.
+
+## Context / DI
+
+Use FastMCP Context only for verified MCP runtime capabilities. Dependencies belong in explicit DI/application boundaries. Never use Context as a service locator.
+
+## Security
+
+For every component document who may discover/read/invoke it, tenant/user scope, returned data, side effects, and capability disclosure through names/descriptions/schemas. Authorization must be enforced at the security/application boundary, not delegated to the LLM.
+
+## Composition
+
+When components come from Providers, Transforms, mounts, or programmatic registration, verify ordering, identity, deduplication, visibility, and override behavior. Choose decorator or imperative registration based on the target architecture and verified version semantics.
+
+## Testing
+
+Use `fastmcp.Client` / in-process testing where appropriate. Test discovery, schemas, success/error paths, authorization, malformed input, URI/template behavior, prompt rendering, identity/collision behavior, and cancellation/timeouts where applicable.
+
+## Reject
+
+Reject thin database dumps, domain logic coupled to decorators, public schemas exposing persistence models, LLM-only authorization, guessed identity semantics, and implementations not verified against the target FastMCP version.
 
 ## Deliverables
 
-- component decision record;
-- MCP contract;
-- implementation;
-- focused tests;
-- integration/MCP tests where applicable;
-- verification evidence;
-- architecture decision updates if boundaries changed.
+Research package, component decision record, public MCP contract, application boundary map, implementation, Client/in-process tests, security/error verification, architecture re-check, evidence ledger.
