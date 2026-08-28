@@ -35,13 +35,21 @@ skill_context:
     application_boundary:
     native_alternatives_checked: []
   provider:
-    discovery:
+    source_of_truth:
+    discovery_trigger:
     lookup:
+    listing:
+    filtering:
     identity:
+    precedence:
     visibility:
     authorization:
     lifecycle:
     caching:
+    freshness:
+    invalidation:
+    timeout:
+    cancellation:
     concurrency:
   verification:
     acceptance_criteria: []
