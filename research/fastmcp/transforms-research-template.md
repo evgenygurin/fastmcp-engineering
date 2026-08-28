@@ -57,3 +57,7 @@ Use this template for every Transform implementation session.
 ## 7. Unknowns
 
 List all behavior not established by first-party evidence. Unknowns are blocking when implementation depends on them.
+
+## 8. Evidence classification
+
+For each material claim classify evidence as `official-doc`, `official-example`, `source`, `test`, `spec`, `first-party-dependency`, or `secondary`. Secondary evidence must never silently override first-party evidence.
