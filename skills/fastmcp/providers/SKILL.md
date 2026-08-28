@@ -5,40 +5,31 @@ description: Design and implement FastMCP Providers as component sources/composi
 
 # FastMCP Providers
 
-## Mission
-
 Use FastMCP Providers when the problem is fundamentally about sourcing, discovering, exposing, composing, or dynamically controlling MCP components. Do not use Providers as generic application-service containers.
 
 ## Mandatory research
 
-Before implementation, independently verify the target FastMCP version and read the relevant official documentation, official examples, and source/tests when behavior is ambiguous. Check MCP specification material where protocol semantics matter. Check first-party dependency documentation for involved dependencies.
+Before implementation, independently verify the exact target FastMCP version and read relevant official documentation, official PrefectHQ/fastmcp examples, and source/tests when behavior is ambiguous. Check MCP specification material where protocol semantics matter. Check first-party dependency documentation for involved dependencies.
+
+The current official FastMCP server documentation describes Providers as supplying Tools, Resources, and Prompts dynamically, and says providers are queried at request time. This remains version-sensitive and must be verified against the target release before relying on it. citeturn0search9
 
 Do not implement from memory or from examples belonging to another major version.
 
 ## Decision gate
 
 Ask:
-
 1. Is the problem about where MCP components come from?
 2. Is dynamic discovery/loading/composition required?
-3. Is the provider responsible for component lifecycle or exposure rather than business execution?
-4. Would a Tool/Resource/Prompt, Transform, Middleware, Context/DI, or ordinary application composition be simpler?
+3. Is the provider responsible for component exposure rather than business execution?
+4. Would a Tool/Resource/Prompt, Transform, Middleware, Context/DI, Lifespan, or ordinary application composition be simpler?
 
-If the problem is business persistence or business orchestration, a Provider is probably the wrong abstraction.
+If the problem is business persistence or orchestration, a Provider is probably the wrong abstraction.
 
 ## Responsibility boundary
 
-A Provider may own component sourcing, discovery, lookup, listing, and provider-specific composition semantics according to the target FastMCP API.
+A Provider may own component sourcing, discovery, lookup, listing, filtering, delegation, and provider-specific composition semantics according to the target FastMCP API.
 
-A Provider must not silently become:
-
-- a Repository;
-- an Application Service;
-- a Domain Service;
-- a dependency-injection container;
-- a transaction manager;
-- an authorization policy engine;
-- a generic service locator.
+A Provider must not silently become a Repository, Application Service, Domain Service, dependency-injection container, transaction manager, authorization policy engine, or generic service locator.
 
 ## Repository distinction
 
@@ -50,48 +41,50 @@ Provider
   answers: "Which MCP components are available and how are they sourced/composed?"
 ```
 
-A provider may internally depend on an application port or infrastructure adapter when that is required to discover components. It should not absorb domain persistence policy.
+A provider may internally depend on an application port or infrastructure adapter when required to discover components. It should not absorb domain persistence policy.
 
-## Composition rules
+## Dynamic discovery
 
-Before custom provider code, inspect built-in providers and composition mechanisms in the target FastMCP version. Prefer native composition over an invented registry or plugin framework.
+For every dynamic provider document: source of truth, discovery trigger/request-time behavior, lookup key, filtering, freshness, caching, invalidation, failure behavior, timeout/deadline propagation, cancellation, concurrency, and lifecycle ownership.
 
-When dynamic components are involved, explicitly document:
+Do not introduce caching without understanding freshness and authorization implications. Do not turn component listing into uncontrolled remote fan-out.
 
-- discovery semantics;
-- lookup semantics;
-- identity and naming;
-- visibility;
-- authorization implications;
-- caching/freshness;
-- lifecycle ownership;
-- error behavior;
-- concurrency behavior;
-- cleanup/resource ownership.
+## Identity and composition
+
+Before custom provider code, inspect built-in providers and composition mechanisms in the target version. Prefer native composition over an invented registry or plugin framework.
+
+Verify canonical component identity/key semantics before implementing deduplication or collision handling. Test duplicate identities, overlapping providers, precedence, mounts, transforms, visibility, and replacement/override behavior where supported.
+
+## Security
+
+Discovery can disclose capabilities. Separate discoverability, read/invoke/render permission, returned-data authorization, tenant/user scope, and policy ownership. Hiding a component is not equivalent to authorization.
+
+## State, lifecycle, and concurrency
+
+For stateful providers document scope and concurrency guarantees. Never assume shared mutable state is safe during concurrent discovery. External clients, DB sessions, caches, and other heavyweight resources need explicit ownership and should normally be lifecycle-managed rather than constructed per lookup when appropriate.
+
+## Performance and resilience
+
+Analyze discovery latency, N+1 remote calls, pagination/fan-out, cache staleness, authorization staleness, timeout/deadline propagation, cancellation, backpressure, retry safety, failure isolation, and memory growth.
 
 ## Testing
 
-Test provider behavior at the MCP boundary where practical. Verify component discovery/listing, lookup, composition, authorization visibility, failures, and lifecycle behavior relevant to the implementation. Use the documented FastMCP Client/testing seam rather than testing only private implementation details.
+Use the documented FastMCP Client/in-process seam where practical. Cover discovery/listing, lookup, empty/missing components, duplicate identity, precedence/composition, visibility, authorization-sensitive discovery, external-source failure, timeout/cancellation, concurrent access, caching where applicable, and lifecycle cleanup.
 
 ## Deliverables
 
-- research/evidence artifact;
+- version-specific research/evidence artifact;
 - provider decision record;
-- responsibility/dependency map;
+- discovery/source-of-truth map;
+- identity/collision policy;
+- security boundary;
+- lifecycle/scope model;
 - implementation;
-- focused tests;
-- MCP integration tests where relevant;
-- verification report;
-- architecture re-check.
+- Client/in-process integration tests;
+- performance/reliability verification;
+- architecture re-check;
+- evidence ledger.
 
 ## Rejection criteria
 
-Reject if:
-
-- Provider exists only to satisfy a pattern preference;
-- Provider contains business invariants;
-- Provider directly owns business transactions;
-- Provider is a disguised service locator for arbitrary application dependencies;
-- a simpler native FastMCP mechanism solves the requirement;
-- version-sensitive behavior was not researched;
-- dynamic exposure creates an unreviewed authorization/data-exposure path.
+Reject disguised repositories/service locators, business invariants in providers, direct business transaction ownership, guessed component identity, undefined freshness/failure semantics, visibility-as-authorization, shared mutable state without a concurrency model, custom registries when native FastMCP composition suffices, and implementation based on unverified target-version behavior.
