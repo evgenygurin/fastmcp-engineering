@@ -29,7 +29,7 @@ Transform -> component representation/composition transformation
 
 These definitions are architectural defaults. Exact FastMCP semantics must be verified against the target release.
 
-## Required decision record
+## Dynamic-provider decision record
 
 ```yaml
 requirement:
@@ -38,13 +38,31 @@ selected_mechanism:
 fastmcp_native_alternatives_checked: []
 provider_responsibilities: []
 non_responsibilities: []
-dynamic_behavior:
+discovery:
+  source_of_truth:
+  trigger:
+  lookup:
+  listing:
+  filtering:
+identity:
+  canonical_key:
+  collision_behavior:
+  precedence:
 visibility:
 authorization:
+  policy_owner:
+  tenant_scope:
 lifecycle:
 caching:
+  freshness:
+  invalidation:
 concurrency:
+  shared_state:
+  guarantees:
 error_model:
+  timeout:
+  cancellation:
+  retry:
 testing:
 version:
 evidence: []
