@@ -1,36 +1,38 @@
-# Providers Skill Acceptance Criteria
+# FastMCP Providers Acceptance Criteria
 
 ## Research
-
-- [ ] Exact FastMCP version identified.
+- [ ] Exact FastMCP/Python versions identified.
 - [ ] Official Provider documentation read.
 - [ ] Relevant official examples inspected.
-- [ ] Relevant source/tests inspected where semantics are ambiguous.
-- [ ] MCP specification checked where protocol semantics matter.
+- [ ] Source/tests inspected for ambiguous behavior.
+- [ ] MCP specification checked where required.
 - [ ] Evidence ledger completed.
 
 ## Architecture
+- [ ] Provider is justified against simpler native mechanisms.
+- [ ] Provider is limited to MCP component sourcing/discovery/composition.
+- [ ] Business/domain logic remains outside Provider.
+- [ ] Repository/application-service/DI/service-locator responsibilities are not hidden in Provider.
+- [ ] Application and infrastructure boundaries are explicit.
 
-- [ ] Provider responsibility is component sourcing/discovery/composition.
-- [ ] Repository and application-service responsibilities remain separate.
-- [ ] Provider is not used as a generic service locator or DI container.
-- [ ] Native FastMCP alternatives were considered.
-- [ ] Dynamic visibility and authorization are explicitly designed.
-- [ ] Lifecycle and concurrency semantics are explicit where relevant.
-
-## Implementation
-
-- [ ] Version-correct FastMCP APIs are used.
-- [ ] Business logic remains behind application/domain boundaries.
-- [ ] External infrastructure is accessed through approved boundaries.
-- [ ] Error and cleanup behavior is explicit.
+## Dynamic behavior
+- [ ] Discovery trigger is explicit.
+- [ ] Lookup/listing semantics are verified.
+- [ ] Identity/key semantics are verified.
+- [ ] Collision/precedence behavior is explicit.
+- [ ] Visibility and authorization are distinct.
+- [ ] Cache/freshness/invalidation semantics are explicit when applicable.
+- [ ] Timeout/cancellation/failure behavior is explicit.
+- [ ] Concurrency and mutable state are analyzed.
+- [ ] Lifecycle/resource ownership is explicit.
 
 ## Verification
-
-- [ ] Provider behavior has focused tests.
-- [ ] MCP/in-process integration behavior is tested where relevant.
-- [ ] Failure paths are covered.
-- [ ] Security/authorization behavior is covered where relevant.
+- [ ] Discovery/listing tests pass.
+- [ ] Lookup tests pass.
+- [ ] Composition/collision tests pass where applicable.
+- [ ] Security/visibility tests pass where applicable.
+- [ ] External failure/timeout tests pass where applicable.
+- [ ] FastMCP Client/in-process tests pass where applicable.
 - [ ] Static quality checks pass.
 - [ ] Architecture re-check passes.
-- [ ] Verification evidence is reproducible.
+- [ ] Evidence is reproducible.
