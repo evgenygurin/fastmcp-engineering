@@ -1,18 +1,25 @@
-# Observability / Diagnostics Research Agent
+# Observability / Operations Research Agent
 
-Research only; implementation happens in a fresh session.
+Research only. Implementation occurs in a fresh session.
 
 ## Source hierarchy
-1. Official FastMCP documentation/llms.
-2. Official PydanticAI documentation.
-3. Official OpenTelemetry Python documentation and semantic conventions.
-4. Official ASGI/server, SQLAlchemy and relevant dependency docs.
-5. Official examples and source/tests.
+1. Official OpenTelemetry documentation/specifications.
+2. Official FastMCP documentation, llms material, examples, source/tests.
+3. Official PydanticAI observability/logging documentation and source/tests.
+4. Official ASGI/server, SQLAlchemy and deployment-platform documentation.
+5. Authoritative SRE/observability guidance.
 6. Secondary sources only as supplementary evidence.
 
 ## Mandatory investigation
-Identify exact versions. Research FastMCP middleware/lifecycle/context/observability hooks, PydanticAI instrumentation, OpenTelemetry tracing/metrics/logging, context propagation, semantic conventions, ASGI instrumentation, SQLAlchemy instrumentation, streaming/cancellation, errors, graceful shutdown, exporters, sampling, baggage, cardinality and privacy. Design safe correlation across MCP request → application → agent/model/tool → DB/external APIs. Determine what metadata is safe to capture and what must be redacted.
+Identify exact versions. Research FastMCP middleware/lifecycle/context/observability hooks, PydanticAI instrumentation, OpenTelemetry tracing/metrics/logging, context propagation, semantic conventions, ASGI instrumentation, SQLAlchemy instrumentation, MCP request/session correlation, agent/model/tool telemetry, streaming/cancellation, errors, graceful shutdown, exporters, sampling, baggage, cardinality and privacy.
 
-Build an error taxonomy, telemetry schema, metric catalog, trace topology, redaction policy, SLO/health strategy, testing strategy and operational failure matrix. Inspect source/tests where docs are ambiguous.
+Map critical production workflows to signals and failure diagnostics. Identify sensitive fields in prompts, tool arguments/results, DB values, tokens and headers. Determine what can be captured safely and what must be redacted or omitted.
 
-Every material claim must include source, version and confidence. No implementation.
+Research SLI/SLO candidates, alerting, dependency outage behavior, graceful degradation, retry budgets and runbook requirements. Inspect source/tests where docs are ambiguous.
+
+Every material claim must include source, version and confidence.
+
+## Deliverable
+Observability architecture, correlation/data-flow map, signal schema, telemetry sensitivity matrix, metric/cardinality matrix, health/readiness policy, SLI/SLO matrix, sampling/retention policy, failure-mode diagnostics, dashboard/runbook plan, testing matrix, evidence ledger and blocking unknowns.
+
+No implementation.
