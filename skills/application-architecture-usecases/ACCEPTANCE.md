@@ -1,0 +1,23 @@
+# Application Architecture Acceptance Criteria
+
+- [ ] Exact framework/library versions identified.
+- [ ] Current official documentation and relevant exact-version examples/source/tests reviewed.
+- [ ] Dependency direction is explicit and enforced.
+- [ ] MCP adapters contain protocol translation rather than business logic.
+- [ ] Application use cases own orchestration and transaction boundaries.
+- [ ] Domain remains independent of FastMCP, SQLAlchemy, PydanticAI and provider SDKs.
+- [ ] Ports exist only at demonstrated dependency boundaries.
+- [ ] Concrete infrastructure is wired in one composition root.
+- [ ] No service locator or hidden global dependency registry.
+- [ ] Pattern usage has an explicit justification.
+- [ ] KISS/YAGNI applied against speculative abstractions.
+- [ ] DTO/domain/ORM boundaries are explicit.
+- [ ] Error translation boundaries are explicit.
+- [ ] Authorization and tenant scope are enforced in trusted code.
+- [ ] Transactions do not unintentionally span slow external calls.
+- [ ] Async/cancellation boundaries are explicit.
+- [ ] Domain invariant tests are infrastructure-independent.
+- [ ] Use-case tests cover ports, authorization and transaction ownership.
+- [ ] Integration tests cover MCP/infrastructure adapters.
+- [ ] Architecture tests prevent forbidden dependencies.
+- [ ] Current official documentation was re-checked before completion.
