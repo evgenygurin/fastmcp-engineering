@@ -10,32 +10,35 @@
 - [ ] Evidence ledger and compatibility matrix completed.
 
 ## Protocol
-- [ ] Initialization/version negotiation is explicit.
+- [ ] Target lifecycle is explicit: modern stateless or handshake-era.
+- [ ] Version/discovery behavior is explicit.
 - [ ] Capability advertisement matches actual implementation.
-- [ ] Lifecycle states are enforced.
+- [ ] Lifecycle rules for the target version are enforced.
 - [ ] Notification semantics are correct.
-- [ ] Transport/session ownership is explicit.
+- [ ] Transport ownership/routing semantics are explicit.
 - [ ] Cancellation/disconnect behavior is defined.
 - [ ] Tools/resources/prompts have distinct contracts.
+- [ ] Tool schemas are validated according to the target JSON Schema contract.
 - [ ] Protocol errors are distinct from application errors.
 - [ ] Authorization is independent from model/tool descriptions.
 
 ## Security / reliability
-- [ ] External protocol inputs are validated.
+- [ ] External protocol inputs are validated and bounded.
 - [ ] Sensitive internal details are not leaked in errors.
-- [ ] Session mutable state is concurrency-safe.
-- [ ] No global mutable protocol state.
+- [ ] Application mutable state is concurrency-safe.
+- [ ] No accidental global mutable protocol state.
 - [ ] Native FastMCP capabilities are preferred over custom protocol plumbing.
+- [ ] Draft extensions and deprecated features are explicitly isolated/justified.
 
 ## Verification
-- [ ] Initialization tests pass.
-- [ ] Version/capability negotiation tests pass.
+- [ ] Lifecycle/discovery tests pass.
+- [ ] Version/capability negotiation or compatibility tests pass.
 - [ ] Discovery/invocation tests pass.
 - [ ] Invalid-message/error mapping tests pass.
 - [ ] Notification tests pass.
 - [ ] Cancellation/disconnect tests pass.
 - [ ] Authorization tests pass.
-- [ ] Transport tests pass for the target deployment.
+- [ ] Transport/routing-header tests pass for the target deployment.
 - [ ] Interoperability tests cover supported client combinations where practical.
 - [ ] Static quality gates pass.
 - [ ] Architecture re-check passes.
