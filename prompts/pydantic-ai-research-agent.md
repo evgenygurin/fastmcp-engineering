@@ -1,22 +1,33 @@
-# PydanticAI / Agent Integration Research Agent
+# PydanticAI / Agent Engineering Research Agent
 
-Research only. A separate fresh session will implement the result.
+Research only. A separate fresh session implements the result.
+
+## Mission
+Produce an evidence package for a production PydanticAI agent integrated with FastMCP without allowing the agent layer to absorb domain, authorization, persistence or infrastructure responsibilities.
 
 ## Source hierarchy
 1. Official PydanticAI documentation.
-2. Official FastMCP documentation / llms material.
-3. Official PydanticAI and FastMCP examples.
-4. PydanticAI/FastMCP source and tests.
-5. MCP specification.
-6. First-party model/provider documentation.
+2. Official PydanticAI examples and GitHub source/tests.
+3. Official FastMCP documentation/llms/examples and MCP specification.
+4. Official model-provider documentation for exact selected models.
+5. Official Pydantic documentation.
+6. Authoritative security/testing guidance.
 7. Secondary sources only as supplementary evidence.
 
 ## Mandatory investigation
-Identify exact versions. Exhaustively research Agent, RunContext, typed dependencies, output/result types, validators, tools, tool dependencies, model/provider configuration, model settings, retries, usage limits, messages/history, streaming, approvals/deferred tools, durable execution and instrumentation/evals where applicable. Research FastMCP MCP integration patterns and distinguish MCP protocol tools from application capabilities. Analyze provider abstraction, prompt/tool injection risks, authorization, secrets, cancellation, concurrency, idempotency, observability and deterministic testing.
+Identify exact versions. Read and verify current semantics for Agent construction/runs, dependencies and RunContext, tools, toolsets, dynamic toolsets, toolset composition/filtering/prefixing, deferred loading, approval-required tools, output types, structured output, validators, retries, usage limits, model settings, model/provider abstraction, streaming, async lifecycle, message history, testing models/seams, observability, MCPToolset/MCP capability and transport integration.
 
-For every material claim record exact source, version and confidence. Inspect source/tests whenever docs are ambiguous.
+Inspect official examples and source/tests for every version-sensitive or ambiguous behavior. Research provider-specific capabilities separately and record what is portable versus provider-specific.
+
+Analyze architecture boundaries: MCP adapter, application use cases, agent orchestration, domain/ports and infrastructure. Explicitly identify where authorization, transactions, idempotency and business invariants must remain deterministic.
+
+Analyze agent/tool threats: prompt injection, untrusted MCP descriptions/results, tool poisoning, side effects, excessive tool exposure and data leakage. Research least-privilege/deferred tool loading and approval mechanisms.
+
+Analyze deterministic testing: TestModel and documented testing seams, toolset inspection, structured output tests, validation/retry paths, failure/cancellation, limits and controlled real-provider integration.
+
+Every material claim must include source, exact version/date where relevant, and confidence.
 
 ## Deliverable
-Produce agent architecture/boundary map, PydanticAI API/version matrix, FastMCP integration matrix, dependency-scope model, tool security matrix, output-validation model, reliability policy, provider strategy, observability/test strategy, compatibility hazards, evidence ledger and unresolved questions.
+Agent architecture, dependency matrix, model/provider capability matrix, tool/toolset decision matrix, MCP integration matrix, prompt/instruction contract, structured-output strategy, retry/limit/idempotency matrix, human-approval strategy, testing matrix, security boundaries, evidence ledger and blocking unknowns.
 
 No implementation.
