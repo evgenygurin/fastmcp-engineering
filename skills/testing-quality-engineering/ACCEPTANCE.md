@@ -1,0 +1,22 @@
+# Testing / Quality Acceptance Criteria
+
+- [ ] Exact test-stack versions identified.
+- [ ] Current official testing/framework documentation reviewed.
+- [ ] Test pyramid and architectural boundaries are explicit.
+- [ ] TDD evidence exists for behavior changes.
+- [ ] MCP discovery/schema/invocation contracts are tested.
+- [ ] PostgreSQL semantics use real PostgreSQL integration tests where required.
+- [ ] Async lifecycle and cleanup are deterministic.
+- [ ] Mocks are limited to architectural boundaries.
+- [ ] Critical invariants have negative tests.
+- [ ] Failure, timeout and cancellation paths are covered where applicable.
+- [ ] Security and tenant-isolation paths are tested.
+- [ ] Property-based testing is used where meaningful.
+- [ ] Mutation testing is used selectively for high-value logic where justified.
+- [ ] Coverage is treated as diagnostic rather than sole quality criterion.
+- [ ] Fixtures are isolated and order-independent.
+- [ ] No arbitrary sleeps are used for synchronization.
+- [ ] Contract snapshots are reviewed rather than blindly regenerated.
+- [ ] CI gates are reproducible and documented.
+- [ ] Flaky tests are tracked rather than suppressed.
+- [ ] Official documentation is re-checked before completion.
