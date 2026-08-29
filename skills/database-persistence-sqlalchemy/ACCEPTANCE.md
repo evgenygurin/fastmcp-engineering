@@ -1,0 +1,24 @@
+# Database / Persistence Acceptance Criteria
+
+- [ ] Exact Python/SQLAlchemy/driver/PostgreSQL/Supabase versions identified.
+- [ ] Current official SQLAlchemy/PostgreSQL/Supabase documentation reviewed.
+- [ ] Relevant exact-version examples/source/tests reviewed.
+- [ ] Domain is independent from ORM types.
+- [ ] ORM models are not API schemas.
+- [ ] Repository and Unit of Work boundaries are explicit.
+- [ ] Transaction boundaries are owned by application use cases/orchestration.
+- [ ] Repositories do not secretly commit.
+- [ ] AsyncSession concurrency/lifecycle is correct.
+- [ ] Critical invariants have database constraints.
+- [ ] Loading strategies prevent unintended async lazy I/O/N+1.
+- [ ] Query/index choices are evidence-based.
+- [ ] Pagination has stable ordering.
+- [ ] Pool configuration respects DB/deployment limits.
+- [ ] Isolation and locking strategy is documented and tested.
+- [ ] Migrations are reviewed for compatibility and lock duration.
+- [ ] Expand/contract is used where required.
+- [ ] Outbox/inbox is evaluated for DB-to-external consistency.
+- [ ] Supabase connection mode/RLS assumptions are verified.
+- [ ] Real PostgreSQL integration tests cover DB-specific behavior.
+- [ ] Rollback, constraints, concurrency and pagination are tested.
+- [ ] Current official documentation was re-checked before completion.
