@@ -7,7 +7,8 @@ This repository defines a research-first, architecture-governed methodology for 
 ## Core model
 
 ```text
-Requirement
+Preflight
+  -> Requirement
   -> Discovery
   -> Official research
   -> Pattern selection
@@ -15,14 +16,28 @@ Requirement
   -> Contracts
   -> TDD
   -> Implementation
+  -> Documentation sync
   -> Static analysis
   -> Tests
   -> Security review
   -> Architecture review
+  -> PR review
+  -> Merge
+  -> Branch cleanup
   -> Final verification
 ```
 
-Every stage produces evidence that the next stage can consume.
+Every stage produces evidence that the next stage can consume. Repository hygiene is part of engineering correctness, not post-processing.
+
+## Repository lifecycle
+
+`main` is the only persistent branch. Engineering changes use short-lived intent-named branches. Each work branch has exactly one PR. After merge, the source branch is deleted and the final state is verified.
+
+```text
+main -> feat/fix/refactor/docs/chore branch -> PR -> review -> merge -> delete branch -> verify main
+```
+
+A branch without a PR is orphan work. A merged PR with a surviving source branch is incomplete work. If the available GitHub capability cannot delete a source branch, completion must be reported as blocked rather than asserted.
 
 ## Architecture model
 
@@ -69,6 +84,10 @@ Before implementing any non-trivial FastMCP feature, the agent must inspect:
 
 Research output must distinguish documented facts, source-derived behavior, examples, inference, and project-specific recommendations.
 
+## Documentation synchronization
+
+Documentation is part of the implementation. When code, architecture, API, configuration, operational behavior, testing procedure, or agent workflow changes, update the relevant documentation in the same PR. If documentation is intentionally unchanged, record the reason.
+
 ## Quality principles
 
 ### SOLID
@@ -114,7 +133,7 @@ Protocol/conformance
 Scenario/agent evaluation
 ```
 
-A test must be placed at the lowest layer that can prove the behavior without losing the property being tested.
+A test must be placed at the lowest layer that can prove the behavior without losing the property being tested. When CI is unavailable, local verification is the authoritative evidence source. Do not invent CI results or weaken the verification standard because CI cannot run.
 
 ## Security model
 
@@ -134,6 +153,11 @@ A skill or implementation is complete only when:
 - patterns are justified;
 - contracts are defined;
 - tests exist at appropriate layers;
+- documentation is synchronized;
 - security and operational concerns are considered;
-- static/test verification passes;
-- final review finds no unresolved architecture violations.
+- applicable local static/test verification passes;
+- final review finds no unresolved architecture violations;
+- the PR is merged;
+- the source branch is deleted;
+- `main` is verified to contain the change;
+- no orphan PR or branch remains from the task.
