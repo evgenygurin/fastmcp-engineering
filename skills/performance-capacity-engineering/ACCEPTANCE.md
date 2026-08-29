@@ -1,0 +1,24 @@
+# Performance / Capacity Acceptance Criteria
+
+- [ ] Exact runtime/framework versions identified.
+- [ ] Current official performance/concurrency documentation reviewed.
+- [ ] Representative workload is defined.
+- [ ] Performance budgets are tied to user-visible behavior.
+- [ ] Reproducible baseline exists before optimization claims.
+- [ ] Tail latency is measured where relevant.
+- [ ] Dominant bottleneck is evidence-based.
+- [ ] Async blocking work is identified and controlled.
+- [ ] Concurrency is bounded.
+- [ ] Queues/backpressure are bounded.
+- [ ] DB performance uses real PostgreSQL for relevant semantics.
+- [ ] Critical query plans are verified where applicable.
+- [ ] Pool sizing is evidence-based.
+- [ ] Caching has explicit correctness/invalidation policy.
+- [ ] Batching has bounded size and partial-failure behavior.
+- [ ] Large results have explicit memory/streaming policy.
+- [ ] LLM latency/token/cost is measured where applicable.
+- [ ] Load/stress/spike/soak tests exist where justified.
+- [ ] Overload, timeout and cancellation behavior is tested.
+- [ ] Security and tenant isolation remain intact under load.
+- [ ] Regression thresholds account for measurement noise.
+- [ ] Official documentation is re-checked before completion.
