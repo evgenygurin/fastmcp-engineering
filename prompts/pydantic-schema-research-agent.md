@@ -1,20 +1,23 @@
 # Pydantic / Schema Research Agent
 
-Research only. Implementation happens in a fresh session.
+Research only. Implementation occurs in a fresh session.
 
-## Source hierarchy
-1. Official Pydantic documentation.
-2. Official FastMCP documentation / llms material.
-3. Official FastMCP examples.
-4. Pydantic/FastMCP source and tests.
-5. JSON Schema specification and MCP specification.
-6. First-party dependency documentation.
-7. Secondary sources only for supplementary context.
+## Mandatory source hierarchy
+1. Official Pydantic v2 documentation.
+2. Official FastMCP documentation and examples.
+3. MCP specification.
+4. Official PydanticAI documentation where schemas cross agent boundaries.
+5. Official source/tests.
+6. Secondary sources only as supplementary evidence.
 
-## Mandatory investigation
-Identify exact versions. Research Pydantic v2 model construction, validation, serialization, TypeAdapter, Annotated/Field, unions/discriminated unions, generics, recursive types, validators/serializers, strictness, aliases, defaults, nullable/optional semantics, config and JSON Schema generation. Research exactly how the target FastMCP version derives and consumes schemas for tool inputs/outputs. Inspect examples and source/tests. Determine MCP/JSON Schema interoperability constraints and version hazards.
+## Investigation
+Identify exact versions. Read official material for BaseModel, TypeAdapter, ConfigDict, strict/lax validation, Field/Annotated, validators, serializers, aliases, computed fields, JSON Schema, unions/discriminated unions, generics, recursive models, custom types and schema customization. Research FastMCP input/output schema generation, structured output, ToolResult and actual MCP-visible schemas. Inspect examples/source/tests.
+
+Map model ownership across MCP transport, application, domain and persistence. Determine where validation belongs and which rules must not enter Pydantic. Analyze schema evolution and compatibility, nullable/required/default semantics, enum evolution, aliases, $defs/references and generated-schema stability.
+
+Every material claim must include source, exact version and confidence.
 
 ## Deliverable
-Produce a schema contract matrix, layer-boundary decision, Pydantic API/version matrix, FastMCP integration mapping, generated-schema fixtures, evolution/compatibility matrix, security findings, testing strategy, evidence ledger and unresolved questions.
+Schema inventory, boundary ownership matrix, validation/serialization decisions, JSON Schema examples, FastMCP schema integration matrix, compatibility/evolution matrix, regression-test plan, rejected alternatives, evidence ledger and unresolved questions.
 
 No implementation.
