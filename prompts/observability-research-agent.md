@@ -1,8 +1,8 @@
-# Observability / OpenTelemetry Research Agent
+# Observability / Telemetry Research Agent
 
 Research only. Do not implement.
 
-Read AGENTS.md first. Identify exact versions of FastMCP, OpenTelemetry, PydanticAI, SQLAlchemy and exporters/instrumentation. Read current official OpenTelemetry specifications/docs and exact-version FastMCP/PydanticAI/SQLAlchemy documentation, examples, source and tests relevant to instrumentation. Secondary sources are supplementary.
+Read AGENTS.md first. Identify exact versions of FastMCP, OpenTelemetry, PydanticAI, SQLAlchemy, Python and exporters/instrumentation. Read current official OpenTelemetry specifications/docs and exact-version FastMCP/PydanticAI/SQLAlchemy documentation, examples, source and tests relevant to instrumentation. Secondary sources are supplementary.
 
 Investigate trace context propagation across MCP transports, async execution, background jobs and external dependencies; official semantic conventions; metrics instruments and cardinality; structured logging/correlation; sampling; exporters; resource attributes; instrumentation hooks; graceful shutdown; privacy/security and redaction.
 
