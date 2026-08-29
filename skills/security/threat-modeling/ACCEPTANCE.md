@@ -10,22 +10,21 @@
 - [ ] Evidence ledger completed.
 
 ## Threat model
-- [ ] Assets and data classification documented.
+- [ ] Assets/data classification documented.
 - [ ] Actors and privileges documented.
-- [ ] Trust boundaries documented.
-- [ ] Data flows documented.
-- [ ] Entry points documented.
+- [ ] Trust boundaries and DFD documented.
+- [ ] Entry points and data flows documented.
 - [ ] Abuse cases and attack paths documented.
 - [ ] Security invariants documented.
 - [ ] Residual risks documented.
 
 ## Controls
 - [ ] Authentication and token validation are explicit.
-- [ ] Authorization matrix is explicit.
+- [ ] Authorization matrix is explicit and deterministic.
 - [ ] Tool/resource/prompt access is policy-controlled.
 - [ ] Model output cannot authorize access.
 - [ ] External MCP content is untrusted.
-- [ ] Tenant isolation is enforced.
+- [ ] Tenant isolation is enforced at a trusted boundary.
 - [ ] Network egress is bounded.
 - [ ] Payload/resource limits are bounded.
 - [ ] Secrets use secure configuration and never enter prompts/logs.
@@ -35,8 +34,10 @@
 ## Verification
 - [ ] Authentication failure tests pass.
 - [ ] Authorization bypass tests pass.
+- [ ] Token validation tests pass.
 - [ ] Tenant isolation tests pass.
-- [ ] Prompt-injection/tool-poisoning fixtures pass.
+- [ ] Confused-deputy/replay tests pass where applicable.
+- [ ] Prompt-injection/tool-poisoning fixtures pass where applicable.
 - [ ] SSRF/path traversal/resource-exhaustion tests pass where applicable.
 - [ ] Secret-leakage tests pass.
 - [ ] Security regression suite passes.
