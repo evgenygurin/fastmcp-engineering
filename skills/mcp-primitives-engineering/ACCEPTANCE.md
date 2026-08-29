@@ -1,0 +1,21 @@
+# MCP Primitives Acceptance Criteria
+
+- [ ] Exact MCP/FastMCP versions identified.
+- [ ] Current official MCP specification/changelog reviewed.
+- [ ] Relevant exact-version FastMCP docs/examples/source/tests reviewed.
+- [ ] Primitive-selection matrix exists for every exposed capability.
+- [ ] Tools/resources/prompts are semantically distinguished.
+- [ ] Public names/descriptions/schemas/annotations are inventoried.
+- [ ] Side effects and authorization boundaries are explicit.
+- [ ] Advanced primitives are evidence-backed and client-compatible.
+- [ ] Pagination defines opaque cursor, ordering and mutation semantics.
+- [ ] Progress is not treated as completion.
+- [ ] Cancellation propagates and releases resources.
+- [ ] Durable work is separated from request lifecycle.
+- [ ] Protocol and application errors are distinguished.
+- [ ] No internal errors/secrets are leaked.
+- [ ] MCP handlers remain thin.
+- [ ] Domain logic remains framework-independent.
+- [ ] Discovery and invocation contract tests exist.
+- [ ] Invalid input, auth, errors and relevant lifecycle semantics are tested.
+- [ ] Current official documentation was re-checked before completion.
