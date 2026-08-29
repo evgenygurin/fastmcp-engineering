@@ -10,7 +10,7 @@ This catalog records official FastMCP mechanisms as architectural patterns. It i
 
 **Do not use:** as a generic application repository or business service.
 
-**Evidence:** FastMCP documents Providers as sources that can supply components dynamically and be queried at request time.
+**Evidence:** FastMCP documents Providers as sources that can supply components dynamically and be queried at request time. See the [FastMCP Providers documentation](https://gofastmcp.com/servers/providers/overview).
 
 ## Transform
 
@@ -28,7 +28,7 @@ This catalog records official FastMCP mechanisms as architectural patterns. It i
 
 **Do not use:** business workflows.
 
-FastMCP middleware forms a request/response pipeline and supports method-specific hooks. citeturn0search1
+FastMCP middleware forms a request/response pipeline and supports method-specific hooks. See the [FastMCP Middleware documentation](https://gofastmcp.com/servers/middleware).
 
 ## Context / state
 
@@ -45,6 +45,8 @@ FastMCP middleware forms a request/response pipeline and supports method-specifi
 **Use:** database engines, clients, caches, external resources, controlled initialization/cleanup.
 
 **Do not use:** for per-request business operations.
+
+See the [FastMCP Lifespans documentation](https://gofastmcp.com/servers/lifespan).
 
 ## Client
 
