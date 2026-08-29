@@ -1,0 +1,22 @@
+# Dependency Injection / Composition Root Acceptance Criteria
+
+- [ ] Exact dependency/lifecycle versions identified.
+- [ ] Current official FastMCP lifecycle/dependency documentation reviewed.
+- [ ] Exact-version SQLAlchemy async lifecycle documentation reviewed.
+- [ ] Exact-version PydanticAI dependency documentation reviewed when applicable.
+- [ ] Dependency graph exists.
+- [ ] Every dependency has an explicit lifetime.
+- [ ] One discoverable composition root owns concrete wiring.
+- [ ] Constructor/function injection is preferred over hidden lookup.
+- [ ] Protocols exist only for real consumer boundaries.
+- [ ] No service locator or ambient global dependency container.
+- [ ] Domain/application do not construct infrastructure.
+- [ ] FastMCP lifespan/context ownership is explicit.
+- [ ] SQLAlchemy engine/session lifecycle is explicit and concurrency-safe.
+- [ ] PydanticAI dependencies cannot grant models privileged construction authority.
+- [ ] Request/task context is async-safe.
+- [ ] Partial startup cleanup is tested.
+- [ ] Shutdown/cancellation is deterministic and bounded.
+- [ ] Background-task ownership is explicit.
+- [ ] Composition-root tests detect missing/unsafe bindings.
+- [ ] Official documentation is re-checked before completion.
