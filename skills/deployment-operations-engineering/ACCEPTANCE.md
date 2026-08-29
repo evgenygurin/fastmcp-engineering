@@ -1,0 +1,27 @@
+# Deployment / Operations Acceptance Criteria
+
+- [ ] Exact runtime, container, CI/CD and deployment versions identified.
+- [ ] Current official documentation reviewed for version-sensitive mechanisms.
+- [ ] Builds are reproducible and artifacts immutable.
+- [ ] Build-time and runtime configuration are separated.
+- [ ] No secrets are embedded in images/source/artifacts.
+- [ ] Containers use least privilege and bounded resources.
+- [ ] CI/CD has required quality/security/test gates.
+- [ ] Promotion uses the exact verified artifact.
+- [ ] Environments are explicitly separated.
+- [ ] Database migration compatibility is verified.
+- [ ] Expand/contract is used where rolling compatibility requires it.
+- [ ] Liveness and readiness have distinct semantics.
+- [ ] Health probes are cheap and bounded.
+- [ ] Graceful shutdown/cancellation is tested.
+- [ ] Deployment strategy has explicit health/rollback criteria.
+- [ ] Code rollback is distinguished from schema rollback.
+- [ ] Deployment/migration concurrency is controlled.
+- [ ] Runtime resource limits are defined.
+- [ ] Secrets are injected through approved runtime mechanisms.
+- [ ] Runtime/deployment identities use least privilege.
+- [ ] Deployment telemetry identifies deployed version/artifact.
+- [ ] Post-deploy verification targets the deployed environment.
+- [ ] Failure and recovery procedures are explicit.
+- [ ] Backup/restore and RPO/RTO implications are addressed.
+- [ ] Official documentation is re-checked before completion.
