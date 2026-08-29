@@ -33,7 +33,7 @@ Enforce important invariants in the database: primary/foreign keys, unique const
 Prevent N+1 queries. Select only required data for read-heavy paths where justified. Index based on real query predicates/orderings and inspect query plans for critical paths. Avoid premature indexes and ORM micro-optimizations without evidence. Pagination must use a stable ordering; keyset pagination is preferred for large/changing datasets when applicable.
 
 ## Async
-Async SQLAlchemy is not automatically faster. Avoid blocking database drivers inside async paths. Do not share `AsyncSession` concurrently across independent tasks unless the exact documented usage permits it; use separate sessions/transaction scopes as required. Bound connection pools and account for database connection limits.
+Async SQLAlchemy is not automatically faster. Avoid blocking database drivers inside async paths. Do not share `AsyncSession` concurrently across independent tasks unless exact documented usage permits it; use separate sessions/transaction scopes as required. Bound connection pools and account for database connection limits.
 
 ## Pooling
 Configure pool size, overflow, timeout, recycle/health behavior from deployment constraints. Analyze Supabase connection/pooling mode and application concurrency before choosing pool settings. Never blindly increase pool size.
@@ -54,7 +54,7 @@ Use fast unit tests for domain/application behavior and real PostgreSQL integrat
 Handle transient DB failures according to the resilience skill. Retries must be transaction-safe and only applied where operations are idempotent or protected by deduplication. Never retry blindly after an ambiguous commit outcome.
 
 ## Security
-Use parameterized SQL/SQLAlchemy expressions. Apply least-privilege DB roles. Never log credentials or sensitive query parameters. Test tenant isolation and authorization at the repository/use-case/database policy boundaries.
+Use parameterized SQL/SQLAlchemy expressions. Apply least-privilege DB roles. Never log credentials or sensitive query parameters. Test tenant isolation and authorization at repository/use-case/database policy boundaries.
 
 ## Rejection criteria
 Reject domain classes importing ORM types, repository-level hidden commits, implicit async lazy I/O, unbounded pools, SQLite-only proof of PostgreSQL behavior, missing constraints for critical invariants, unsafe migration rewrites, blind transaction retries and DB/network atomicity assumptions.
