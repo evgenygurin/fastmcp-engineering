@@ -1,0 +1,24 @@
+# Reliability / Resilience Acceptance Criteria
+
+- [ ] Exact runtime/framework/library versions identified.
+- [ ] Current official failure-handling/lifecycle documentation reviewed.
+- [ ] Critical capabilities and dependencies have a failure matrix.
+- [ ] Failure classes distinguish transient, permanent, overload, protocol and consistency failures.
+- [ ] All remote/blocking operations have bounded timeouts/deadlines.
+- [ ] Retry policy is bounded and only applied to safe/idempotent operations.
+- [ ] Backoff and jitter are defined.
+- [ ] Side effects have explicit idempotency/replay policy.
+- [ ] Ambiguous outcomes have explicit recovery/reconciliation policy.
+- [ ] Concurrency and queues are bounded.
+- [ ] Backpressure and overload behavior are defined.
+- [ ] Circuit/bulkhead mechanisms have a concrete failure-containment rationale.
+- [ ] Degraded modes never bypass security/correctness controls.
+- [ ] DB transaction retry/rollback semantics are verified.
+- [ ] Transactions do not span slow external calls.
+- [ ] Async cancellation and cleanup are tested.
+- [ ] Startup/shutdown and partial-startup cleanup are tested.
+- [ ] Queue delivery/poison-message semantics are explicit where applicable.
+- [ ] Restart/recovery behavior is defined.
+- [ ] Fault-injection tests cover critical failure classes.
+- [ ] Reliability SLIs/SLOs/error-budget policy is defined.
+- [ ] Official documentation is re-checked before completion.
