@@ -1,0 +1,21 @@
+# API Contract / Schema Acceptance Criteria
+
+- [ ] Exact Python/FastMCP/Pydantic/MCP SDK/JSON Schema versions identified.
+- [ ] Current official MCP specification reviewed.
+- [ ] Exact-version FastMCP/Pydantic docs, examples, source and tests reviewed.
+- [ ] Public capability inventory exists.
+- [ ] Tool/resource/prompt identities are treated as public contracts.
+- [ ] Contract schemas are separated from ORM/domain models.
+- [ ] Required vs nullable vs defaulted fields are explicit.
+- [ ] Input constraints and semantic validation are defined.
+- [ ] Serialization rules are explicit and tested.
+- [ ] Error taxonomy is stable and safe.
+- [ ] No secrets/internal implementation details leak through contracts.
+- [ ] JSON Schema interoperability is verified against target clients.
+- [ ] Structured output is validated semantically, not only structurally.
+- [ ] Pagination has opaque cursors and stable ordering.
+- [ ] Compatibility impact is classified for every change.
+- [ ] Breaking changes have migration/deprecation policy.
+- [ ] Schema/protocol discovery tests exist.
+- [ ] Invocation/validation/error contract tests exist.
+- [ ] Current official documentation re-checked before completion.
