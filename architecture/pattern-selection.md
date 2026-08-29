@@ -23,6 +23,8 @@ For each proposed abstraction:
 
 Use when an external interface must conform to an internal port without leaking the external model or protocol inward.
 
+Do not use an Adapter merely to wrap a class with an identical interface.
+
 ### Repository
 
 Use when persistence is a meaningful application boundary. Keep persistence models and query mechanics in infrastructure. Do not add one solely because CRUD exists.
@@ -31,13 +33,19 @@ Use when persistence is a meaningful application boundary. Keep persistence mode
 
 Use when multiple algorithms are genuinely interchangeable under a stable contract and the choice varies at runtime or by policy.
 
+Do not create Strategy for a single algorithm with no demonstrated variability.
+
 ### Factory
 
-Use when object construction contains meaningful selection or lifecycle rules that should not be owned by the caller. Do not create factories that only forward constructor arguments.
+Use when object construction contains meaningful selection or lifecycle rules that should not be owned by the caller.
+
+Do not create factories that merely forward constructor arguments.
 
 ### Facade
 
 Use when a subsystem has a stable simplified boundary and the facade hides meaningful coordination complexity.
+
+Do not create a facade that merely renames methods.
 
 ### Specification / Policy
 
@@ -53,7 +61,7 @@ Use only when command/query separation produces measurable benefits such as mate
 
 ### Event-driven patterns
 
-Use only when asynchronous decoupling, integration boundaries, durable event semantics, or independently managed consumers are actual requirements.
+Use only when asynchronous decoupling, integration boundaries, durable event semantics, or independently managed consumers are actual requirements. Do not introduce an event bus as a generic substitute for direct method calls.
 
 ## FastMCP-specific decision order
 
@@ -71,7 +79,7 @@ Component
   → custom abstraction
 ```
 
-This is a decision heuristic, not a requirement to force every problem through these mechanisms. Current FastMCP documentation describes Providers as component sources, Transforms as component presentation/behavior transformations, and Middleware as cross-cutting request/response processing.
+This is a decision heuristic, not a requirement to force every problem through these mechanisms. Providers supply components dynamically; Transforms alter component presentation/behavior; Middleware provides cross-cutting request/response processing. Prefer these native mechanisms before inventing application-layer equivalents.
 
 ## Rejection triggers
 
@@ -85,6 +93,17 @@ Reject the proposed pattern when:
 - it makes testing harder without a compensating benefit;
 - it causes domain/application code to depend on infrastructure;
 - it makes a simple requirement materially harder to understand.
+
+## Adversarial review questions
+
+- Would this still be necessary if there were only one implementation?
+- What code becomes simpler because of this abstraction?
+- What code becomes harder?
+- Is the abstraction protecting a real boundary or only organizing files?
+- Does FastMCP already solve this problem?
+- Could a plain function, module, dataclass, or composition root solve it?
+- Is duplicated code actually duplicated knowledge?
+- Are we designing for an explicit requirement or an imagined future?
 
 ## Decision record
 
