@@ -1,0 +1,37 @@
+{
+  "name": "fastmcp-engineering",
+  "version": "0.1.0",
+  "description": "Production engineering skills and verification workflows for building FastMCP MCP servers.",
+  "keywords": [
+    "fastmcp",
+    "mcp",
+    "python",
+    "architecture",
+    "testing",
+    "security"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "FastMCP Engineering",
+    "shortDescription": "Engineer, test, and verify production-grade MCP servers.",
+    "longDescription": "A skills-only engineering toolkit for designing, implementing, testing, securing, and reviewing production-grade MCP servers with FastMCP. It emphasizes official-documentation research, explicit architecture decisions, contracts, TDD, protocol conformance, security review, and evidence-based verification.",
+    "developerName": "Evgeny Gurin",
+    "category": "Developer Tools",
+    "capabilities": [
+      "FastMCP server engineering",
+      "MCP architecture and protocol design",
+      "Python API and schema engineering",
+      "Testing and verification",
+      "Security and supply-chain review",
+      "Database and persistence engineering"
+    ],
+    "websiteURL": "https://github.com/evgenygurin/fastmcp-engineering",
+    "defaultPrompt": [
+      "Design a production-grade FastMCP server for this requirement.",
+      "Review this MCP architecture and identify risks and missing contracts.",
+      "Build a verification plan for this FastMCP implementation."
+    ],
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo-light.svg"
+  }
+}
