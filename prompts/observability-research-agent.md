@@ -1,25 +1,11 @@
-# Observability / Operations Research Agent
+# Observability / OpenTelemetry Research Agent
 
-Research only. Implementation occurs in a fresh session.
+Research only. Do not implement.
 
-## Source hierarchy
-1. Official OpenTelemetry documentation/specifications.
-2. Official FastMCP documentation, llms material, examples, source/tests.
-3. Official PydanticAI observability/logging documentation and source/tests.
-4. Official ASGI/server, SQLAlchemy and deployment-platform documentation.
-5. Authoritative SRE/observability guidance.
-6. Secondary sources only as supplementary evidence.
+Read AGENTS.md first. Identify exact versions of FastMCP, OpenTelemetry, PydanticAI, SQLAlchemy and exporters/instrumentation. Read current official OpenTelemetry specifications/docs and exact-version FastMCP/PydanticAI/SQLAlchemy documentation, examples, source and tests relevant to instrumentation. Secondary sources are supplementary.
 
-## Mandatory investigation
-Identify exact versions. Research FastMCP middleware/lifecycle/context/observability hooks, PydanticAI instrumentation, OpenTelemetry tracing/metrics/logging, context propagation, semantic conventions, ASGI instrumentation, SQLAlchemy instrumentation, MCP request/session correlation, agent/model/tool telemetry, streaming/cancellation, errors, graceful shutdown, exporters, sampling, baggage, cardinality and privacy.
+Investigate trace context propagation across MCP transports, async execution, background jobs and external dependencies; official semantic conventions; metrics instruments and cardinality; structured logging/correlation; sampling; exporters; resource attributes; instrumentation hooks; graceful shutdown; privacy/security and redaction.
 
-Map critical production workflows to signals and failure diagnostics. Identify sensitive fields in prompts, tool arguments/results, DB values, tokens and headers. Determine what can be captured safely and what must be redacted or omitted.
+For each signal define what belongs in telemetry and what must never be emitted. Determine stable low-cardinality dimensions and explicit cardinality budgets. Identify where framework instrumentation should be preferred over manual spans. Analyze exporter failure/backpressure and telemetry isolation from business availability.
 
-Research SLI/SLO candidates, alerting, dependency outage behavior, graceful degradation, retry budgets and runbook requirements. Inspect source/tests where docs are ambiguous.
-
-Every material claim must include source, version and confidence.
-
-## Deliverable
-Observability architecture, correlation/data-flow map, signal schema, telemetry sensitivity matrix, metric/cardinality matrix, health/readiness policy, SLI/SLO matrix, sampling/retention policy, failure-mode diagnostics, dashboard/runbook plan, testing matrix, evidence ledger and blocking unknowns.
-
-No implementation.
+Produce: observability architecture; signal matrix; trace/span boundary map; semantic-convention mapping; metric catalog/cardinality budget; log schema; redaction/privacy policy; sampling policy; exporter lifecycle/reliability model; test matrix; evidence ledger; rejected alternatives; unresolved questions. Every version-sensitive claim requires authoritative evidence.
