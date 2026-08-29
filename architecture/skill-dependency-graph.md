@@ -56,7 +56,7 @@ Independent research streams may run in parallel when they do not mutate shared 
 
 ## FastMCP-specific dependency note
 
-FastMCP evolves rapidly. Current official documentation describes components, providers, transforms, middleware, authentication, composition, and lifecycle as server-level capabilities; these capabilities must be considered by specialized skills before custom abstractions are proposed. citeturn0search1turn0search6
+FastMCP evolves rapidly. The official documentation describes providers, transforms, middleware, authentication, composition, and lifecycle as server-level capabilities; specialized skills must consider these native mechanisms before proposing custom abstractions. See the [FastMCP server documentation](https://gofastmcp.com/servers/server) and the [FastMCP documentation index](https://gofastmcp.com/llms.txt).
 
 ## Skill package identity
 
