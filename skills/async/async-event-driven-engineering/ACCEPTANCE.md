@@ -1,0 +1,20 @@
+# Acceptance Gate
+
+- [ ] Exact versions identified and official docs/specs checked.
+- [ ] Request-scoped and durable work are explicitly separated.
+- [ ] Every async task has an owner and lifecycle.
+- [ ] Cancellation and deadlines propagate correctly.
+- [ ] No orphan tasks or swallowed cancellation.
+- [ ] Delivery semantics are explicit.
+- [ ] Consumers are replay-safe where duplicates are possible.
+- [ ] Ordering scope is explicit where required.
+- [ ] Queues and concurrency are bounded.
+- [ ] Backpressure and overload behavior are explicit.
+- [ ] Retry ownership and poison-message handling are explicit.
+- [ ] DB transaction boundaries do not encompass remote work without justification.
+- [ ] Outbox/inbox was evaluated where consistency requires it.
+- [ ] Event schemas have compatibility/versioning policy.
+- [ ] Graceful shutdown and crash recovery are defined.
+- [ ] Cancellation, duplicate delivery, overload, restart and recovery tests pass.
+- [ ] Real DB/broker integration tests cover semantics mocks cannot prove.
+- [ ] Security and observability boundaries remain intact.
