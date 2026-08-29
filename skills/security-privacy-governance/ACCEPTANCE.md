@@ -1,0 +1,22 @@
+# Security / Privacy Acceptance Criteria
+
+- [ ] Exact security-relevant versions identified.
+- [ ] Current official MCP/security documentation reviewed.
+- [ ] Relevant FastMCP/Pydantic/PydanticAI/SQLAlchemy docs/examples/source/tests reviewed.
+- [ ] Trust boundaries and data flows documented.
+- [ ] Data inventory/classification completed.
+- [ ] Threat model completed.
+- [ ] Authentication and authorization are explicitly separated.
+- [ ] Authorization is enforced server-side and fails closed.
+- [ ] Tenant/resource scope is server-derived and tested.
+- [ ] Secrets have a defined lifecycle and never enter telemetry/errors by default.
+- [ ] LLM/provider data allowlist and retention assumptions are documented.
+- [ ] Prompt injection/indirect exfiltration considered where applicable.
+- [ ] Network/filesystem/database attack surfaces are bounded.
+- [ ] Audit events are defined without unnecessary sensitive data.
+- [ ] Retention/deletion policy exists where applicable.
+- [ ] Security tests cover unauthorized and cross-tenant access.
+- [ ] Injection/SSRF/path traversal/resource exhaustion tests exist where applicable.
+- [ ] Secret/PII leakage tests exist.
+- [ ] Telemetry redaction is tested.
+- [ ] Current official documentation was re-checked before completion.
