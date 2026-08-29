@@ -1,0 +1,26 @@
+# Data / Persistence Acceptance Criteria
+
+- [ ] Exact PostgreSQL/SQLAlchemy/driver/migration versions identified.
+- [ ] Current official PostgreSQL and SQLAlchemy documentation reviewed.
+- [ ] Data ownership and lifecycle are explicit.
+- [ ] Critical invariants are enforced at the database boundary where required.
+- [ ] Transaction ownership is explicit.
+- [ ] Unit of Work is used only when justified.
+- [ ] Isolation and locking choices are documented.
+- [ ] Deadlock/serialization retry behavior is safe and tested.
+- [ ] AsyncSession lifecycle is explicit and concurrency-safe.
+- [ ] No repository-level commits silently break atomicity.
+- [ ] PostgreSQL-specific semantics are tested against PostgreSQL.
+- [ ] Migrations are deterministic and deployment-compatible.
+- [ ] Expand/contract is used where compatibility requires it.
+- [ ] Critical queries have representative query-plan evidence.
+- [ ] N+1 and unbounded results are controlled.
+- [ ] Pagination is stable and bounded.
+- [ ] Connection pool sizing is evidence-based.
+- [ ] RLS/tenant isolation is tested where required.
+- [ ] Idempotency is database-backed where duplicate delivery is possible.
+- [ ] DB + messaging consistency is explicitly designed where applicable.
+- [ ] Backup restore has been tested, not merely configured.
+- [ ] Retention/deletion/archival policy is explicit.
+- [ ] Security and observability constraints are satisfied.
+- [ ] Official documentation is re-checked before completion.
