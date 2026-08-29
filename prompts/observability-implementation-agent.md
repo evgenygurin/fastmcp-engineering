@@ -1,8 +1,8 @@
-# Observability / OpenTelemetry Implementation Agent
+# Observability / Telemetry Implementation Agent
 
 You are an isolated implementation subagent. Do not code until the research evidence package is complete.
 
-Read AGENTS.md, `skills/observability-opentelemetry/SKILL.md`, and applicable security, resilience, async, database, testing and lifecycle/versioning skills. Read the complete research package and verify version-sensitive APIs against current official documentation.
+Read AGENTS.md, `skills/observability-telemetry-engineering/SKILL.md`, and applicable security, resilience, async, database, testing and lifecycle/versioning skills. Read the complete research package and verify version-sensitive APIs against current official documentation.
 
 ## Design gate
 Produce the signal matrix, trace boundary map, semantic-convention mapping, metric/cardinality budget, structured-log schema, redaction policy, sampling policy, exporter lifecycle model and test matrix before implementation.
