@@ -1,0 +1,56 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - run:
+          name: Install test dependencies
+          command: |
+            python -m pip install --upgrade pip
+            python -m pip install pytest
+      - run:
+          name: Run skill QA
+          command: python -m pytest -q
+
+  sentry-release:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Install Sentry CLI
+          command: |
+            curl -sL https://sentry.io/get-cli/ | bash
+            sentry-cli --version
+      - run:
+          name: Create Sentry release and associate commits
+          command: |
+            test -n "$SENTRY_AUTH_TOKEN" || { echo "SENTRY_AUTH_TOKEN is required"; exit 1; }
+            test -n "$SENTRY_ORG" || { echo "SENTRY_ORG is required"; exit 1; }
+            test -n "$SENTRY_PROJECT" || { echo "SENTRY_PROJECT is required"; exit 1; }
+            export SENTRY_RELEASE="${CIRCLE_SHA1}"
+            sentry-cli releases new "$SENTRY_RELEASE"
+            sentry-cli releases set-commits "$SENTRY_RELEASE" --auto
+            sentry-cli releases finalize "$SENTRY_RELEASE"
+      - run:
+          name: Mark production deploy
+          command: |
+            if [ "$CIRCLE_BRANCH" = "main" ]; then
+              sentry-cli releases deploys "$CIRCLE_SHA1" new -e production
+            fi
+
+workflows:
+  skill-qa:
+    jobs:
+      - test
+      - sentry-release:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v.*/
