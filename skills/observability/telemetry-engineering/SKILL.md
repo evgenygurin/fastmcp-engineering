@@ -9,6 +9,9 @@ description: Evidence-first observability and telemetry engineering for producti
 ## Mission
 Make system behavior diagnosable in production without coupling domain logic to telemetry vendors or leaking secrets, personal data or high-cardinality dimensions.
 
+## Package identity
+This nested package owns telemetry architecture, signal selection, instrumentation boundaries, redaction, cardinality budgets, sampling and SLI/SLO policy. It is distinct from the top-level observability telemetry package and must retain package-specific guidance.
+
 ## Mandatory research
 Identify exact Python, FastMCP, OpenTelemetry API/SDK, Pydantic, SQLAlchemy, PydanticAI and exporter/backend versions. Read current official OpenTelemetry, FastMCP, SQLAlchemy and PydanticAI documentation first; inspect exact-version instrumentation examples/source/tests. Verify semantic conventions and framework instrumentation actually supported by installed versions. Record evidence and re-check version-sensitive behavior before completion.
 
