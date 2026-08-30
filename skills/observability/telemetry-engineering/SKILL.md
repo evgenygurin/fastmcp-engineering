@@ -1,6 +1,7 @@
 ---
 name: observability-telemetry-engineering
-description: Evidence-first observability and telemetry engineering for production FastMCP systems using OpenTelemetry.
+canonical_package: observability/telemetry-engineering
+description: Evidence-first observability and telemetry engineering for production FastMCP systems using OpenTelemetry, scoped to the observability telemetry package.
 ---
 
 # Observability / Telemetry Engineering
