@@ -1,0 +1,15 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "references": {
+    "fastmcp-eng": {
+      "repository": "evgenygurin/fastmcp-engineering",
+      "branch": "main",
+      "description": "FastMCP engineering methodology: architecture principles, contracts, skills, prompts, and research artifacts for building production-grade MCP servers. Use for research-first architecture decisions, engineering gates, verification procedures, and FastMCP best practices."
+    }
+  },
+  "skills": {
+    "paths": ["../skills"]
+  },
+  "instructions": ["../AGENTS.md"],
+  "plugin": ["./plugin/fastmcp-local.ts"]
+}
