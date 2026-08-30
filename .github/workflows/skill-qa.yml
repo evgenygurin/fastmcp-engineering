@@ -1,0 +1,31 @@
+name: Skill QA
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'tests/**'
+      - 'scripts/**'
+      - '.github/workflows/skill-qa.yml'
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  skill-qa:
+    name: Skill contract and scenario tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run skill QA suite
+        run: python -m pytest tests/test_plugin_manifest.py tests/test_scenario_data.py tests/test_skill_contract.py tests/test_skill_scenarios.py -q
