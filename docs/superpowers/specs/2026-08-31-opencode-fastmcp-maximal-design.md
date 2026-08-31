@@ -69,11 +69,11 @@ Permissions per-role (`external_directory: allow` обязателен — пр�
 |---|---|---|---|
 | `fm-research` | deny | `git log*`/`git diff*`/`git show*`/`ls *`: allow, `*`: ask | webfetch, websearch, skill, external_directory: allow |
 | `fm-implementation` | allow | allow | skill, external_directory: allow |
-| `fm-audit` / `fm-review` / `fm-governor` | deny | read-only git: allow, `*`: ask | webfetch, skill, external_directory: allow |
+| `fm-audit` / `fm-review` / `fm-governor` | deny | `git log*`/`git diff*`/`git show*`/`ls *`: allow, `*`: ask | webfetch, skill, external_directory: allow |
 
 ### 3.4 Команды
 
-- `/fm` — dispatcher: template роутит role-слово ($1) на соответствующий fm-субагента (task tool), остаток — задача; без `subtask:` (роутит основной агент)
+- `/fm` — dispatcher: template роутит role-слово ($1: research/implementation/audit/review/governor) на соответствующий fm-субагента (task tool), остаток — задача; неизвестное/пропущенное role-слово → `fm-research`; без `subtask:` (роутит основной агент)
 - `/fm-prompts` — инвентаризация: `!`ls`` prompts-директории + маппинг role→домены
 
 ### 3.5 Чистка dev-клона (та же ветка `feat/opencode-agents-wiring`, отдельные коммиты)
