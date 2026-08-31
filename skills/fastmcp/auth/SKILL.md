@@ -1,3 +1,8 @@
+---
+name: fastmcp-auth
+description: Design FastMCP authentication and authorization as explicit security boundaries — use for OAuth, JWT, and MCP auth implementation.
+---
+
 # FastMCP Authentication / Authorization
 
 ## Mission

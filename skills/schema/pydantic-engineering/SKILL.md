@@ -1,3 +1,8 @@
+---
+name: pydantic-engineering
+description: Treat Pydantic schemas as executable contracts at system boundaries — use for model validation, serialization, and MCP schema design.
+---
+
 # Pydantic / Schema Engineering
 
 ## Mission
@@ -26,13 +31,13 @@ Design validation and serialization separately. Use serializers/aliases intentio
 ## JSON Schema
 Treat generated JSON Schema as an externally visible contract when FastMCP exposes it. Review required/nullable/default semantics, enums, formats, aliases, references and schema stability. Verify both the Python model schema and actual MCP-visible schema.
 
-Pydantic provides `BaseModel.model_json_schema()` and `TypeAdapter.json_schema()` for JSON Schema inspection. The generated schema follows JSON Schema/OpenAPI conventions. citeturn0search2turn0search6
+Pydantic provides `BaseModel.model_json_schema()` and `TypeAdapter.json_schema()` for JSON Schema inspection. The generated schema follows JSON Schema/OpenAPI conventions.
 
 ## FastMCP integration
-FastMCP derives tool schemas from Python annotations and supports Pydantic models and other JSON-schema-compatible types. Return annotations can generate output schemas; explicit output schemas require matching structured output. citeturn0search0turn0search1
+FastMCP derives tool schemas from Python annotations and supports Pydantic models and other JSON-schema-compatible types. Return annotations can generate output schemas; explicit output schemas require matching structured output.
 
 ## Unions
-Prefer discriminated/tagged unions when variants have a stable discriminator. Pydantic documents their deterministic validation and clearer generated schemas. citeturn0search3
+Prefer discriminated/tagged unions when variants have a stable discriminator. Pydantic documents their deterministic validation and clearer generated schemas.
 
 ## Schema evolution
 Treat public MCP schemas as versioned contracts. Classify additive, conditionally compatible and breaking changes. Do not rename/remove required fields or alter enum semantics without an explicit compatibility strategy.

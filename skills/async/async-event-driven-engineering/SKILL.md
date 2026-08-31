@@ -1,3 +1,8 @@
+---
+name: async-event-driven-engineering
+description: Design asynchronous FastMCP systems with correct lifecycle, cancellation, delivery semantics, idempotency, and backpressure — use for async/background work.
+---
+
 # Async / Event-Driven Engineering
 
 ## Mission

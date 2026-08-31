@@ -42,3 +42,25 @@ FastMCP version-specific claims must identify their version and stability level.
 ## Status
 
 Consolidated engineering foundation. The repository contains canonical skills, prompts, contracts, architecture guidance, research artifacts, and verification rules. New implementation work follows the branch/PR lifecycle above.
+
+## opencode integration
+
+Global exposure of this repository's capabilities in opencode:
+
+- **Skills**: global `skills.paths` → this clone (frontmatter `name`+`description` required)
+- **Reference**: `references.fastmcp-eng` — whole repo readable in any project
+- **Plugin hint**: `~/.config/opencode/plugin/fastmcp-engineering.ts` (verified PASS 2026-08-30)
+- **fm-* role agents**: `opencode/agents/` — research/implementation/audit/review/governor subagents; they load `prompts/<token>-<role>-agent.md` at runtime (auto-sync, no duplication)
+- **Commands**: `opencode/commands/` — `/fm` dispatcher, `/fm-prompts` inventory
+
+Setup on a new machine (symlinks into global config, run from repo root):
+
+    ln -s "$PWD/opencode/agents/fm-research.md" ~/.config/opencode/agents/fm-research.md
+    ln -s "$PWD/opencode/agents/fm-implementation.md" ~/.config/opencode/agents/fm-implementation.md
+    ln -s "$PWD/opencode/agents/fm-audit.md" ~/.config/opencode/agents/fm-audit.md
+    ln -s "$PWD/opencode/agents/fm-review.md" ~/.config/opencode/agents/fm-review.md
+    ln -s "$PWD/opencode/agents/fm-governor.md" ~/.config/opencode/agents/fm-governor.md
+    ln -s "$PWD/opencode/commands/fm.md" ~/.config/opencode/commands/fm.md
+    ln -s "$PWD/opencode/commands/fm-prompts.md" ~/.config/opencode/commands/fm-prompts.md
+
+Design: `docs/superpowers/specs/2026-08-31-opencode-fastmcp-maximal-design.md`

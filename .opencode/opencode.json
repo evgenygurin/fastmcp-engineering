@@ -11,5 +11,10 @@
     "paths": ["../skills"]
   },
   "instructions": ["../AGENTS.md"],
-  "plugin": ["./plugin/fastmcp-local.ts"]
+  "plugin": ["./plugin/fastmcp-local.ts"],
+  "mcp": {
+    "telegram": {
+      "enabled": false
+    }
+  }
 }

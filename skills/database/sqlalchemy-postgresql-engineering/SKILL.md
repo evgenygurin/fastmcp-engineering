@@ -24,27 +24,27 @@ Do not rely on remembered SQLAlchemy 1.x patterns. Current SQLAlchemy 2.x semant
 
 ```text
 Application Use Case
-        │
-        ▼
+ │
+ ▼
 Database Port / Repository Contract
-        │
-        ▼
+ │
+ ▼
 SQLAlchemy Adapter
-   ┌────┴────┐
-   │         │
- AsyncSession  SQLAlchemy Core/ORM
-   │         │
-   └────┬────┘
-        ▼
+ ┌────┴────┐
+ │ │
+ AsyncSession SQLAlchemy Core/ORM
+ │ │
+ └────┬────┘
+ ▼
  PostgreSQL
 ```
 
 Domain entities must not inherit from SQLAlchemy or depend on session/query infrastructure unless the architecture explicitly chooses persistence-aware domain modeling with evidence. Keep mapping and database-specific errors at the infrastructure boundary.
 
 ## Session and transaction ownership
-A Session/AsyncSession represents mutable transactional state. It is not a general cache and must not be shared concurrently. Use session-per-logical-operation/task and make transaction boundaries explicit. Keep transactions short and never hold them open while waiting on LLM, MCP or unrelated network work unless explicitly justified. SQLAlchemy's current guidance states AsyncSession is not safe to share across concurrent asyncio tasks and recommends AsyncSession per task. citeturn0search0turn0search1
+A Session/AsyncSession represents mutable transactional state. It is not a general cache and must not be shared concurrently. Use session-per-logical-operation/task and make transaction boundaries explicit. Keep transactions short and never hold them open while waiting on LLM, MCP or unrelated network work unless explicitly justified. SQLAlchemy's current guidance states AsyncSession is not safe to share across concurrent asyncio tasks and recommends AsyncSession per task.
 
-Prefer explicit transaction framing such as `async with session.begin()` where appropriate. Understand autobegin, commit/rollback, expiration and nested/SAVEPOINT semantics before choosing a pattern. citeturn0search0turn0search2
+Prefer explicit transaction framing such as `async with session.begin()` where appropriate. Understand autobegin, commit/rollback, expiration and nested/SAVEPOINT semantics before choosing a pattern.
 
 ## Repository / Unit of Work policy
 Do not create generic repositories or Unit of Work abstractions automatically. Introduce a port when it protects application/domain independence, enables a meaningful alternative adapter, or materially improves testing. A repository should express domain/application intent, not duplicate SQLAlchemy's API.
@@ -61,10 +61,10 @@ Do not expose ORM entities outside boundaries merely because mapping is convenie
 ## PostgreSQL correctness
 Use database constraints for invariants that must hold regardless of application path: primary/foreign keys, unique constraints, check constraints and appropriate NOT NULL constraints. Application validation is complementary, not a replacement for database integrity.
 
-Understand PostgreSQL MVCC and the selected isolation level. Use row-level locks (`SELECT ... FOR UPDATE` variants), advisory locks or serializable transactions only for demonstrated concurrency requirements. Design lock ordering to minimize deadlocks. Handle documented serialization/deadlock failures with bounded, idempotent retry at the appropriate application boundary. citeturn0search9
+Understand PostgreSQL MVCC and the selected isolation level. Use row-level locks (`SELECT... FOR UPDATE` variants), advisory locks or serializable transactions only for demonstrated concurrency requirements. Design lock ordering to minimize deadlocks. Handle documented serialization/deadlock failures with bounded, idempotent retry at the appropriate application boundary.
 
 ## Indexing and query performance
-Indexes are workload-specific. Design them from real access predicates, ordering, joins and selectivity. Use EXPLAIN/EXPLAIN ANALYZE in controlled environments. Avoid speculative indexes and redundant indexes. For large production tables, evaluate PostgreSQL `CREATE INDEX CONCURRENTLY` where operationally appropriate; it has different locking/transaction requirements and must be researched before migration use. citeturn0search7
+Indexes are workload-specific. Design them from real access predicates, ordering, joins and selectivity. Use EXPLAIN/EXPLAIN ANALYZE in controlled environments. Avoid speculative indexes and redundant indexes. For large production tables, evaluate PostgreSQL `CREATE INDEX CONCURRENTLY` where operationally appropriate; it has different locking/transaction requirements and must be researched before migration use.
 
 Avoid SELECT * when a projection is sufficient. Paginate deterministically. For large datasets choose keyset pagination where offset pagination becomes unsuitable.
 
@@ -75,12 +75,12 @@ Configure pool size, overflow, timeouts and recycling based on actual deployment
 Schema changes are versioned artifacts. Follow repository migration conventions. Separate backward-compatible expand/contract changes when zero-downtime deployment requires them. Consider lock duration, table rewrites, index build strategy and rollback feasibility. Never modify production schema manually when the repository migration system is authoritative.
 
 ## Row-Level Security / tenancy
-When tenant isolation is a requirement, evaluate PostgreSQL RLS as a defense-in-depth data boundary. RLS is default-deny once enabled without applicable policies, but table owners and privileged roles have important exceptions that must be understood. citeturn0search5
+When tenant isolation is a requirement, evaluate PostgreSQL RLS as a defense-in-depth data boundary. RLS is default-deny once enabled without applicable policies, but table owners and privileged roles have important exceptions that must be understood.
 
 Application authorization and RLS solve different layers; neither should be assumed to replace the other. Define tenant context propagation and prevent connection/session state leakage between requests.
 
 ## Async and concurrency
-Never share an AsyncSession across concurrent tasks. If concurrent DB operations are genuinely needed, use independent sessions/transactions and understand the loss of transactional atomicity. SQLAlchemy's own concurrency example warns that gathering ORM statements across multiple sessions adds overhead and can lose transactional safety. citeturn0search4
+Never share an AsyncSession across concurrent tasks. If concurrent DB operations are genuinely needed, use independent sessions/transactions and understand the loss of transactional atomicity. SQLAlchemy's own concurrency example warns that gathering ORM statements across multiple sessions adds overhead and can lose transactional safety.
 
 Avoid implicit blocking I/O in async paths. Use the documented async driver and SQLAlchemy async APIs.
 
