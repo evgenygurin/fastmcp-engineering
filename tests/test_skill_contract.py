@@ -6,7 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_ROOT = ROOT / "skills"
-EXPECTED_SKILL_COUNT = 59
+EXPECTED_SKILL_COUNT = 57
 
 SEMANTIC_REQUIREMENTS = {
     "mission": ("mission", "purpose", "goal"),

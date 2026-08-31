@@ -19,25 +19,25 @@ Treat MCP as a security boundary between untrusted model-driven requests, remote
 8. Research dependency and supply-chain security using authoritative sources.
 9. Produce a threat model, evidence ledger and unresolved-risk register before implementation.
 
-Never rely on memory for current MCP authorization semantics. The MCP specification changed materially in 2026: the 2026-07-28 release introduced authorization hardening including issuer validation and issuer-bound client credentials and moved toward Client ID Metadata Documents; these must be checked against the exact target SDK/spec version. citeturn0search0turn0search2
+Never rely on memory for current MCP authorization semantics. The MCP specification changed materially in 2026: the 2026-07-28 release introduced authorization hardening including issuer validation and issuer-bound client credentials and moved toward Client ID Metadata Documents; these must be checked against the exact target SDK/spec version.
 
 ## Security architecture
 
 ```text
 Untrusted Client / LLM
-        ↓
+ ↓
 Transport / MCP AuthN
-        ↓
+ ↓
 Identity + Token Validation
-        ↓
+ ↓
 Authorization Policy
-        ↓
+ ↓
 MCP Tool Boundary
-        ↓
+ ↓
 Application Use Case
-        ↓
+ ↓
 Domain Policy
-        ↓
+ ↓
 Ports / Infrastructure
 ```
 
@@ -47,7 +47,7 @@ Authentication establishes identity. Authorization establishes permission. Appli
 
 Validate issuer, audience/resource, signature, expiry/not-before, token type and required scopes/claims according to the exact protocol and identity provider. Bind credentials to the correct authorization server/resource. Do not accept a valid JWT merely because its signature verifies.
 
-Do not forward caller tokens blindly to downstream APIs. Use explicit token exchange/downstream credentials or a server-owned credential when appropriate. The current MCP security direction explicitly hardens issuer validation and issuer-bound credentials. citeturn0search0
+Do not forward caller tokens blindly to downstream APIs. Use explicit token exchange/downstream credentials or a server-owned credential when appropriate. The current MCP security direction explicitly hardens issuer validation and issuer-bound credentials.
 
 ## Authorization
 
@@ -71,7 +71,7 @@ Threat-model at minimum:
 - replay and duplicate side effects;
 - dependency/supply-chain compromise.
 
-MCP authorization is evolving rapidly; the 2026-07-28 specification also introduced a stateless core and header-based routing, while deprecating older mechanisms. Security implementation must therefore be version-pinned and migration-aware. citeturn0search0turn0search9
+MCP authorization is evolving rapidly; the 2026-07-28 specification also introduced a stateless core and header-based routing, while deprecating older mechanisms. Security implementation must therefore be version-pinned and migration-aware.
 
 ## Tool security
 
@@ -81,11 +81,11 @@ Validate inputs at the boundary with strict typed schemas. Validate outputs befo
 
 ## SSRF
 
-Any feature that fetches a user/model/tool-supplied URL is a security-sensitive network primitive. Apply scheme/host/IP restrictions, DNS rebinding defenses, redirect policy, size/time limits and private-network blocking as appropriate to the deployment. OAuth/client-metadata discovery can itself create SSRF risk; the MCP project explicitly calls out blocking internal network access, timeouts and size limits for such fetches. citeturn0search2
+Any feature that fetches a user/model/tool-supplied URL is a security-sensitive network primitive. Apply scheme/host/IP restrictions, DNS rebinding defenses, redirect policy, size/time limits and private-network blocking as appropriate to the deployment. OAuth/client-metadata discovery can itself create SSRF risk; the MCP project explicitly calls out blocking internal network access, timeouts and size limits for such fetches.
 
 ## Secrets
 
-Keep credentials outside model-visible context and MCP messages whenever possible. Use server-side secret stores and scoped credentials. Never log tokens, API keys, authorization codes, cookies or raw secret-bearing payloads. Prefer secure browser-based credential acquisition where the protocol provides it; MCP's URL-mode elicitation was designed specifically to avoid sending credentials through the client. citeturn0search7
+Keep credentials outside model-visible context and MCP messages whenever possible. Use server-side secret stores and scoped credentials. Never log tokens, API keys, authorization codes, cookies or raw secret-bearing payloads. Prefer secure browser-based credential acquisition where the protocol provides it; MCP's URL-mode elicitation was designed specifically to avoid sending credentials through the client.
 
 ## Tenancy / data isolation
 

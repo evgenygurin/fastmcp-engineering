@@ -63,12 +63,12 @@ Model task state explicitly from target-version evidence. Do not invent states o
 
 ```text
 accepted
-   ↓
+ ↓
 queued / working
-   ├── completed
-   ├── failed
-   ├── cancelled
-   └── expired
+ ├── completed
+ ├── failed
+ ├── cancelled
+ └── expired
 ```
 
 The actual state set and transitions must come from the verified FastMCP/MCP contract where protocol tasks are involved.
@@ -143,7 +143,7 @@ At minimum, where applicable test:
 - persistence recovery;
 - MCP Client behavior.
 
-Use FastMCP's documented in-process Client for deterministic protocol tests where appropriate. The current official Client documentation explicitly positions it as a testing seam. citeturn0search7
+Use FastMCP's documented in-process Client for deterministic protocol tests where appropriate. The current official Client documentation explicitly positions it as a testing seam.
 
 ## Hard anti-patterns
 

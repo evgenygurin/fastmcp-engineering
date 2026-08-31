@@ -23,7 +23,7 @@ Before implementation:
 8. Check first-party dependency documentation for resources being managed.
 9. Record evidence before implementation.
 
-The current FastMCP implementation uses an `AsyncExitStack`, composes lifespans, and contains explicit lifecycle handling for mounted/runtime trees; exact behavior is version-sensitive and must be verified rather than copied from memory. citeturn0search5turn0search0
+The current FastMCP implementation uses an `AsyncExitStack`, composes lifespans, and contains explicit lifecycle handling for mounted/runtime trees; exact behavior is version-sensitive and must be verified rather than copied from memory.
 
 ## Resource ownership
 
@@ -49,9 +49,9 @@ Do not create heavyweight clients per tool invocation when their correct scope i
 
 Lifespans must compose predictably. Enter resources in dependency order and release them in reverse order. Prefer `AsyncExitStack`/native composition mechanisms where appropriate rather than manually duplicating cleanup logic.
 
-FastMCP provides `combine_lifespans`; the current implementation enters lifespans in order and exits them LIFO, merging yielded mappings with later values overriding earlier keys. Verify exact target-version semantics before relying on this. citeturn0search0
+FastMCP provides `combine_lifespans`; the current implementation enters lifespans in order and exits them LIFO, merging yielded mappings with later values overriding earlier keys. Verify exact target-version semantics before relying on this.
 
-When integrating Streamable HTTP with Starlette/FastAPI, preserve the FastMCP app lifespan. Official documentation explicitly requires passing `mcp_app.lifespan` to the outer application because nested lifespans are not automatically recognized in that integration model. citeturn0search1
+When integrating Streamable HTTP with Starlette/FastAPI, preserve the FastMCP app lifespan. Official documentation explicitly requires passing `mcp_app.lifespan` to the outer application because nested lifespans are not automatically recognized in that integration model.
 
 ## Failure semantics
 
@@ -59,11 +59,11 @@ Analyze each startup step:
 
 ```text
 resource A startup
-       ↓
+ ↓
 resource B startup
-       ↓
+ ↓
 resource C startup
-       ↓
+ ↓
 server ready
 ```
 
@@ -77,7 +77,7 @@ Shutdown must remain safe when:
 - a cleanup operation itself fails;
 - multiple consumers share the runtime tree.
 
-Current FastMCP source explicitly shields teardown from cancellation to allow async cleanup to complete; treat this as evidence to verify against the target release, not a generic rule to reimplement. citeturn0search5
+Current FastMCP source explicitly shields teardown from cancellation to allow async cleanup to complete; treat this as evidence to verify against the target release, not a generic rule to reimplement.
 
 ## Scope and concurrency
 
