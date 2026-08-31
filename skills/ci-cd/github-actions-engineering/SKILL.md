@@ -1,3 +1,8 @@
+---
+name: github-actions-engineering
+description: Design secure, reproducible GitHub Actions CI/CD for FastMCP/PydanticAI services — use for workflow, OIDC, artifact, and deployment pipeline design.
+---
+
 # CI/CD & GitHub Actions Engineering
 
 ## Mission

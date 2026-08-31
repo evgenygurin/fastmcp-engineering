@@ -1,3 +1,8 @@
+---
+name: fastmcp-research
+description: Produce reproducible, version-aware research artifacts for FastMCP projects — use before any framework-sensitive implementation decision.
+---
+
 # FastMCP Research Skill
 
 ## Purpose

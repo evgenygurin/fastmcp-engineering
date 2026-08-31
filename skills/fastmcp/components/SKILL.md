@@ -1,3 +1,8 @@
+---
+name: fastmcp-components
+description: Design FastMCP tools, resources, and prompts as thin MCP adapters — use for MCP component architecture and API version-sensitive implementation.
+---
+
 # FastMCP Components
 
 Design Tools, Resources, Resource Templates, and Prompts as thin MCP adapters over explicit application capabilities. Exact APIs are version-sensitive: research the target release first.

@@ -1,3 +1,8 @@
+---
+name: pydantic-engineering
+description: Treat Pydantic schemas as executable contracts at system boundaries — use for model validation, serialization, and MCP schema design.
+---
+
 # Pydantic / Schema Engineering
 
 ## Mission

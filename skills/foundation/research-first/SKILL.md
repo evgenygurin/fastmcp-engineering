@@ -1,3 +1,8 @@
+---
+name: research-first
+description: Enforce research-first workflow before any framework-sensitive change — use to prevent implementation based on stale APIs or assumptions.
+---
+
 # Research First
 
 ## Purpose
