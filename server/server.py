@@ -4,6 +4,7 @@ from fastmcp.server.providers.skills import SkillsDirectoryProvider
 from fastmcp.server.providers import FileSystemProvider
 from fastmcp.server.sessions import SessionProvider
 from mcp.types import PromptReference, ResourceTemplateReference
+from server.extension import MethodologyExtension
 
 # Patch SkillProvider to use frontmatter `name` as canonical skill identifier.
 # Upstream SkillProvider uses directory basename (e.g. `skills/fastmcp/auth` -> `auth`)
@@ -70,6 +71,9 @@ def _skill_roots() -> list[Path]:
     return roots
 
 mcp = FastMCP("fastmcp-engineering")
+
+# Methodology extension — stats and tool-call interceptor
+mcp.add_extension(MethodologyExtension())
 
 # SessionProvider enables create_session/end_session tools and SessionId resolution
 mcp.add_provider(SessionProvider())
