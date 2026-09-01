@@ -8,6 +8,24 @@ description: Evidence-first reliability engineering for FastMCP, PydanticAI, dat
 ## Mission
 Design explicit failure boundaries so transient failures do not become duplicated side effects, resource exhaustion, cascading failures or silent data corruption.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** reliability engineering for FastMCP, PydanticAI, database and external-service workflows, covering deadlines, retries, idempotency, concurrency, backpressure, degradation and recovery.
+**Trigger:** designing or changing deadlines, retries, idempotency, concurrency, backpressure, degradation, or recovery behavior.
+**Upstream / Prerequisite:** repository architecture, security, testing and configuration contracts read; identified exact versions; evidence, failure assumptions and unresolved questions recorded.
+**Mission / Goal:** design explicit failure boundaries so transient failures do not become duplicated side effects, resource exhaustion, cascading failures or silent data corruption.
+**Research / Evidence:** read official documentation for timeout/deadline, cancellation, connection pooling, retry and concurrency semantics of every relevant dependency; read FastMCP/FastMCP Client transport and lifecycle documentation for the exact version; read PydanticAI model/tool retry, usage-limit and cancellation semantics; read database/driver transaction and pooling documentation; inspect official examples/source/tests for ambiguous behavior.
+**Decision / Selection rules:** for every external boundary define deadline/timeout, cancellation, retryability, retry budget, backoff/jitter, idempotency strategy, concurrency limit, resource limit, error classification, observability, fallback/degradation and recovery; treat each failure domain distinctly; prefer end-to-end deadlines propagated through request-scoped context; retry only transient failures with bounded attempts and a clear retry owner/budget; define replay semantics for any side-effecting operation; bound concurrency; define overload behavior; introduce circuit breakers only where justified; classify capabilities as critical, optional and best-effort and degrade explicitly.
+**Version / Compatibility:** identify exact versions of Python, FastMCP, PydanticAI, HTTP/DB clients and runtime infrastructure.
+
+## Deliverables
+
+**Deliverables / Artifacts:** failure-domain map, deadline budget, retry matrix, idempotency model, concurrency/resource budget, overload policy, degradation strategy, recovery model, failure-injection tests, implementation and verification report.
+**Verification / Testing:** test each failure mode deterministically — timeout, cancellation, transient failure, permanent failure, retry exhaustion, duplicate delivery, concurrent contention, pool exhaustion, overload, partial dependency failure and recovery; use fault injection/fakes at boundaries and real integration tests for DB/transport semantics where mocks cannot prove behavior.
+**Failure / Stop conditions:** reject if timeouts are absent at external boundaries, retries are unbounded or duplicated across layers, side effects lack replay semantics, concurrency is unbounded, queues can grow without bound, transactions span unrelated remote calls, failures are swallowed, or degradation returns misleading success.
+**Positive scenario:** transient failures are contained at explicit boundaries without duplicated side effects or resource exhaustion.
+**Negative scenario:** unbounded retries across layers duplicate non-idempotent side effects.
+
 ## Mandatory research gate
 Before implementation:
 1. Read repository architecture, security, testing and configuration contracts.
@@ -76,9 +94,3 @@ Define startup recovery, shutdown behavior, in-flight operation cancellation, re
 
 ## Testing
 Test each failure mode deterministically: timeout, cancellation, transient failure, permanent failure, retry exhaustion, duplicate delivery, concurrent contention, pool exhaustion, overload, partial dependency failure and recovery. Use fault injection/fakes at boundaries and real integration tests for DB/transport semantics where mocks cannot prove behavior.
-
-## Rejection criteria
-Reject if timeouts are absent at external boundaries, retries are unbounded or duplicated across layers, side effects lack replay semantics, concurrency is unbounded, queues can grow without bound, transactions span unrelated remote calls, failures are swallowed, or degradation returns misleading success.
-
-## Deliverables
-Failure-domain map, deadline budget, retry matrix, idempotency model, concurrency/resource budget, overload policy, degradation strategy, recovery model, failure-injection tests, implementation and verification report.
