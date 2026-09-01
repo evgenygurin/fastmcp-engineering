@@ -8,6 +8,24 @@ description: Evidence-first dependency injection, lifecycle and composition-root
 ## Mission
 Make the dependency graph explicit, typed, testable and lifecycle-safe. Dependencies are assembled at the application boundary; domain and use cases consume capabilities rather than constructing infrastructure.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** dependency injection, lifecycle and composition-root engineering for production FastMCP applications.
+**Trigger:** designing or changing the dependency graph, composition root, dependency lifetimes, request context, or resource lifecycle.
+**Upstream / Prerequisite:** identified exact Python, FastMCP, Pydantic, SQLAlchemy, PydanticAI and relevant client/library versions; evidence recorded.
+**Mission / Goal:** make the dependency graph explicit, typed, testable and lifecycle-safe; dependencies are assembled at the application boundary.
+**Research / Evidence:** identify exact versions; read current official documentation first, then exact-version examples/source/tests for FastMCP lifespan/server construction, dependency/context mechanisms, SQLAlchemy async lifecycle, PydanticAI dependency injection and all selected DI/container libraries; do not introduce a DI framework merely because one exists.
+**Decision / Selection rules:** have one discoverable composition root; keep dependency direction explicit; prefer constructor injection for stable required dependencies; use `Protocol`/interfaces only where a consumer needs substitution, isolation, or a stable boundary; classify every dependency lifetime; use FastMCP-native lifespan mechanisms; define create/health/use/failure/shutdown/cancellation for every resource; keep request context in explicit trusted context; construct engine/session factory at the appropriate application lifetime.
+**Version / Compatibility:** identify exact versions; use FastMCP-native lifespan/startup/shutdown mechanisms verified for the exact version.
+
+## Deliverables
+
+**Deliverables / Artifacts:** dependency graph; lifetime matrix; composition-root design; ports/protocols; FastMCP lifespan mapping; SQLAlchemy lifecycle; PydanticAI dependency mapping; external-client lifecycle; startup/shutdown failure model; test wiring strategy; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** application tests construct the dependency graph with fakes/test adapters; integration tests wire real infrastructure selectively; add composition-root tests that detect missing bindings, invalid lifecycle order and unsafe singleton/scoped combinations; test startup failure and shutdown cleanup.
+**Failure / Stop conditions:** reject global mutable containers, service locators, hidden imports that instantiate services, repository-created sessions, handlers creating infrastructure, domain imports of FastMCP/SQLAlchemy/PydanticAI, singleton request state, and generic `Container.get()` calls scattered throughout code.
+**Positive scenario:** an explicit composition root assembles the dependency graph with correct lifetimes and passes composition-root tests.
+**Negative scenario:** a service locator or hidden global container hides dependencies and breaks lifecycle safety.
+
 ## Mandatory research
 Identify exact Python, FastMCP, Pydantic, SQLAlchemy, PydanticAI and relevant client/library versions. Read current official documentation first, then exact-version examples/source/tests for FastMCP lifespan/server construction, dependency/context mechanisms, SQLAlchemy async lifecycle, PydanticAI dependency injection and all selected DI/container libraries. Do not introduce a DI framework merely because one exists.
 
@@ -55,6 +73,3 @@ Break cycles through dependency inversion, ports, domain events or application o
 
 ## Anti-patterns
 Reject global mutable containers, service locators, hidden imports that instantiate services, repository-created sessions, handlers creating infrastructure, domain imports of FastMCP/SQLAlchemy/PydanticAI, singleton request state, and generic `Container.get()` calls scattered throughout code.
-
-## Deliverables
-Dependency graph; lifetime matrix; composition-root design; ports/protocols; FastMCP lifespan mapping; SQLAlchemy lifecycle; PydanticAI dependency mapping; external-client lifecycle; startup/shutdown failure model; test wiring strategy; evidence ledger; rejected alternatives; verification report.

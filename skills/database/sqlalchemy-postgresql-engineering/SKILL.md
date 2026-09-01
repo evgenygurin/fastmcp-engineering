@@ -8,6 +8,24 @@ description: Evidence-first database engineering for production Python systems u
 ## Mission
 Treat the database as a correctness boundary, not merely persistence plumbing. Design schemas, transactions, queries, concurrency and authorization so correctness is enforced as close to the data as practical without leaking database concerns into domain logic.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** database engineering for production Python systems using SQLAlchemy 2.x and PostgreSQL, with explicit transaction ownership, async session discipline, schema/migration design, concurrency, RLS, performance and integration testing.
+**Trigger:** designing or changing schemas, transactions, sessions, queries, concurrency, RLS/tenancy, migrations, or PostgreSQL-specific behavior.
+**Upstream / Prerequisite:** repository architecture, security, resilience, testing and configuration contracts read; identified exact versions; evidence, assumptions and unresolved questions recorded.
+**Mission / Goal:** treat the database as a correctness boundary; enforce correctness as close to the data as practical without leaking database concerns into domain logic.
+**Research / Evidence:** read current official SQLAlchemy documentation for Engine, pooling, Session/AsyncSession, transactions, ORM/Core querying, relationships, loading, concurrency and async behavior; read current PostgreSQL documentation for MVCC, isolation, locks/deadlocks, constraints, indexes, RLS, transactions and query planning; read migration-tool documentation and repository migration conventions; inspect official examples/source/tests; do not rely on remembered SQLAlchemy 1.x patterns.
+**Decision / Selection rules:** keep domain entities independent of SQLAlchemy unless persistence-aware domain modeling is chosen with evidence; use session-per-logical-operation/task and never share AsyncSession across concurrent tasks; prefer explicit transaction framing; introduce repositories/Unit of Work only when they protect a real boundary; use database constraints for invariants; use row locks/advisory locks/serializable transactions only for demonstrated concurrency requirements; design indexes from real access patterns; use PostgreSQL RLS as defense-in-depth when tenant isolation is required.
+**Version / Compatibility:** identify exact Python, SQLAlchemy, PostgreSQL, async driver and migration-tool versions; current SQLAlchemy 2.x semantics must be verified from official sources.
+
+## Deliverables
+
+**Deliverables / Artifacts:** schema/domain mapping, repository/port decision, transaction map, session lifecycle, concurrency/locking model, migration plan, index/query plan, pooling budget, RLS/tenant policy where applicable, error taxonomy, integration test matrix, implementation and verification report.
+**Verification / Testing:** use real PostgreSQL integration tests for transaction, constraint, locking, isolation, RLS, migration and query-plan behavior that mocks cannot prove; use unit tests for pure mapping/query construction/business orchestration; test concurrent scenarios explicitly where correctness depends on them.
+**Failure / Stop conditions:** reject if sessions are shared across concurrent tasks, repositories commit unexpectedly, transactions span remote LLM/MCP calls without justification, integrity depends only on Python validation, migrations ignore operational locking, tenant boundaries exist only in prompts, N+1/lazy I/O is unexamined, pool capacity is unbounded, or database behavior is claimed based solely on mocks.
+**Positive scenario:** correctness is enforced at the database boundary and verified against real PostgreSQL including concurrency and RLS.
+**Negative scenario:** sessions are shared across concurrent tasks and integrity depends only on Python validation.
+
 ## Mandatory research gate
 Before implementation:
 1. Read repository architecture, security, resilience, testing and configuration contracts.
@@ -91,9 +109,3 @@ Translate infrastructure exceptions at the application boundary. Distinguish int
 Use real PostgreSQL integration tests for transaction, constraint, locking, isolation, RLS, migration and query-plan behavior that mocks cannot prove. Use unit tests for pure mapping/query construction/business orchestration. Test concurrent scenarios explicitly where correctness depends on them.
 
 For tests requiring externally managed transactions, use SQLAlchemy's documented transaction-joining patterns and verify driver/database SAVEPOINT behavior rather than assuming SQLite is equivalent to PostgreSQL.
-
-## Rejection criteria
-Reject if sessions are shared across concurrent tasks, repositories commit unexpectedly, transactions span remote LLM/MCP calls without justification, integrity depends only on Python validation, migrations ignore operational locking, tenant boundaries exist only in prompts, N+1/lazy I/O is unexamined, pool capacity is unbounded, or database behavior is claimed based solely on mocks.
-
-## Deliverables
-Schema/domain mapping, repository/port decision, transaction map, session lifecycle, concurrency/locking model, migration plan, index/query plan, pooling budget, RLS/tenant policy where applicable, error taxonomy, integration test matrix, implementation and verification report.

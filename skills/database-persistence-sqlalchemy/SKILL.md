@@ -8,6 +8,24 @@ description: Evidence-first persistence engineering for FastMCP applications usi
 ## Mission
 Keep persistence correct, transactional, observable and replaceable while preventing ORM concerns from leaking into the domain model.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** persistence engineering for FastMCP applications using SQLAlchemy 2.x and PostgreSQL/Supabase.
+**Trigger:** designing or changing persistence, ORM models, repositories, transactions, sessions, pooling, migrations, or Supabase integration.
+**Upstream / Prerequisite:** identified exact Python, SQLAlchemy, async driver, PostgreSQL and Supabase versions; repository migrations/models/tests inspected; evidence recorded.
+**Mission / Goal:** keep persistence correct, transactional, observable and replaceable while preventing ORM concerns from leaking into the domain model.
+**Research / Evidence:** identify exact versions; read current official SQLAlchemy, PostgreSQL and relevant Supabase documentation first; inspect repository migrations/models/tests; research exact-version examples/source/tests for async sessions, transactions, pooling, ORM loading, locking and migrations; record evidence and re-check version-sensitive behavior.
+**Decision / Selection rules:** keep domain entities/value objects independent of SQLAlchemy; place persistence models, repositories, Unit of Work and transaction adapters at infrastructure/application boundaries; use one clear session lifecycle per operation; define transaction boundaries from business invariants; use explicit SQLAlchemy 2.x APIs with intentional loading; enforce important invariants in the database; use a single authoritative migration mechanism with expand/contract; use an outbox for DB+event consistency; configure pooling from deployment constraints.
+**Version / Compatibility:** identify exact versions of Python, SQLAlchemy, async driver, PostgreSQL and Supabase; use explicit 2.x APIs and typed mappings for the installed version.
+
+## Deliverables
+
+**Deliverables / Artifacts:** persistence architecture; model/schema map; transaction/UoW policy; repository contracts; locking/isolation policy; query/index analysis; pool configuration; migration plan; outbox/inbox decision; Supabase integration policy; persistence test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** use fast unit tests for domain/application behavior and real PostgreSQL integration tests for transaction, constraint, query, locking and migration behavior; SQLite is not a drop-in substitute for PostgreSQL semantics; test rollback, unique/FK/check violations, concurrent updates, N+1-sensitive paths, pagination and migration compatibility.
+**Failure / Stop conditions:** reject domain classes importing ORM types, repository-level hidden commits, implicit async lazy I/O, unbounded pools, SQLite-only proof of PostgreSQL behavior, missing constraints for critical invariants, unsafe migration rewrites, blind transaction retries and DB/network atomicity assumptions.
+**Positive scenario:** persistence is layered behind the domain with real PostgreSQL verification of transactions and migrations.
+**Negative scenario:** ORM types leak into domain classes and PostgreSQL-specific behavior is proven only against SQLite.
+
 ## Mandatory research
 Identify exact Python, SQLAlchemy, async driver, PostgreSQL and Supabase versions. Read current official SQLAlchemy documentation, PostgreSQL documentation and relevant Supabase documentation first; inspect repository migrations/models/tests. Research exact-version examples/source/tests for async sessions, transactions, pooling, ORM loading, locking and migrations. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -55,9 +73,3 @@ Handle transient DB failures according to the resilience skill. Retries must be 
 
 ## Security
 Use parameterized SQL/SQLAlchemy expressions. Apply least-privilege DB roles. Never log credentials or sensitive query parameters. Test tenant isolation and authorization at repository/use-case/database policy boundaries.
-
-## Rejection criteria
-Reject domain classes importing ORM types, repository-level hidden commits, implicit async lazy I/O, unbounded pools, SQLite-only proof of PostgreSQL behavior, missing constraints for critical invariants, unsafe migration rewrites, blind transaction retries and DB/network atomicity assumptions.
-
-## Deliverables
-Persistence architecture; model/schema map; transaction/UoW policy; repository contracts; locking/isolation policy; query/index analysis; pool configuration; migration plan; outbox/inbox decision; Supabase integration policy; persistence test matrix; evidence ledger; rejected alternatives; verification report.
