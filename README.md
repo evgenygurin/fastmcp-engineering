@@ -64,6 +64,121 @@ injected into the model context (wrapped in `<EXTREMELY_IMPORTANT>` + per-harnes
 tool mapping), which makes the domain skills auto-trigger. Design:
 `docs/superpowers/specs/2026-09-01-fastmcp-superpowers-parity-design.md`.
 
+## Methodology Server (FastMCP v4, stdio)
+
+This repository includes a FastMCP v4 server (`fastmcp.json` + `server/server.py`) that exposes the methodology as MCP resources, tools, and prompts over stdio.
+
+### Running the server
+
+```bash
+uv run fastmcp run fastmcp.json
+```
+
+The server uses stdio transport and requires Python 3.12+ with `fastmcp>=4.0.0,<4.1` (managed via uv).
+
+### What the server exposes
+
+| Category | Items | Description |
+|----------|-------|-------------|
+| **Tools** | `find_skills`, `clarify_find` | Search 58 skills by task description with weighted ranking and session-aware domain boosting |
+| **Resources** | `skill://{name}/SKILL.md`, `skill://{name}/ACCEPTANCE.md`, `skill://{name}/_manifest` | 58 skills as versioned resources with content hashes |
+| **Resources** | `contract://{name}` | All contracts (e.g. `skill-contract`, `github-workflow-contract`) |
+| **Resources** | `fme-prompt://{name}` | All prompt templates from `prompts/` |
+| **Prompts** | `dispatch`, `skill_context`, `domain_guide`, `role_prompt`, `contract_check` | Reusable prompt templates for agent workflows |
+| **Completion** | Skills, contracts, prompts, domains | Tab-completion for prompt arguments and resource templates |
+| **Extension** | `methodology/stats` | Skill count, domains, and tool-call interceptor stats |
+| **Sessions** | `create_session`, `end_session` | Session lifecycle with `recent_domains` storage for history boost |
+
+### Per-harness install (stdio)
+
+The server runs over stdio — configure each harness to launch it via `fastmcp run fastmcp.json`.
+
+**Claude Code** (`~/.claude/mcp_servers.json`):
+```json
+{
+  "mcpServers": {
+    "fastmcp-engineering": {
+      "command": "uv",
+      "args": ["run", "--directory", "/absolute/path/to/fastmcp-engineering", "fastmcp", "run", "fastmcp.json"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+**Cursor** (`.cursor/mcp.json`):
+```json
+{
+  "mcpServers": {
+    "fastmcp-engineering": {
+      "command": "uv",
+      "args": ["run", "--directory", "/absolute/path/to/fastmcp-engineering", "fastmcp", "run", "fastmcp.json"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+**Codex** (`~/.codex/config.toml`):
+```toml
+[mcp_servers.fastmcp-engineering]
+command = "uv"
+args = ["run", "--directory", "/absolute/path/to/fastmcp-engineering", "fastmcp", "run", "fastmcp.json"]
+transport = "stdio"
+```
+
+**OpenCode** (`.opencode/mcp.json`):
+```json
+{
+  "mcpServers": {
+    "fastmcp-engineering": {
+      "command": "uv",
+      "args": ["run", "--directory", "/absolute/path/to/fastmcp-engineering", "fastmcp", "run", "fastmcp.json"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+**Gemini** (`~/.gemini/settings.json`):
+```json
+{
+  "mcpServers": {
+    "fastmcp-engineering": {
+      "command": "uv",
+      "args": ["run", "--directory", "/absolute/path/to/fastmcp-engineering", "fastmcp", "run", "fastmcp.json"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+Replace `/absolute/path/to/fastmcp-engineering` with the actual clone path. The `uv run --directory` ensures the server runs from the repo root so `skills/`, `contracts/`, and `prompts/` resolve correctly.
+
+### Example agent flow
+
+```python
+from fastmcp import Client
+
+async with Client("fastmcp-engineering") as client:
+    # 1. Find relevant skills for a task
+    skills = await client.call_tool("find_skills", {"task": "add OAuth to my FastMCP server"})
+    top_skill = skills[0]["name"]  # e.g. "fastmcp-auth"
+
+    # 2. Read the full skill
+    skill = await client.read_resource(f"skill://{top_skill}/SKILL.md")
+
+    # 3. Get execution context prompt
+    context = await client.get_prompt("skill_context", {"skill": top_skill})
+
+    # 4. Validate an artifact against a contract
+    check = await client.get_prompt("contract_check", {"contract": "skill-contract", "artifact": "..."})
+```
+
+Full integration test: `tests/server/test_integration.py`.
+
+---
+
 ## opencode integration
 
 Global exposure of this repository's capabilities in opencode:
