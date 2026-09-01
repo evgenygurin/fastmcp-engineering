@@ -1092,9 +1092,9 @@ function countBootstrapParts(output) {
 function assertPresentBootstrap(r) {
   const failures = [];
   if (r.firstBootstrapParts !== 1) failures.push(`expected 1 bootstrap in first output, got ${r.firstBootstrapParts}`);
-  if (r.secondBootstrapParts !== 0) failures.push(`expected 0 bootstrap in second output (dedup), got ${r.secondBootstrapParts}`);
+  if (r.secondBootstrapParts !== 1) failures.push(`expected 1 bootstrap in second output (fresh array re-injection; dedup guard only skips already-transformed arrays), got ${r.secondBootstrapParts}`);
   if (r.firstReadCount !== 1) failures.push(`expected 1 read of SKILL.md (cached), got ${r.firstReadCount}`);
-  if (r.secondReadCount !== 1) failures.push(`expected no re-read after cache, got ${r.secondReadCount}`);
+  if (r.secondReadCount !== r.firstReadCount) failures.push(`expected no re-read after cache, got ${r.secondReadCount - r.firstReadCount} extra reads`);
   if (!r.mapsSubagentToTask) failures.push('bootstrap missing subagent→task mapping');
   if (!r.mapsMutationToApplyPatch) failures.push('bootstrap missing edit→apply_patch mapping');
   return failures;
