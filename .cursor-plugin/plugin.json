@@ -1,0 +1,22 @@
+{
+  "name": "fastmcp-engineering",
+  "displayName": "FastMCP Engineering",
+  "description": "Research-first FastMCP and MCP engineering skills, contracts, and prompts",
+  "version": "0.2.0",
+  "author": {
+    "name": "evgenygurin",
+    "url": "https://github.com/evgenygurin"
+  },
+  "homepage": "https://github.com/evgenygurin/fastmcp-engineering",
+  "repository": "https://github.com/evgenygurin/fastmcp-engineering",
+  "license": "MIT",
+  "keywords": [
+    "fastmcp",
+    "mcp",
+    "python",
+    "engineering",
+    "research-first"
+  ],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks-cursor.json"
+}
