@@ -2,6 +2,7 @@ from pathlib import Path
 from fastmcp import FastMCP
 from fastmcp.server.providers.skills import SkillsDirectoryProvider
 from fastmcp.server.providers import FileSystemProvider
+from mcp.types import PromptReference, ResourceTemplateReference
 
 # Patch SkillProvider to use frontmatter `name` as canonical skill identifier.
 # Upstream SkillProvider uses directory basename (e.g. `skills/fastmcp/auth` -> `auth`)
@@ -76,3 +77,36 @@ mcp.add_provider(SkillsDirectoryProvider(roots=_skill_roots()))
 components_dir = Path(__file__).parent / "components"
 if components_dir.exists():
     mcp.add_provider(FileSystemProvider(components_dir))
+
+PROMPT_SKILL_ARGS = {"skill_context": "skill", "role_prompt": "role", "contract_check": "contract", "domain_guide": "domain"}
+
+@mcp.completion
+def complete(ref, argument, context):
+    from server.indexing import build_index
+    idx = build_index(SKILLS_ROOT)
+    # Prompt completions
+    if isinstance(ref, PromptReference):
+        if ref.name == "skill_context" and argument.name == "skill":
+            return [n for n in idx.by_name if n.startswith(argument.value)]
+        if ref.name == "role_prompt" and argument.name == "role":
+            prompts_dir = REPO_ROOT / "prompts"
+            names = [p.stem for p in prompts_dir.glob("*.md")]
+            return [n for n in names if n.startswith(argument.value)]
+        if ref.name == "contract_check" and argument.name == "contract":
+            contracts_dir = REPO_ROOT / "contracts"
+            names = [p.stem for p in contracts_dir.glob("*.md")]
+            return [n for n in names if n.startswith(argument.value)]
+        if ref.name == "domain_guide" and argument.name == "domain":
+            domains = sorted({e.domain for e in idx.entries})
+            return [d for d in domains if d.startswith(argument.value)]
+    # Resource template completions
+    if isinstance(ref, ResourceTemplateReference):
+        if ref.uri == "contract://{name}" and argument.name == "name":
+            contracts_dir = REPO_ROOT / "contracts"
+            names = [p.stem for p in contracts_dir.glob("*.md")]
+            return [n for n in names if n.startswith(argument.value)]
+        if ref.uri == "fme-prompt://{name}" and argument.name == "name":
+            prompts_dir = REPO_ROOT / "prompts"
+            names = [p.stem for p in prompts_dir.glob("*.md")]
+            return [n for n in names if n.startswith(argument.value)]
+    return None
