@@ -79,7 +79,7 @@ Invoke the matching domain skill when its trigger matches (full inventory lives 
 - Components/API: `fastmcp-components`, `api-tool-engineering`, `mcp-primitives-engineering`, `api-contract-schema-engineering`, `api-lifecycle-versioning`, `pydantic-schema-engineering`
 - Protocol: `mcp-protocol-engineering`, `fastmcp-protocol-compliance`, `mcp-server-architecture`
 - FastMCP internals: `fastmcp-auth`, `fastmcp-context-di`, `fastmcp-lifespan`, `fastmcp-middleware`, `fastmcp-providers`, `fastmcp-tasks`, `fastmcp-transforms`, `fastmcp-transports-deployment`, `fastmcp-client-testing`
-- Data: `sqlalchemy-engineering`, `sqlalchemy-postgresql-engineering`, `sqlalchemy-persistence-architecture`, `database-persistence-sqlalchemy`, `data-persistence-engineering`, `pydantic-engineering`
+- Data: `database-sqlalchemy-engineering`, `sqlalchemy-postgresql-engineering`, `sqlalchemy-persistence-architecture`, `database-persistence-sqlalchemy`, `data-persistence-engineering`, `pydantic-engineering`
 - Security: `security-engineering`, `security-threat-modeling`, `security-privacy-governance`, `dependency-supply-chain-security`
 - Reliability/performance: `reliability-resilience-engineering`, `performance-capacity-engineering`, `performance-resource-engineering`, `async-event-driven-engineering`
 - Observability: `observability-diagnostics`, `observability-opentelemetry`, `observability-operations`
