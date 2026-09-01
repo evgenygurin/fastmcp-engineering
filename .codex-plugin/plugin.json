@@ -20,6 +20,7 @@
     "security"
   ],
   "skills": "./skills/",
+  "hooks": {},
   "interface": {
     "displayName": "FastMCP Engineering",
     "shortDescription": "Research-first FastMCP and MCP engineering workflows",
