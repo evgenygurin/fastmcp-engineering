@@ -8,6 +8,24 @@ description: Evidence-first engineering rules for MCP tools, resources, prompts 
 ## Mission
 Choose and implement the correct MCP primitive for each capability while preserving protocol semantics, clean architecture, security, compatibility and testability.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** MCP tools, resources, prompts and advanced protocol primitives in FastMCP.
+**Trigger:** choosing or implementing an MCP primitive for a capability — tool, resource, prompt, or an advanced protocol feature.
+**Upstream / Prerequisite:** identified exact MCP/FastMCP versions; evidence recorded with source, version/date, claim and confidence.
+**Mission / Goal:** choose and implement the correct MCP primitive for each capability while preserving protocol semantics, clean architecture, security, compatibility and testability.
+**Research / Evidence:** identify exact MCP/FastMCP versions; read the current official MCP specification/changelog and relevant exact-version FastMCP docs, examples, source and tests; research Pydantic/PydanticAI and transport/runtime semantics where relevant; re-check version-sensitive documentation before completion.
+**Decision / Selection rules:** use a tool for an executable operation, a resource for addressable/readable data, a prompt for reusable templates; document owner, audience, side effects, authorization, latency, cacheability, mutability, identity/addressing, error semantics and lifecycle for every primitive; verify exact protocol/FastMCP support for advanced features; do not implement a custom substitute for a standard MCP primitive unless research proves the standard mechanism cannot satisfy the requirement.
+**Version / Compatibility:** identify exact MCP/FastMCP versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** primitive-selection matrix; public contract inventory; architecture/data-flow diagram; security classification; schemas; compatibility impact; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test discovery/listing as well as invocation; for each primitive test valid/invalid schemas, authorization, errors, structured output, cancellation, pagination and relevant capability negotiation; use real MCP integration tests for protocol semantics that mocks cannot prove; test old-client compatibility when the public contract changes.
+**Failure / Stop conditions:** reject ambiguous primitive choice, fat handlers, business logic in MCP decorators, model-controlled authorization, custom protocol reinvention without evidence, unstable pagination contracts, undocumented advanced features, leaked internal errors, and untested public contract changes.
+**Positive scenario:** the correct MCP primitive is chosen and passes discovery, invocation and integration tests.
+**Negative scenario:** an ambiguous primitive choice hides domain operations in resources or reinvents a standard protocol primitive without evidence.
+
 ## Mandatory research
 Before implementation identify exact MCP/FastMCP versions. Read the current official MCP specification/changelog and relevant exact-version FastMCP docs, examples, source and tests. Research Pydantic/PydanticAI and transport/runtime semantics where relevant. Record evidence with source, version/date, claim and confidence. Re-check version-sensitive documentation before completion.
 
@@ -61,9 +79,3 @@ MCP primitives must not become repositories, service locators or god objects.
 
 ## Testing
 Test discovery/listing as well as invocation. For each primitive test valid/invalid schemas, authorization, errors, structured output, cancellation, pagination and relevant capability negotiation. Use real MCP integration tests for protocol semantics that mocks cannot prove. Test old-client compatibility when the public contract changes.
-
-## Rejection criteria
-Reject ambiguous primitive choice, fat handlers, business logic in MCP decorators, model-controlled authorization, custom protocol reinvention without evidence, unstable pagination contracts, undocumented advanced features, leaked internal errors, and untested public contract changes.
-
-## Deliverables
-Primitive-selection matrix; public contract inventory; architecture/data-flow diagram; security classification; schemas; compatibility impact; test matrix; evidence ledger; rejected alternatives; verification report.

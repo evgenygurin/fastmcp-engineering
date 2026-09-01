@@ -8,6 +8,24 @@ description: Evidence-first observability engineering for FastMCP systems using 
 ## Mission
 Make production behavior explainable across the MCP boundary, application/domain workflows and infrastructure without leaking sensitive data or creating unbounded telemetry cost.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** observability engineering for FastMCP systems using OpenTelemetry, structured logs, metrics and traces.
+**Trigger:** designing or changing tracing, metrics, structured logs, correlation, redaction, sampling, or telemetry architecture.
+**Upstream / Prerequisite:** identified exact dependency versions; evidence ledger recorded.
+**Mission / Goal:** make production behavior explainable across the MCP boundary, application/domain workflows and infrastructure without leaking sensitive data or creating unbounded telemetry cost.
+**Research / Evidence:** read current official OpenTelemetry documentation/specification and exact-version FastMCP, PydanticAI, SQLAlchemy and relevant instrumentation docs/source/tests; inspect repository conventions; record an evidence ledger and re-check version-sensitive APIs before completion.
+**Decision / Selection rules:** design traces, metrics and logs as complementary signals; trace meaningful boundaries; use stable low-cardinality span attributes and metric labels; never put prompts, model outputs, authorization tokens, passwords, secrets, full SQL parameters or arbitrary user content into spans by default; log once at the ownership boundary with actionable context; map failures to stable outcome/error categories; sample intentionally; treat telemetry as sensitive infrastructure with data minimization, redaction, access control, retention and export policies.
+**Version / Compatibility:** identify exact dependency versions; use semantic conventions supported by the actual instrumentation version.
+
+## Deliverables
+
+**Deliverables / Artifacts:** observability architecture; signal matrix; semantic-convention mapping; trace/span policy; metric catalog with cardinality budgets; structured-log schema; redaction policy; sampling/retention policy; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test trace propagation, span names/attributes, metric cardinality, log redaction, error classification and graceful exporter shutdown; use in-memory/test exporters where possible; include a negative test proving secrets and sensitive payloads are absent; test failure of telemetry exporters without failing the business operation.
+**Failure / Stop conditions:** reject telemetry that emits bearer tokens, cookies, API keys, database credentials, raw authorization headers or secrets, or raw prompts/responses unless explicitly approved and protected; observability failure must not take down the MCP service; avoid unbounded telemetry cost and high-cardinality dimensions.
+**Positive scenario:** production behavior is explainable with redacted, low-cardinality telemetry that fails safely.
+**Negative scenario:** sensitive data leaks into spans/logs or telemetry cost grows unbounded.
+
 ## Mandatory research
 Identify exact dependency versions. Read current official OpenTelemetry documentation/specification and exact-version FastMCP, PydanticAI, SQLAlchemy and relevant instrumentation docs/source/tests. Inspect repository conventions. Record an evidence ledger and re-check version-sensitive APIs before completion.
 
@@ -45,6 +63,3 @@ Telemetry must be asynchronous/bounded where appropriate, have timeout/export fa
 
 ## Testing
 Test trace propagation, span names/attributes, metric cardinality, log redaction, error classification and graceful exporter shutdown. Use in-memory/test exporters where possible. Include a negative test proving secrets and sensitive payloads are absent. Test failure of telemetry exporters without failing the business operation.
-
-## Deliverables
-Observability architecture; signal matrix; semantic-convention mapping; trace/span policy; metric catalog with cardinality budgets; structured-log schema; redaction policy; sampling/retention policy; test matrix; evidence ledger; rejected alternatives; verification report.
