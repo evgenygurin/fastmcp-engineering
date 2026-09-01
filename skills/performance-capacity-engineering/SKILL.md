@@ -8,6 +8,24 @@ description: Evidence-first performance, capacity and scalability engineering fo
 ## Mission
 Optimize measured user-visible behavior and resource efficiency without sacrificing correctness, security or maintainability. No performance claim is accepted without a baseline and reproducible measurement.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** performance, capacity and scalability engineering for production FastMCP systems.
+**Trigger:** optimizing measured user-visible behavior or resource efficiency, or planning capacity and scalability.
+**Upstream / Prerequisite:** identified exact versions; a representative workload, environment and dataset; a baseline measurement.
+**Mission / Goal:** optimize measured user-visible behavior and resource efficiency without sacrificing correctness, security or maintainability; no performance claim is accepted without a baseline and reproducible measurement.
+**Research / Evidence:** identify exact Python, FastMCP, Pydantic, SQLAlchemy, PydanticAI and relevant runtime/client versions; read current official documentation first and inspect exact-version examples/source/tests for concurrency, connection pools, async behavior, caching and framework limits; record evidence and re-check version-sensitive behavior.
+**Decision / Selection rules:** define measurable budgets tied to user-visible SLIs/SLOs; establish a baseline before optimization; profile to locate the dominant bottleneck; bound concurrency explicitly; use SQLAlchemy query profiling and real PostgreSQL measurements; introduce caching only with a defined key, scope, TTL/invalidation, consistency, memory budget and stampede strategy; batch only when semantics support it; enforce explicit backpressure; treat resource pools as finite; stream large results and bound memory; never silently weaken authorization, validation or audit to improve throughput.
+**Version / Compatibility:** identify exact Python, FastMCP, Pydantic, SQLAlchemy, PydanticAI and relevant runtime/client versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** performance budgets; workload model; baseline report; bottleneck analysis; MCP/DB/LLM performance map; concurrency/pool policy; caching policy; batching/backpressure model; memory budget; load/stress/soak plan; capacity model; regression gates; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** performance tests must assert correctness as well as speed; run representative concurrent MCP calls, DB workloads, external dependency failures, cancellation and timeout scenarios; verify no race, transaction or tenant-isolation regression under load.
+**Failure / Stop conditions:** reject optimizations without baseline evidence, unlimited concurrency/queues, unbounded result loading, arbitrary caching, SQLite-only DB performance conclusions, benchmark environments unlike the target deployment, security tradeoffs, and claims based only on average latency.
+**Positive scenario:** a measured optimization is validated against a reproducible baseline and passes regression thresholds.
+**Negative scenario:** a performance claim is made without baseline evidence or trades security controls for latency.
+
 ## Mandatory research
 Identify exact Python, FastMCP, Pydantic, SQLAlchemy, PydanticAI and relevant runtime/client versions. Read current official documentation first and inspect exact-version examples/source/tests for concurrency, connection pools, async behavior, caching and framework limits. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -64,9 +82,3 @@ Use the observability layer for latency histograms, saturation, queue depth, poo
 
 ## Testing
 Performance tests must assert correctness as well as speed. Run representative concurrent MCP calls, DB workloads, external dependency failures, cancellation and timeout scenarios. Verify no race, transaction or tenant-isolation regression under load.
-
-## Rejection criteria
-Reject optimizations without baseline evidence, unlimited concurrency/queues, unbounded result loading, arbitrary caching, SQLite-only DB performance conclusions, benchmark environments unlike the target deployment, security tradeoffs, and claims based only on average latency.
-
-## Deliverables
-Performance budgets; workload model; baseline report; bottleneck analysis; MCP/DB/LLM performance map; concurrency/pool policy; caching policy; batching/backpressure model; memory budget; load/stress/soak plan; capacity model; regression gates; evidence ledger; rejected alternatives; verification report.
