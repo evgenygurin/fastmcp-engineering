@@ -9,6 +9,24 @@ description: Design FastMCP background task execution with verified MCP semantic
 
 Use FastMCP/MCP task capabilities only when the operation genuinely requires asynchronous or deferred execution. Do not equate a protocol task with `asyncio.create_task()` or a generic job queue.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP background task execution with verified MCP semantics, explicit ownership, idempotency, cancellation, persistence, and failure boundaries.
+**Trigger:** when an operation genuinely requires asynchronous or deferred execution — long-running work, asynchronous polling, or protocol-level task semantics.
+**Upstream / Prerequisite:** `AGENTS.md` and all engineering contracts read; identified exact FastMCP and Python versions; evidence recorded before implementation.
+**Mission / Goal:** use FastMCP/MCP task capabilities only when the operation genuinely requires asynchronous or deferred execution; do not equate a protocol task with `asyncio.create_task()` or a generic job queue.
+**Research / Evidence:** read official FastMCP task/background execution documentation and current `llms` material; inspect all relevant official PrefectHQ/fastmcp task examples; inspect FastMCP source and tests for task state, polling, storage, cancellation, expiry, result retrieval, and lifecycle semantics; check the MCP specification/SEP material governing tasks; check first-party dependency documentation for any selected task backend.
+**Decision / Selection rules:** keep protocol task, FastMCP task abstraction, coroutine, application command/use case, durable job, queue message, worker, and task result store conceptually separate; choose deferred execution only with a concrete requirement; model task state from target-version evidence; treat cancellation as a semantic operation; never add automatic retries by default without idempotency analysis; explicitly distinguish persistence/durability levels; give every background task a clear owner; apply authorization to task creation and separately to status/result retrieval.
+**Version / Compatibility:** identify exact FastMCP and Python versions; version-sensitive task behavior is blocking until verified — never implement from memory.
+
+## Deliverables
+
+**Deliverables / Artifacts:** version-specific task research package; protocol/framework state machine; execution ownership model; durability matrix; cancellation/retry/idempotency decision record; security model; implementation; protocol/client tests; lifecycle/restart verification; architecture re-check.
+**Verification / Testing:** test task creation, immediate/deferred result behavior, state transitions, polling, completion, failure, cancellation, timeout/deadline, expiry/TTL, retry/idempotency, authorization on status/result, concurrent polling, worker/process boundaries, restart/shutdown behavior, persistence recovery, and MCP Client behavior; use FastMCP's documented in-process Client for deterministic protocol tests where appropriate.
+**Failure / Stop conditions:** reject `asyncio.create_task()` with no ownership, treating protocol tasks as a durable queue, automatic retries without idempotency analysis, globally enumerable and authorization-free task IDs, storing task state only in process memory while claiming multi-worker durability, letting shutdown silently abandon work, catching every exception and marking tasks successful, and putting business retry policy into MCP transport code.
+**Positive scenario:** a genuinely async operation is modeled as a verified task with explicit ownership and idempotency.
+**Negative scenario:** a protocol task is treated as a durable queue with automatic retries and no idempotency analysis.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -155,16 +173,3 @@ Use FastMCP's documented in-process Client for deterministic protocol tests wher
 - Letting shutdown silently abandon work.
 - Catching every exception and marking tasks successful.
 - Putting business retry policy into MCP transport code.
-
-## Deliverables
-
-- version-specific task research package;
-- protocol/framework state machine;
-- execution ownership model;
-- durability matrix;
-- cancellation/retry/idempotency decision record;
-- security model;
-- implementation;
-- protocol/client tests;
-- lifecycle/restart verification;
-- architecture re-check.

@@ -9,6 +9,24 @@ description: Design FastMCP Context and dependency injection without turning req
 
 Use FastMCP Context only for MCP/runtime concerns exposed by the target version and use dependency injection for explicit dependency composition. Preserve a strict boundary between protocol/runtime context and application/domain dependencies.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP Context and dependency injection without turning request context into a Service Locator, God Object, or hidden application container.
+**Trigger:** designing or changing FastMCP Context usage or dependency-injection wiring.
+**Upstream / Prerequisite:** `AGENTS.md` and engineering contracts read; identified exact FastMCP and Python versions; evidence recorded before implementation.
+**Mission / Goal:** use FastMCP Context only for MCP/runtime concerns exposed by the target version; use dependency injection for explicit dependency composition; preserve a strict boundary between protocol/runtime context and application/domain dependencies.
+**Research / Evidence:** read official FastMCP Context and dependency/DI documentation; inspect relevant official PrefectHQ/fastmcp examples; inspect source/tests for ambiguous or version-sensitive semantics; check MCP specification/SEP material where protocol semantics are relevant; check first-party dependency documentation for involved DI/validation libraries; never infer Context/DI signatures or lifecycle behavior from memory.
+**Decision / Selection rules:** explicitly distinguish Context (runtime/request-facing MCP capability) from dependency injection, application services, domain services, lifespan-managed resources, middleware-established context, authentication/authorization context, and configuration; do not use Context merely because it is convenient; dependencies flow inward through explicit abstractions; reject designs where Context becomes a bag of services.
+**Version / Compatibility:** identify exact FastMCP and Python versions; the exact supported Context surface is version-sensitive and must be verified.
+
+## Deliverables
+
+**Deliverables / Artifacts:** version-specific Context/DI research artifact; dependency graph and scope map; Context-vs-DI decision record; implementation; wiring tests; lifecycle/concurrency verification; architecture re-check; reproducible evidence.
+**Verification / Testing:** test Context-dependent behavior, injected fake/stub implementations, missing/invalid dependency cases, scope/lifecycle behavior, concurrent use where relevant, authorization context where relevant, MCP Client/in-process behavior, and startup/shutdown cleanup for lifecycle-managed resources.
+**Failure / Stop conditions:** reject if Context is used as a service registry, application services depend directly on FastMCP Context without an approved boundary, dependency scope is undefined, lifecycle ownership is ambiguous, mutable shared state lacks a concurrency model, or target-version Context/DI behavior was not verified.
+**Positive scenario:** Context is used only for runtime concerns and dependencies are explicitly injected with a defined scope.
+**Negative scenario:** Context becomes a service-locator bag that hides dependencies and couples application logic to the MCP runtime.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -120,18 +138,3 @@ Test both behavior and dependency wiring:
 - authorization context where relevant;
 - MCP Client/in-process behavior;
 - startup/shutdown cleanup for lifecycle-managed resources.
-
-## Rejection criteria
-
-Reject if Context is used as a service registry, if application services depend directly on FastMCP Context without an approved boundary, if dependency scope is undefined, if lifecycle ownership is ambiguous, if mutable shared state lacks a concurrency model, or if target-version Context/DI behavior was not verified.
-
-## Deliverables
-
-- version-specific Context/DI research artifact;
-- dependency graph and scope map;
-- Context-vs-DI decision record;
-- implementation;
-- wiring tests;
-- lifecycle/concurrency verification;
-- architecture re-check;
-- reproducible evidence.

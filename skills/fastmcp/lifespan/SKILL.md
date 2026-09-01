@@ -9,6 +9,24 @@ description: Design FastMCP lifecycle management with explicit resource ownershi
 
 Use FastMCP lifespan for resources whose ownership follows the server/runtime lifecycle. Treat startup and shutdown as architecture, not incidental plumbing.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP lifecycle management with explicit resource ownership, startup/shutdown ordering, cleanup, composition, cancellation, concurrency, and integration boundaries.
+**Trigger:** designing or changing lifespan-managed resources, startup/shutdown ordering, cleanup, composition, cancellation, or concurrency.
+**Upstream / Prerequisite:** `AGENTS.md` and all engineering contracts read; identified exact FastMCP and Python versions; evidence recorded before implementation.
+**Mission / Goal:** use FastMCP lifespan for resources whose ownership follows the server/runtime lifecycle; treat startup and shutdown as architecture, not incidental plumbing.
+**Research / Evidence:** read official FastMCP lifespan documentation and `llms` material; inspect relevant official PrefectHQ/fastmcp examples; inspect FastMCP lifespan source and tests for lifecycle, reference counting, nesting, cancellation, and cleanup semantics; inspect Starlette/FastAPI lifecycle documentation when HTTP mounting is involved; check MCP specification/SEP material; check first-party dependency documentation.
+**Decision / Selection rules:** document owner, creation point, scope, startup prerequisites, consumers, shutdown ordering, cleanup, failure/cancellation behavior and concurrency guarantees for every resource; compose lifespans predictably by entering resources in dependency order and releasing them in reverse; treat startup failure as requiring cleanup of partially initialized resources; do not create heavyweight clients per tool invocation when their correct scope is server/lifespan-scoped.
+**Version / Compatibility:** identify exact FastMCP and Python versions; the current implementation uses an `AsyncExitStack`, composes lifespans, and provides `combine_lifespans` — verify exact target-version semantics rather than copying from memory.
+
+## Deliverables
+
+**Deliverables / Artifacts:** version-specific lifespan research; resource ownership matrix; lifecycle dependency graph; startup/shutdown sequence; failure/cancellation model; implementation; lifecycle integration tests; architecture re-check; reproducible evidence.
+**Verification / Testing:** test lifecycle as observable behavior — startup success, startup failure and partial cleanup, shutdown cleanup, cleanup failure, cancellation during teardown, repeated/shared lifecycle entry, composed lifespans and ordering, mounted FastMCP HTTP applications, dependency availability through the Context/DI seam, and concurrent consumers.
+**Failure / Stop conditions:** reject if resource ownership is ambiguous, cleanup is not guaranteed, shutdown ordering is undocumented, background tasks are orphaned, request-scoped objects are shared incorrectly, FastMCP HTTP lifespan is dropped during mounting, or implementation depends on unverified version-specific lifecycle behavior.
+**Positive scenario:** lifespan-managed resources start, compose and clean up in documented order and pass lifecycle integration tests.
+**Negative scenario:** a partially initialized resource is left alive after startup failure or the FastMCP HTTP lifespan is dropped during mounting.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -120,19 +138,3 @@ Test lifecycle as observable behavior:
 - mounted FastMCP HTTP applications;
 - dependency availability through the intended Context/DI seam;
 - concurrent consumers where shared resources exist.
-
-## Rejection criteria
-
-Reject if resource ownership is ambiguous, cleanup is not guaranteed, shutdown ordering is undocumented, background tasks are orphaned, request-scoped objects are shared incorrectly, FastMCP HTTP lifespan is dropped during mounting, or implementation depends on unverified version-specific lifecycle behavior.
-
-## Deliverables
-
-- version-specific lifespan research;
-- resource ownership matrix;
-- lifecycle dependency graph;
-- startup/shutdown sequence;
-- failure/cancellation model;
-- implementation;
-- lifecycle integration tests;
-- architecture re-check;
-- reproducible evidence.
