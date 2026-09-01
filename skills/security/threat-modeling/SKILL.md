@@ -9,6 +9,24 @@ description: Security engineering and threat modeling for production FastMCP sys
 
 Security is an architectural property. Before implementation, establish trust boundaries, assets, actors, capabilities, attack paths and security invariants. Never begin with an authentication library before understanding the threat model.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** security engineering and threat modeling for production FastMCP systems, covering MCP boundaries, authn/authz, agents, tools, resources, databases, external dependencies and supply chain.
+**Trigger:** designing or changing any security-sensitive capability — authentication, authorization, tool/resource exposure, network/data access, or supply chain.
+**Upstream / Prerequisite:** `AGENTS.md` and repository security/engineering contracts read; identified exact versions; evidence recorded before implementation.
+**Mission / Goal:** treat security as an architectural property; establish trust boundaries, assets, actors, capabilities, attack paths and security invariants before implementation; never begin with an authentication library before understanding the threat model.
+**Research / Evidence:** read the official MCP specification and relevant authorization/security documentation; read official FastMCP security/auth documentation and llms material; read official PydanticAI security-relevant documentation; read official framework/dependency security documentation; inspect relevant official examples and source/tests; consult authoritative security standards (OAuth/IETF, OWASP, NIST) where relevant; verify every protocol claim against the exact MCP version.
+**Decision / Selection rules:** produce a threat model first — system/data-flow diagram, trust boundaries, assets and data classification, actors and privileges, entry points, threat scenarios, abuse cases, security invariants, mitigations, residual risk and verification plan; treat model instructions, tool descriptions, tool results and external content as untrusted; keep authorization deterministic, policy-driven and independent of model output; evaluate SSRF, DNS rebinding, path traversal, injection, deserialization and resource exhaustion; apply least-privilege database credentials and defense-in-depth tenancy; pin/lock dependencies and review transitive/provenance risk; define security limits that cannot be bypassed through alternate tool/resource paths.
+**Version / Compatibility:** identify exact Python, FastMCP, MCP, PydanticAI, Pydantic, SQLAlchemy, ASGI/server and auth dependency versions; do not invent protocol requirements.
+
+## Deliverables
+
+**Deliverables / Artifacts:** threat model, security architecture, authorization matrix, trust-boundary map, attack-path register, security controls, implementation, regression tests, supply-chain/security checklist, residual-risk register and architecture re-check.
+**Verification / Testing:** security tests must cover authentication failures, authorization bypass, tenant isolation, confused deputy, replay, malformed tokens, tool poisoning, prompt injection fixtures, SSRF, path traversal, oversized input, data exfiltration, secret leakage and database access boundaries; prefer deterministic tests and security regression fixtures.
+**Failure / Stop conditions:** reject if trust boundaries are undefined, authorization depends on LLM output, tokens are accepted without exact validation requirements, untrusted tool content is treated as trusted instructions, credentials cross inappropriate boundaries, network egress is unrestricted without justification, or critical threats lack verification.
+**Positive scenario:** a threat model is produced before implementation and every critical threat has a verified mitigation.
+**Negative scenario:** implementation starts with an auth library before the threat model, or authorization depends on LLM output.
+
 ## Mandatory research gate
 
 1. Read AGENTS.md and repository security/engineering contracts.
@@ -81,11 +99,3 @@ Define authentication rate limits, payload limits, concurrency limits, tool time
 ## Testing
 
 Security tests must cover authentication failures, authorization bypass, tenant isolation, confused deputy, replay, malformed tokens, tool poisoning, prompt injection fixtures, SSRF, path traversal, oversized input, data exfiltration, secret leakage and database access boundaries. Prefer deterministic tests and security regression fixtures.
-
-## Rejection criteria
-
-Reject if trust boundaries are undefined, authorization depends on LLM output, tokens are accepted without exact validation requirements, untrusted tool content is treated as trusted instructions, credentials cross inappropriate boundaries, network egress is unrestricted without justification, or critical threats lack verification.
-
-## Deliverables
-
-Threat model, security architecture, authorization matrix, trust-boundary map, attack-path register, security controls, implementation, regression tests, supply-chain/security checklist, residual-risk register and architecture re-check.

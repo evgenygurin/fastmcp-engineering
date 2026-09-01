@@ -8,6 +8,24 @@ description: Evidence-first observability and telemetry engineering for producti
 ## Mission
 Make system behavior diagnosable in production without coupling domain logic to telemetry vendors or leaking secrets, personal data or high-cardinality dimensions.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** observability and telemetry engineering for production FastMCP systems using OpenTelemetry.
+**Trigger:** designing or changing spans, metrics, logs, context propagation, redaction, sampling, health/readiness, or SLI/SLO telemetry.
+**Upstream / Prerequisite:** identified exact versions; evidence recorded and re-checked before completion.
+**Mission / Goal:** make system behavior diagnosable in production without coupling domain logic to telemetry vendors or leaking secrets, personal data or high-cardinality dimensions.
+**Research / Evidence:** identify exact Python, FastMCP, OpenTelemetry API/SDK, Pydantic, SQLAlchemy, PydanticAI and exporter/backend versions; read current official OpenTelemetry, FastMCP, SQLAlchemy and PydanticAI documentation; inspect exact-version instrumentation examples/source/tests; verify semantic conventions and framework instrumentation actually supported by installed versions.
+**Decision / Selection rules:** place instrumentation at adapters, application boundaries and infrastructure integrations; keep domain logic free of OpenTelemetry, logging backends and vendor SDKs; use the three core signals deliberately; use OpenTelemetry APIs/SDK with standard semantic conventions; create meaningful spans and avoid span-per-loop unless cardinality is safe; never record complete prompts, arguments or outputs by default; use low-cardinality metric dimensions only; sample deliberately; define centralized redaction before export; separate liveness from readiness; define SLIs from user-visible outcomes; ensure telemetry never makes the business operation fail.
+**Version / Compatibility:** identify exact versions; verify semantic conventions and framework instrumentation actually supported by the installed versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** observability architecture; signal matrix; instrumentation boundary map; semantic-convention map; MCP/DB/LLM telemetry policy; logging schema; context-propagation policy; metric/cardinality budget; sampling strategy; redaction policy; health/readiness model; SLI/SLO catalog; telemetry failure model; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test span/metric/log creation at architectural boundaries, context propagation, error status, redaction, cardinality-sensitive labels, sampling behavior where deterministic, health/readiness semantics and graceful exporter failure; assert meaningful telemetry contracts without coupling tests to exporter internals.
+**Failure / Stop conditions:** reject domain-level telemetry dependencies, high-cardinality labels, full payload logging by default, secret-bearing spans/logs, exporter availability affecting business success, liveness checks coupled to optional dependencies, arbitrary metric proliferation and duplicate instrumentation.
+**Positive scenario:** production behavior is diagnosable with low-cardinality, redacted telemetry that degrades gracefully when exporters fail.
+**Negative scenario:** domain logic couples to a telemetry vendor or full payloads and secrets leak by default.
+
 ## Mandatory research
 Identify exact Python, FastMCP, OpenTelemetry API/SDK, Pydantic, SQLAlchemy, PydanticAI and exporter/backend versions. Read current official OpenTelemetry, FastMCP, SQLAlchemy and PydanticAI documentation first; inspect exact-version instrumentation examples/source/tests. Verify semantic conventions and framework instrumentation actually supported by installed versions. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -64,9 +82,3 @@ Test span/metric/log creation at architectural boundaries, context propagation, 
 
 ## Security / privacy
 Treat telemetry as a sensitive data store. Define retention, access, encryption and export policy at the deployment boundary. Do not assume observability systems are safe destinations for application secrets merely because they are internal.
-
-## Rejection criteria
-Reject domain-level telemetry dependencies, high-cardinality labels, full payload logging by default, secret-bearing spans/logs, exporter availability affecting business success, liveness checks coupled to optional dependencies, arbitrary metric proliferation and duplicate instrumentation.
-
-## Deliverables
-Observability architecture; signal matrix; instrumentation boundary map; semantic-convention map; MCP/DB/LLM telemetry policy; logging schema; context-propagation policy; metric/cardinality budget; sampling strategy; redaction policy; health/readiness model; SLI/SLO catalog; telemetry failure model; test matrix; evidence ledger; rejected alternatives; verification report.

@@ -8,6 +8,24 @@ description: Evidence-first API and MCP contract engineering with Pydantic v2 an
 ## Mission
 Treat every MCP-visible name, description, input schema, output schema, error shape and serialization rule as a versioned public contract.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** any MCP-visible API or contract surface: names, descriptions, input/output schemas, error shapes, serialization rules, defaults, pagination, and structured output.
+**Trigger:** defining or changing a public MCP tool/resource/prompt contract, schema, error shape, or serialization rule.
+**Upstream / Prerequisite:** identified exact versions of Python, FastMCP, Pydantic, MCP SDK and JSON Schema; contract-first capability inventory.
+**Mission / Goal:** treat every MCP-visible name, description, input schema, output schema, error shape and serialization rule as a versioned public contract.
+**Research / Evidence:** read the current official MCP specification and FastMCP/Pydantic documentation first; inspect exact-version examples/source/tests; verify the JSON Schema dialect actually emitted and accepted by target MCP clients.
+**Decision / Selection rules:** contract-first before implementation; classify changes as additive-compatible, behavior-compatible, potentially breaking, or breaking; prefer stable capability identity and additive evolution over gratuitous `/v1`-style duplication; be deliberate about defaults.
+**Version / Compatibility:** identify exact versions; classify every change for compatibility; test generated schemas against representative MCP clients/validators.
+
+## Deliverables
+
+**Deliverables / Artifacts:** contract inventory; schema definitions; JSON Schema compatibility report; serialization policy; error taxonomy; compatibility/versioning policy; pagination contract; structured-output policy; documentation rules; contract test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** generate and snapshot schemas; test valid/invalid inputs, nullability, defaults, enum evolution, serialization, errors, pagination, structured outputs and backward compatibility; include protocol-level discovery and invocation tests.
+**Failure / Stop conditions:** reject accidental contracts from ORM models, undocumented defaults, breaking changes without migration policy, schema features unsupported by target clients, unstable identifiers, leaked internal fields, unbounded input, and error messages containing sensitive implementation details.
+**Positive scenario:** a public API is defined contract-first and its schemas are verified against representative MCP clients before release.
+**Negative scenario:** an API contract is derived accidentally from internal ORM/domain classes and silently breaks existing clients.
+
 ## Mandatory research
 Identify exact Python, FastMCP, Pydantic, MCP SDK and JSON Schema versions. Read current official MCP specification, FastMCP and Pydantic documentation first; inspect exact-version examples/source/tests. Verify JSON Schema dialect/features actually emitted and accepted by the target MCP clients. Secondary sources are supplementary only.
 
@@ -49,9 +67,3 @@ Generate and snapshot schemas where appropriate. Test valid/invalid inputs, null
 
 ## Architecture
 MCP adapter contract models → application DTO/use case → domain objects → infrastructure DTOs. Keep contract schemas separate from domain and persistence schemas unless identity is intentionally shared and the coupling is proven safe.
-
-## Rejection criteria
-Reject accidental contracts from ORM models, undocumented defaults, breaking changes without migration policy, schema features unsupported by target clients, unstable identifiers, leaked internal fields, unbounded input and error messages containing sensitive implementation details.
-
-## Deliverables
-Contract inventory; schema definitions; JSON Schema compatibility report; serialization policy; error taxonomy; compatibility/versioning policy; pagination contract; structured-output policy; documentation rules; contract test matrix; evidence ledger; rejected alternatives; verification report.

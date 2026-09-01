@@ -46,3 +46,4 @@
 - [ ] Rollback verified.
 - [ ] Static/security gates pass.
 - [ ] Architecture re-check passes.
+- [ ] Stops when CI/CD pipeline behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

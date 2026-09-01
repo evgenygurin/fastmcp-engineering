@@ -11,6 +11,24 @@ Produce reproducible, version-aware research artifacts before implementation dec
 
 This skill is a research procedure, not a tutorial and not an implementation shortcut.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** when a task involves FastMCP APIs, MCP protocol behavior, transports, authentication, authorization, providers, transforms, middleware, lifecycle, tasks, client behavior, composition, Apps, serialization, or other framework capabilities.
+**Trigger:** before any framework-sensitive implementation decision for a FastMCP project.
+**Upstream / Prerequisite:** a precise research question with desired behavior, relevant FastMCP component, target version, runtime/transport context, security implications, and expected artifact.
+**Mission / Goal:** produce reproducible, version-aware research artifacts before implementation decisions are made.
+**Research / Evidence:** use the mandatory source hierarchy — version-specific official documentation, official repository source and tests, official examples, MCP specification and relevant SEP documents, first-party dependency documentation, then high-quality secondary sources only for context; mark a claim unverified rather than presenting it as fact.
+**Decision / Selection rules:** research is incomplete if the agent can explain how an API works but cannot explain why the mechanism is appropriate, what responsibility owns it, what alternatives were considered, what version it belongs to, how it should be tested, and what production concerns the minimal example omits.
+**Version / Compatibility:** identify the target FastMCP version, the latest stable version, and prerelease versions separately; never apply v4 prerelease guidance to a v3 production target without an explicit compatibility decision; re-verify time-sensitive version status at execution time.
+
+## Deliverables
+
+**Deliverables / Artifacts:** a research artifact containing the research question, target versions, sources inspected, relevant official documentation and examples, source/test findings, MCP specification findings, capability/version matrix, recommended mechanisms, rejected alternatives and reasons, production risks, security considerations, testing implications, open questions, and evidence references.
+**Verification / Testing:** every significant conclusion must have an evidence class (official-docs, official-source, official-tests, official-example, mcp-spec, first-party-dependency, secondary, inference); the skill is complete only when another agent can use the artifact to make the implementation decision without repeating the entire research process.
+**Failure / Stop conditions:** stop and escalate to Architecture Governor when requirements conflict with project architecture, two native FastMCP mechanisms appear equally valid with an architectural trade-off, required behavior depends on undocumented internals, version compatibility is unclear, or security behavior cannot be established from authoritative evidence.
+**Positive scenario:** a version-aware research artifact allows another agent to make the implementation decision without repeating the research.
+**Negative scenario:** behavior is inferred from memory or an unverified claim is presented as fact.
+
 ## Scope
 
 Use when a task involves FastMCP APIs, MCP protocol behavior, transports, authentication, authorization, providers, transforms, middleware, lifecycle, tasks, client behavior, composition, Apps, serialization, or other framework capabilities.
@@ -172,16 +190,6 @@ Research is incomplete if the agent can explain how an API works but cannot expl
 - what version it belongs to;
 - how it should be tested;
 - what production concerns the minimal example omits.
-
-## Stop conditions
-
-Stop and escalate to Architecture Governor when:
-
-- requirements conflict with project architecture;
-- two native FastMCP mechanisms appear equally valid and the trade-off is architectural;
-- required behavior depends on undocumented internals;
-- version compatibility is unclear;
-- security behavior cannot be established from authoritative evidence.
 
 ## Completion criterion
 

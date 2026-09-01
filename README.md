@@ -43,6 +43,27 @@ FastMCP version-specific claims must identify their version and stability level.
 
 Consolidated engineering foundation. The repository contains canonical skills, prompts, contracts, architecture guidance, research artifacts, and verification rules. New implementation work follows the branch/PR lifecycle above.
 
+## Installation (all agents)
+
+FastMCP Engineering auto-triggers its skills in every major coding agent. Install
+through each harness's own mechanism (never by hand-copying files):
+
+| Harness | Install | Details |
+|---|---|---|
+| Claude Code | `/plugin install ...` | `docs/README.claude-code.md` |
+| Cursor | `/add-plugin ...` | `docs/README.cursor.md` |
+| Codex | `/plugins` | `docs/README.codex.md` |
+| Copilot CLI | plugin install | `docs/README.copilot.md` |
+| Kimi Code | `/plugins install` | `docs/README.kimi.md` |
+| OpenCode | `plugin` array in opencode.json | `docs/README.opencode.md` |
+| pi | package install | `docs/README.pi.md` |
+| Gemini | `gemini extensions install` | `docs/README.gemini.md` |
+
+How it works: at session start, `skills/using-fastmcp-engineering/SKILL.md` is
+injected into the model context (wrapped in `<EXTREMELY_IMPORTANT>` + per-harness
+tool mapping), which makes the domain skills auto-trigger. Design:
+`docs/superpowers/specs/2026-09-01-fastmcp-superpowers-parity-design.md`.
+
 ## opencode integration
 
 Global exposure of this repository's capabilities in opencode:

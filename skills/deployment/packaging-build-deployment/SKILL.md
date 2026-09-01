@@ -8,6 +8,24 @@ description: Evidence-first packaging, container build and production deployment
 ## Mission
 Produce reproducible, minimal, observable and safely deployable FastMCP services without coupling application architecture to a particular deployment platform.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** packaging, container build and production deployment engineering for FastMCP Python services.
+**Trigger:** designing or changing packaging, build reproducibility, container design, FastMCP runtime transport, lifespan/shutdown, CI/CD, deployment topology, or rollback.
+**Upstream / Prerequisite:** repository architecture, security, resilience, testing and configuration contracts read; identified exact versions; evidence, assumptions and unresolved questions recorded.
+**Mission / Goal:** produce reproducible, minimal, observable and safely deployable FastMCP services without coupling application architecture to a particular deployment platform.
+**Research / Evidence:** read current official FastMCP deployment, HTTP transport, lifespan and custom-route documentation; read official Python packaging/PyPA build and reproducible-environment specifications; read official package-manager documentation for lockfile and container workflows; read official Docker documentation for multi-stage builds, build cache, image security and runtime configuration; read deployment-platform documentation; inspect official examples/source/tests for lifecycle, HTTP and packaging behavior.
+**Decision / Selection rules:** use the standard `pyproject.toml` build interface and an explicit build backend; pin and lock dependencies and assert lock consistency; prefer multi-stage builds with compilers/package managers kept out of the runtime image; generate provenance/SBOM and prefer immutable image references; use the documented FastMCP startup mechanism and exact transport semantics; separate liveness from readiness; own startup resources in an explicit lifespan; promote the exact immutable artifact that was tested; choose deployment topology from requirements, not convention.
+**Version / Compatibility:** identify exact Python, FastMCP, PydanticAI, SQLAlchemy, package-manager, Docker and runtime versions; verify version-sensitive lifecycle, HTTP and packaging behavior.
+
+## Deliverables
+
+**Deliverables / Artifacts:** packaging contract, build reproducibility contract, Docker/image design, runtime/lifespan model, health/readiness model, CI/CD pipeline, deployment topology, supply-chain controls, rollback model, verification matrix and residual risks.
+**Verification / Testing:** verify clean reproducible build, lockfile consistency, package artifact metadata, image runs as non-root, no secrets in image/history, health/readiness behavior, FastMCP transport path, lifespan startup/shutdown, graceful termination, migration/dependency ordering, deployment smoke test, provenance/SBOM where required, and rollback to previous immutable artifact.
+**Failure / Stop conditions:** reject builds with mutable production artifacts, hidden dependency resolution, secrets in image layers, missing shutdown semantics, broken FastMCP lifespan, unaudited deployment-specific assumptions, unbounded health checks, or production artifacts that differ from tested artifacts.
+**Positive scenario:** a reproducible, minimal image built once passes verification and is promoted as an immutable artifact.
+**Negative scenario:** a production artifact differs from the tested bytes or contains secrets in an image layer.
+
 ## Mandatory research gate
 Before implementation:
 1. Read repository architecture, security, resilience, testing and configuration contracts.
@@ -66,9 +84,3 @@ Verify:
 - deployment smoke test;
 - provenance/SBOM where required;
 - rollback to previous immutable artifact.
-
-## Rejection criteria
-Reject builds with mutable production artifacts, hidden dependency resolution, secrets in image layers, missing shutdown semantics, broken FastMCP lifespan, unaudited deployment-specific assumptions, unbounded health checks, or production artifacts that differ from tested artifacts.
-
-## Deliverables
-Packaging contract, build reproducibility contract, Docker/image design, runtime/lifespan model, health/readiness model, CI/CD pipeline, deployment topology, supply-chain controls, rollback model, verification matrix and residual risks.

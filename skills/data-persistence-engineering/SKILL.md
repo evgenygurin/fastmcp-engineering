@@ -8,6 +8,24 @@ description: Evidence-first PostgreSQL and persistence engineering for productio
 ## Mission
 Make persistence correct, secure, observable, performant and evolvable. PostgreSQL is the reference relational system when relational persistence is required; conclusions about transactional behavior must use the actual production-class database.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** PostgreSQL and persistence engineering for production FastMCP systems.
+**Trigger:** designing or changing persistence, data ownership, transactions, isolation, migrations, queries, RLS/tenant isolation, backups, or data lifecycle.
+**Upstream / Prerequisite:** identified exact Python, SQLAlchemy, PostgreSQL, migration-tool and driver versions; evidence recorded.
+**Mission / Goal:** make persistence correct, secure, observable, performant and evolvable; conclusions about transactional behavior must use the actual production-class database.
+**Research / Evidence:** identify exact versions; read current official PostgreSQL and SQLAlchemy documentation first, then exact-version migration/driver/framework source and tests; verify transaction, isolation, locking, pooling, async and migration behavior rather than relying on memory.
+**Decision / Selection rules:** every table/entity has an explicit owner and lifecycle; define transaction boundaries at the application/use-case level; use a Unit of Work only when it clarifies atomicity; choose isolation levels and locking intentionally; enforce critical invariants in the database; version and review all migrations; verify PostgreSQL-specific behavior against PostgreSQL; prefer deterministic keyset pagination; use one application-level engine/pool; enforce tenant isolation in RLS or an equivalent DB boundary; prefer DB-enforced idempotency keys; test backups/restores.
+**Version / Compatibility:** identify exact versions of Python, SQLAlchemy, PostgreSQL, migration tool and driver; use the actual production-class database for transactional conclusions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** data ownership model; schema/invariant catalog; transaction/UoW map; isolation/locking policy; migration strategy; PostgreSQL verification matrix; query/index plan; pagination policy; pool/session lifecycle; RLS/tenant model; idempotency/outbox strategy; backup/restore plan; data lifecycle policy; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** use PostgreSQL for integration tests requiring transactions, RLS, locking, query plans, JSONB, extensions or PostgreSQL types; provide EXPLAIN/EXPLAIN ANALYZE evidence for critical queries; test rollback, constraint violations, concurrency, N+1, pagination and migration compatibility; a backup is not reliable until restore is tested.
+**Failure / Stop conditions:** reject ORM-only integrity assumptions, per-repository commits that break atomicity, shared async sessions, unbounded queries/pages, untested PostgreSQL-specific behavior, unsafe migrations, application-only tenant isolation where DB isolation is required, blind retries and untested backups/restores.
+**Positive scenario:** persistence is verified against real PostgreSQL and migrations and restores are tested.
+**Negative scenario:** ORM-only integrity assumptions and untested PostgreSQL-specific behavior ship silently.
+
 ## Mandatory research
 Identify exact Python, SQLAlchemy, PostgreSQL, migration-tool and driver versions. Read current official PostgreSQL and SQLAlchemy documentation first, then exact-version migration/driver/framework source and tests. Verify transaction, isolation, locking, pooling, async and migration behavior rather than relying on memory.
 
@@ -73,9 +91,3 @@ Instrument query latency, pool saturation, transaction failures, deadlocks and m
 
 ## Performance / reliability
 Persistence decisions must satisfy performance and resilience policies: bounded queries/results, timeouts, retry-safe transient failure handling, backpressure and graceful degradation. Never retry arbitrary transactions containing non-idempotent side effects.
-
-## Rejection criteria
-Reject ORM-only integrity assumptions, per-repository commits that break atomicity, shared async sessions, unbounded queries/pages, untested PostgreSQL-specific behavior, unsafe migrations, application-only tenant isolation where DB isolation is required, blind retries and untested backups/restores.
-
-## Deliverables
-Data ownership model; schema/invariant catalog; transaction/UoW map; isolation/locking policy; migration strategy; PostgreSQL verification matrix; query/index plan; pagination policy; pool/session lifecycle; RLS/tenant model; idempotency/outbox strategy; backup/restore plan; data lifecycle policy; test matrix; evidence ledger; rejected alternatives; verification report.

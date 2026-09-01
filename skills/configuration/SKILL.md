@@ -8,6 +8,24 @@ description: Evidence-first configuration, dependency and reproducible-environme
 ## Mission
 Make runtime configuration explicit, validated, environment-aware and secret-safe; make dependencies reproducible, auditable and deliberately upgraded.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** configuration, dependency and reproducible-environment engineering for production Python/FastMCP systems.
+**Trigger:** designing or changing runtime configuration, settings models, secrets handling, dependency declarations, lockfiles, or upgrade/reproducibility workflows.
+**Upstream / Prerequisite:** repository architecture, security, testing and deployment contracts read; exact Python and package-manager versions identified; evidence recorded.
+**Mission / Goal:** make runtime configuration explicit, validated, environment-aware and secret-safe; make dependencies reproducible, auditable and deliberately upgraded.
+**Research / Evidence:** read official Pydantic Settings documentation for the exact version (settings models, sources, precedence, env parsing, nested settings, secrets files, CLI/custom sources); read PyPA specifications for `pyproject.toml`, dependency specifiers and dependency groups; read the exact package manager documentation for lockfiles, resolution, sync and reproducibility; read FastMCP/PydanticAI/SQLAlchemy configuration documentation relevant to the versions used; research dependency security/supply-chain controls.
+**Decision / Selection rules:** use a typed settings boundary with explicit source precedence; separate static configuration, deployment configuration, credentials/secrets, request-scoped data and mutable business state; use `BaseSettings`/current documented settings APIs; use standards-based `pyproject.toml`; commit a lockfile and install/sync from it; upgrade deliberately rather than blind mass upgrades; choose one primary toolchain workflow and document it.
+**Version / Compatibility:** identify exact versions of Python and the package manager; verify configuration precedence and package-manager behavior against the installed version rather than memory.
+
+## Deliverables
+
+**Deliverables / Artifacts:** configuration contract, source-precedence matrix, environment matrix, secrets policy, dependency policy, lock/reproducibility policy, upgrade procedure, supply-chain controls, tests, implementation and verification report.
+**Verification / Testing:** test settings source precedence, aliases, parsing, required secrets, invalid combinations, environment isolation and startup failure; verify lockfile synchronization and clean installation in CI; configuration tests must not require production secrets.
+**Failure / Stop conditions:** reject if modules read environment variables directly throughout the codebase, configuration is untyped, secrets are logged/stored in code, precedence is undocumented, production dependencies are unlocked without justification, CI silently re-resolves dependencies, dependency upgrades lack review, or multiple package-management workflows conflict.
+**Positive scenario:** typed configuration with documented precedence fails fast at startup when a required production secret is missing.
+**Negative scenario:** modules read environment variables directly and a secret is logged or stored in source code.
+
 ## Mandatory research gate
 Before implementation:
 1. Read repository architecture, security, testing and deployment contracts.
@@ -77,8 +95,3 @@ Choose one primary project/dependency workflow and document it. Do not mix uv/Po
 ## Testing
 Test settings source precedence, aliases, parsing, required secrets, invalid combinations, environment isolation and startup failure. Verify lockfile synchronization and clean installation in CI. Configuration tests must not require production secrets.
 
-## Rejection criteria
-Reject if modules read environment variables directly throughout the codebase, configuration is untyped, secrets are logged/stored in code, precedence is undocumented, production dependencies are unlocked without justification, CI silently re-resolves dependencies, dependency upgrades lack review, or multiple package-management workflows conflict.
-
-## Deliverables
-Configuration contract, source-precedence matrix, environment matrix, secrets policy, dependency policy, lock/reproducibility policy, upgrade procedure, supply-chain controls, tests, implementation and verification report.

@@ -9,6 +9,24 @@ description: Evidence-first FastMCP v3+ server architecture covering MCP boundar
 
 Keep the MCP boundary thin, explicit and protocol-correct. FastMCP owns MCP protocol machinery; application/domain code owns business behavior. Architecture must prevent MCP decorators, context objects and transport concerns from leaking into the domain.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP v3+ server architecture covering MCP boundaries, tools, resources, prompts, middleware, context, lifespan, transports, composition, proxying, auth integration and lifecycle.
+**Trigger:** designing, building, or refactoring an MCP/FastMCP server and its component boundaries.
+**Upstream / Prerequisite:** `AGENTS.md` and repository architecture contracts read; the target FastMCP version's complete official `llms.txt` material read; evidence and unresolved questions recorded before coding.
+**Mission / Goal:** keep the MCP boundary thin, explicit and protocol-correct; FastMCP owns MCP protocol machinery; application/domain code owns business behavior; prevent MCP decorators, context objects and transport concerns from leaking into the domain.
+**Research / Evidence:** read the target FastMCP version's complete official `llms.txt` material and relevant `llms-full.txt` sections; read official FastMCP server, tools, resources, resource templates, prompts, context, middleware, lifespan, transports, composition/mounting/proxy, auth and deployment documentation; read the exact version's official upgrade/migration notes; inspect all relevant official examples and their tests/source; read the MCP specification; verify version-sensitive behavior against source/tests.
+**Decision / Selection rules:** use a strict dependency direction (MCP/FastMCP adapter → Application/use cases → Domain → Ports → Infrastructure adapters); treat `FastMCP` as the composition root for MCP-facing components; keep tool handlers as thin adapters (validate input, obtain dependencies/context, invoke a use case, map the result, translate errors); choose the MCP primitive based on semantics; use Context only at the adapter/application boundary; use lifespan for application-wide startup/shutdown resources; keep middleware cross-cutting with a single responsibility; separate transport from application logic; treat authentication as a server-boundary concern and authorization as an application/domain policy.
+**Version / Compatibility:** target FastMCP v3+; read the exact version's official upgrade/migration notes when moving from another major version.
+
+## Deliverables
+
+**Deliverables / Artifacts:** versioned FastMCP research package, MCP component inventory, layer/dependency diagram, server composition plan, tool/resource/prompt contracts, context/dependency policy, lifespan/middleware policy, transport matrix, auth boundary, error mapping, protocol test plan, implementation and architecture re-check.
+**Verification / Testing:** give every MCP component unit/component tests for handler/application behavior and protocol-level tests through `fastmcp.Client` or the exact MCP transport for schemas, discovery, lifecycle and wire behavior; use in-memory clients for deterministic MCP integration tests when they faithfully exercise the protocol boundary; require real HTTP/STDIO tests when transport behavior itself is the invariant.
+**Failure / Stop conditions:** reject if FastMCP types leak into the domain, tool handlers contain substantial business logic, transport assumptions are embedded in application code, request/global state is conflated, middleware ordering is assumed rather than verified, resources are used as actions or tools as arbitrary data endpoints without semantic justification, or architecture depends on undocumented FastMCP behavior.
+**Positive scenario:** an MCP server keeps the boundary thin and passes both unit and protocol-level tests.
+**Negative scenario:** FastMCP types leak into the domain and tool handlers contain substantial business logic.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -115,11 +133,3 @@ Every MCP component needs two levels where appropriate:
 - protocol-level tests through `fastmcp.Client` or the exact MCP transport for schemas, discovery, lifecycle and wire behavior.
 
 In-memory clients are appropriate for deterministic MCP integration tests when they faithfully exercise the relevant protocol boundary. Real HTTP/STDIO tests are required when transport behavior itself is the invariant.
-
-## Rejection criteria
-
-Reject if FastMCP types leak into the domain, tool handlers contain substantial business logic, transport assumptions are embedded in application code, request/global state is conflated, middleware ordering is assumed rather than verified, resources are used as actions or tools as arbitrary data endpoints without semantic justification, or architecture depends on undocumented FastMCP behavior.
-
-## Deliverables
-
-Versioned FastMCP research package, MCP component inventory, layer/dependency diagram, server composition plan, tool/resource/prompt contracts, context/dependency policy, lifespan/middleware policy, transport matrix, auth boundary, error mapping, protocol test plan, implementation and architecture re-check.

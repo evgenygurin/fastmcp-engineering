@@ -9,6 +9,24 @@ description: Build evidence-first FastMCP verification using the official Client
 
 Verify an MCP server at the correct abstraction level. Unit tests prove local logic; FastMCP Client tests prove MCP-facing contracts; transport tests prove deployment boundaries; security and lifecycle tests prove operational guarantees.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP verification using the official Client, protocol-level integration tests, transport tests, security tests, and deterministic architecture verification.
+**Trigger:** verifying an MCP server at the correct abstraction level; before implementation or test design.
+**Upstream / Prerequisite:** `AGENTS.md` and all engineering contracts read; identified exact FastMCP and Python versions; evidence recorded before writing tests.
+**Mission / Goal:** verify an MCP server at the correct abstraction level — unit tests prove local logic, Client tests prove MCP-facing contracts, transport tests prove deployment boundaries, security and lifecycle tests prove operational guarantees.
+**Research / Evidence:** read official FastMCP testing/client documentation; inspect relevant official PrefectHQ/fastmcp examples; inspect source/tests where semantics are ambiguous; check MCP specification/SEP material for protocol assertions; check first-party dependency testing guidance; never invent Client APIs, transport semantics, session behavior, or lifecycle guarantees from memory.
+**Decision / Selection rules:** use the cheapest test that proves the requirement but do not substitute lower-level tests for protocol behavior; use the documented FastMCP Client as the primary MCP contract seam; test only transports the product actually supports; use fixtures with explicit ownership and avoid global mutable state; do not weaken assertions merely to eliminate flakiness.
+**Version / Compatibility:** identify exact FastMCP and Python versions; verify the exact target-version Client methods and lifecycle behavior first.
+
+## Deliverables
+
+**Deliverables / Artifacts:** a verification report recording exact versions, sources inspected, test layers executed, exact commands, pass/fail results, known gaps, flaky behavior and diagnosis, architecture verification, security verification, and transport limitations.
+**Verification / Testing:** test initialize/session negotiation, tools/list and tools/call, resources and templates, prompts, schemas and structured output, errors, authentication, progress/cancellation/tasks, subscriptions/streaming, and pagination where applicable; never claim a test passed unless it was actually executed.
+**Failure / Stop conditions:** reject tests that only assert private implementation details for MCP contracts, mocking FastMCP so extensively that no MCP behavior is exercised, sleep-based synchronization when an observable readiness primitive exists, shared global state across unrelated tests, weakened assertions, coverage percentage treated as proof of correctness, calling an in-process test an E2E test, and testing auth only at the service layer while leaving MCP discovery/invocation untested.
+**Positive scenario:** an MCP server is verified at the correct abstraction level with Client and transport tests that actually pass.
+**Negative scenario:** an in-process test is called an E2E test and protocol/transport/security behavior goes unverified.
+
 ## Mandatory research gate
 
 Before implementation or test design:

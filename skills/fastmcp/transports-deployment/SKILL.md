@@ -9,6 +9,24 @@ description: Engineer FastMCP transport and production deployment boundaries wit
 
 Design the MCP transport and deployment topology as an explicit infrastructure boundary. Never infer transport semantics from a local development setup.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP transport and production deployment boundaries with version-specific evidence, explicit session/state semantics, ASGI integration, security, graceful shutdown, scaling, and observability.
+**Trigger:** designing or changing MCP transport, session/state semantics, ASGI integration, deployment topology, security, shutdown, or scaling.
+**Upstream / Prerequisite:** `AGENTS.md` and all engineering contracts read; identified exact FastMCP, Python, ASGI server, and relevant framework versions; evidence recorded before changing code.
+**Mission / Goal:** design the MCP transport and deployment topology as an explicit infrastructure boundary; never infer transport semantics from a local development setup.
+**Research / Evidence:** read official FastMCP transport/deployment documentation and llms material; inspect all relevant official PrefectHQ/fastmcp examples; inspect FastMCP source/tests for ambiguous transport/session behavior; check MCP specification/SEP material for protocol semantics; check first-party ASGI/server dependency documentation; never rely on remembered transport names, endpoints, headers, session behavior, or deployment assumptions.
+**Decision / Selection rules:** explicitly evaluate the target's supported transports and document protocol semantics, endpoint/path, session behavior, statefulness, connection lifetime, streaming, correlation, auth boundary, proxy requirements, timeouts, observability and failure behavior; verify the exact ASGI mounting/lifespan integration; make session/task state explicit and never assume multiple workers can share an in-memory session store; back every production assumption with target-version documentation; separate transport security, authentication, authorization, proxy trust, origin/host validation, secret handling and tenant isolation.
+**Version / Compatibility:** identify exact FastMCP, Python, ASGI server, and relevant framework versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** version-specific transport research package; transport decision matrix; deployment topology; state/session ownership map; security boundary map; shutdown sequence; implementation; integration/production tests; reproducible verification evidence; architecture re-check.
+**Verification / Testing:** verify at multiple levels — in-process protocol behavior, stdio, a real Streamable HTTP endpoint, ASGI mounting/path prefix, authentication, proxy headers, session/state behavior, cancellation/timeouts, streaming, multi-worker/scaling assumptions, graceful shutdown, health/readiness, and failure injection.
+**Failure / Stop conditions:** reject if transport behavior is implemented from memory, state ownership is undefined, proxy trust is implicit, ASGI lifespan ownership is ambiguous, scaling assumptions rely on process-local mutable state without justification, or production timeout/shutdown behavior is unspecified.
+**Positive scenario:** transport and deployment topology are designed as an explicit boundary and verified at production levels.
+**Negative scenario:** transport semantics are inferred from a local dev setup and scaling relies on process-local mutable state.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -138,20 +156,3 @@ Verify at multiple levels:
 - graceful shutdown;
 - health/readiness;
 - failure injection.
-
-## Rejection criteria
-
-Reject if transport behavior is implemented from memory, if state ownership is undefined, if proxy trust is implicit, if ASGI lifespan ownership is ambiguous, if scaling assumptions rely on process-local mutable state without justification, or if production timeout/shutdown behavior is unspecified.
-
-## Deliverables
-
-- version-specific transport research package;
-- transport decision matrix;
-- deployment topology;
-- state/session ownership map;
-- security boundary map;
-- shutdown sequence;
-- implementation;
-- integration/production tests;
-- reproducible verification evidence;
-- architecture re-check.

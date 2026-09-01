@@ -25,3 +25,4 @@
 - [ ] Failure and recovery procedures are explicit.
 - [ ] Backup/restore and RPO/RTO implications are addressed.
 - [ ] Official documentation is re-checked before completion.
+- [ ] Stops when deployment behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

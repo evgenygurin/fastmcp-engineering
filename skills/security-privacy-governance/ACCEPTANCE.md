@@ -20,3 +20,4 @@
 - [ ] Secret/PII leakage tests exist.
 - [ ] Telemetry redaction is tested.
 - [ ] Current official documentation was re-checked before completion.
+- [ ] Stops when data-governance behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

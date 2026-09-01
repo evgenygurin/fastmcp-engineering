@@ -8,6 +8,24 @@ description: Evidence-first dependency, software supply-chain and reproducible-b
 ## Mission
 Keep the dependency graph intentional, reproducible, auditable and resistant to compromised packages, unsafe upgrades and build-pipeline substitution.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** dependency, software supply-chain and reproducible-build security for FastMCP projects.
+**Trigger:** designing or changing dependencies, locking/pinning, upgrades, build provenance, containers, CI actions, or vulnerability handling.
+**Upstream / Prerequisite:** identified exact versions; lockfiles, package metadata, Dockerfiles and CI inspected; evidence ledger.
+**Mission / Goal:** keep the dependency graph intentional, reproducible, auditable and resistant to compromised packages, unsafe upgrades and build-pipeline substitution.
+**Research / Evidence:** identify exact versions; read official packaging/build documentation and security advisories for the actual ecosystem; inspect lockfiles, package metadata, Dockerfiles and CI; use OSV/GitHub advisories and vendor advisories as evidence; re-check critical version/security claims before completion.
+**Decision / Selection rules:** every runtime dependency must have a demonstrated responsibility; separate runtime/development/test/build dependencies; make production resolution reproducible from a committed lockfile; prefer small, reviewable upgrades; consider typosquatting, dependency confusion and compromised releases; build the artifact once from reviewed source and locked dependencies; use minimal trusted base images; treat third-party GitHub Actions as supply-chain dependencies; maintain a severity-based vulnerability policy; track licenses and provenance.
+**Version / Compatibility:** identify exact versions; pinning strategy must match the packaging ecosystem and risk (exact versions, bounded constraints, or immutable container/base-image references).
+
+## Deliverables
+
+**Deliverables / Artifacts:** dependency inventory; direct/transitive rationale; lockfile policy; upgrade policy; vulnerability/exception policy; supply-chain threat model; build provenance policy; container policy; CI action policy; license/provenance report; verification matrix; evidence ledger; residual risks.
+**Verification / Testing:** verify clean-environment installation from the lockfile, dependency integrity, package metadata, import graph and production artifact contents; run vulnerability scans and license checks where required; test that forbidden development/test packages are absent from production artifacts.
+**Failure / Stop conditions:** reject unpinned/unlocked production resolution, unexplained direct dependencies, mutable deployment inputs, secrets in build context, unreviewed CI actions, ignored critical vulnerabilities, package upgrades without compatibility verification, or production images containing unnecessary build/test tooling.
+**Positive scenario:** the dependency graph is locked, reproducible and verified against advisories and license checks.
+**Negative scenario:** an unpinned production resolution or a compromised transitive dependency is deployed without review.
+
 ## Mandatory research
 Identify exact Python, FastMCP, MCP SDK, Pydantic/PydanticAI, SQLAlchemy, server/runtime and build-tool versions. Read official packaging/build documentation and security advisories for the actual ecosystem. Inspect lockfiles, package metadata, Dockerfiles and CI. Use OSV/GitHub advisories and vendor advisories as evidence. Record an evidence ledger and re-check critical version/security claims before completion.
 
@@ -46,9 +64,3 @@ Track dependency licenses and provenance. Reject dependencies with incompatible 
 
 ## Testing
 Verify clean-environment installation from the lockfile, dependency integrity, package metadata, import graph and production artifact contents. Run vulnerability scans and license checks where required. Test that forbidden development/test packages are absent from production artifacts.
-
-## Rejection criteria
-Reject unpinned/unlocked production resolution, unexplained direct dependencies, mutable deployment inputs, secrets in build context, unreviewed CI actions, ignored critical vulnerabilities, package upgrades without compatibility verification, or production images containing unnecessary build/test tooling.
-
-## Deliverables
-Dependency inventory; direct/transitive rationale; lockfile policy; upgrade policy; vulnerability/exception policy; supply-chain threat model; build provenance policy; container policy; CI action policy; license/provenance report; verification matrix; evidence ledger; residual risks.

@@ -37,3 +37,4 @@
 - [ ] Static quality checks pass.
 - [ ] Architecture re-check passes.
 - [ ] All verification evidence is reproducible.
+- [ ] Stops when middleware behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

@@ -8,6 +8,24 @@ description: Meta-orchestration and governance for evidence-driven engineering a
 ## Mission
 Coordinate engineering work by risk, evidence and architectural dependencies. Governance is a control system, not bureaucracy: trivial changes take a short path; architectural changes take the full path.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** meta-orchestration and governance for evidence-driven engineering across all project skills.
+**Trigger:** coordinating or reviewing engineering work by change risk, evidence and architectural dependencies; before design/implementation of architectural or breaking changes.
+**Upstream / Prerequisite:** a change to classify by risk; the project skill dependency graph; identified exact versions for version-sensitive work.
+**Mission / Goal:** coordinate engineering work by risk, evidence and architectural dependencies; trivial changes take a short path, architectural changes take the full path.
+**Research / Evidence:** every version-sensitive claim must identify source, version and verification status; prefer official documentation and exact-version source/tests; do not represent inference, memory or an unverified assumption as fact.
+**Decision / Selection rules:** classify change risk first (trivial, bounded, architectural, breaking) and select required skills from the dependency graph; require an explicit design gate and approval for architectural changes; require current verification evidence before claiming completion; when requirements conflict, preserve higher-risk safety properties first (security/integrity, correctness, data durability, reliability, observability, performance, convenience); never silently bypass a gate.
+**Version / Compatibility:** for version-sensitive work, research current official documentation and exact installed versions before design or implementation.
+
+## Deliverables
+
+**Deliverables / Artifacts:** change classification; skill dependency graph; research/evidence ledger; design gate; implementation plan; verification record; security/performance/reliability review; ADR/decision record; exception register; PR checklist; post-merge verification; final governance audit.
+**Verification / Testing:** record exact commands/checks and outcomes; a green unit suite is not sufficient when integration, protocol, security, performance or operational behavior is relevant; a governance audit checks that selected skills were appropriate, gates were actually performed, evidence is current, exceptions are explicit and no later change silently invalidated earlier controls.
+**Failure / Stop conditions:** reject work with missing design approval for architectural changes, unverifiable completion claims, blind dependency/version assumptions, hidden exceptions, skipped mandatory security/data/reliability checks, failing required tests, or cross-skill conflicts resolved by silently weakening safety controls.
+**Positive scenario:** an architectural change passes the full design and verification gate and is merged with current evidence.
+**Negative scenario:** a change is claimed complete without verification evidence or silently bypasses a required safety gate.
+
 ## Mandatory workflow
 Classify change risk first: trivial, bounded, architectural or breaking. Select required skills from the dependency graph. For version-sensitive work, research current official documentation and exact installed versions before design or implementation.
 
@@ -66,9 +84,3 @@ Agents may execute independent research/review work in parallel, but shared-stat
 
 ## Audit
 A governance audit checks that the selected skills were appropriate, required gates were actually performed, evidence is current, exceptions are explicit and no later change silently invalidated earlier controls.
-
-## Rejection criteria
-Reject work with missing design approval for architectural changes, unverifiable completion claims, blind dependency/version assumptions, hidden exceptions, skipped mandatory security/data/reliability checks, failing required tests, or cross-skill conflicts resolved by silently weakening safety controls.
-
-## Deliverables
-Change classification; skill dependency graph; research/evidence ledger; design gate; implementation plan; verification record; security/performance/reliability review; ADR/decision record; exception register; PR checklist; post-merge verification; final governance audit.

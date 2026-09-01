@@ -34,3 +34,4 @@
 - [ ] Static quality checks pass.
 - [ ] Architecture re-check passes.
 - [ ] Verification evidence is reproducible.
+- [ ] Stops when provider behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

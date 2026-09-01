@@ -8,6 +8,24 @@ description: Design asynchronous FastMCP systems with correct lifecycle, cancell
 ## Mission
 Design asynchronous FastMCP systems without losing lifecycle correctness, cancellation, delivery semantics, idempotency, ordering, backpressure, or observability.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** asynchronous FastMCP systems and async/background or event-driven work.
+**Trigger:** designing or changing async/background work, durable jobs, event publishing/consumption, cancellation, delivery semantics, or backpressure.
+**Upstream / Prerequisite:** identified exact versions; research evidence on lifecycle, cancellation, and delivery semantics from official sources.
+**Mission / Goal:** design asynchronous FastMCP systems without losing lifecycle correctness, cancellation, delivery semantics, idempotency, ordering, backpressure, or observability.
+**Research / Evidence:** identify exact versions and read official documentation/specification for FastMCP, MCP, Python asyncio, PydanticAI, SQLAlchemy, the selected broker/queue, and transport/runtime; read official examples and source/tests for ambiguous lifecycle semantics; record evidence and unresolved questions.
+**Decision / Selection rules:** separate request-scoped MCP work from durable/background work; prefer structured concurrency with explicit task ownership; treat cancellation as a control signal; use a durable queue/job store for work that must survive request termination; explicitly classify delivery semantics (assume at-least-once unless proven otherwise); evaluate transactional outbox/inbox; require bounded capacity and backpressure; bound retries and define dead-letter behavior.
+**Version / Compatibility:** identify exact versions; if protocol-level Tasks are used, verify the exact MCP/FastMCP version and semantics before implementation.
+
+## Deliverables
+
+**Deliverables / Artifacts:** async design with event contracts (versioned public contracts with stable identifiers and schema version), delivery-semantics classification, ordering/backpressure policy, retry/dead-letter policy, shutdown/recovery plan, tests, evidence ledger and unresolved questions.
+**Verification / Testing:** test cancellation, client disconnect, timeout, task failure propagation, duplicate delivery, retry exhaustion, poison messages, ordering violations, queue saturation, worker crash, restart recovery, outbox/inbox consistency and graceful shutdown; use real broker/DB integration tests where mocks cannot prove delivery or transaction semantics.
+**Failure / Stop conditions:** reject designs with orphaned tasks, unbounded queues, swallowed cancellation, implicit delivery guarantees, non-idempotent consumers under at-least-once delivery, long DB transactions around remote work, infinite poison-message retries, or durable work stored only in process memory.
+**Positive scenario:** an async design with structured concurrency and idempotent consumers survives cancellation, duplicate delivery, and crash recovery.
+**Negative scenario:** durable work is stored only in process memory and is lost on restart, or a non-idempotent consumer duplicates side effects.
+
 ## Mandatory research gate
 Before implementation, identify exact versions and read official documentation/specification for FastMCP, MCP, Python asyncio, PydanticAI, SQLAlchemy, the selected broker/queue, and transport/runtime. Read official examples and source/tests for ambiguous lifecycle semantics. Record evidence and unresolved questions. Secondary articles are supplementary only.
 
@@ -55,6 +73,3 @@ Graceful shutdown must stop intake, signal workers, drain bounded work within a 
 
 ## Testing
 Test cancellation, client disconnect, timeout, task failure propagation, duplicate delivery, retry exhaustion, poison messages, ordering violations, queue saturation, worker crash, restart recovery, outbox/inbox consistency and graceful shutdown. Use real broker/DB integration tests where mocks cannot prove delivery or transaction semantics.
-
-## Rejection criteria
-Reject designs with orphaned tasks, unbounded queues, swallowed cancellation, implicit delivery guarantees, non-idempotent consumers under at-least-once delivery, long DB transactions around remote work, infinite poison-message retries, or durable work stored only in process memory.

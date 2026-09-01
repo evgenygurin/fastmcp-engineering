@@ -9,6 +9,24 @@ description: Enforce layered architecture, dependency direction, responsibility 
 
 Review an MCP server design before implementation and reject architecture that violates responsibility boundaries, dependency direction, or justified-complexity rules.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** reviewing an MCP server design before implementation for responsibility boundaries, dependency direction, and justified complexity.
+**Trigger:** before implementation of an MCP server design that needs architecture review.
+**Upstream / Prerequisite:** current requirements and acceptance criteria; a research artifact for the relevant FastMCP feature; proposed module/layer diagram; dependency graph; public MCP contracts; persistence/external integration boundaries; pattern decisions and alternatives.
+**Mission / Goal:** review an MCP server design before implementation and reject architecture that violates responsibility boundaries, dependency direction, or justified-complexity rules.
+**Research / Evidence:** run the mandatory checks: layering (Domain ← Application ← Infrastructure with MCP adapters), responsibility boundaries, the FastMCP-native mechanism check, the pattern gate, and model boundaries; record evidence used.
+**Decision / Selection rules:** for each framework concern evaluate the native mechanism (Provider, Transform, Middleware, Context, lifespan, tasks, auth, pagination, versioning, telemetry, proxy, client-based testing) before custom infrastructure and require a written decision record for any custom abstraction; every pattern must state the concrete problem, why a simpler solution fails, alternatives, complexity cost, testability benefit/cost, and YAGNI decision.
+**Version / Compatibility:** Привязан к целевому FastMCP/MCP/Python-релизу.
+
+## Deliverables
+
+**Deliverables / Artifacts:** an output of PASS, PASS WITH CONDITIONS, or REJECT plus violated rules, dependency-direction findings, responsibility findings, unnecessary abstractions, missing boundaries, required changes, and evidence used.
+**Verification / Testing:** apply the mandatory checks to the design and record evidence; do not redesign the whole system merely because an alternative is aesthetically preferable — apply KISS and YAGNI to the review itself.
+**Failure / Stop conditions:** reject architecture that violates responsibility boundaries, dependency direction, or justified-complexity rules; reject business rules in MCP tools/resources/prompts, SQLAlchemy queries in MCP handlers, external HTTP calls from domain/application use cases when a port is appropriate, and pattern cargo culting.
+**Positive scenario:** a design that respects dependency direction and justified complexity passes the governor review as PASS.
+**Negative scenario:** a design places business rules in MCP handlers or imports framework concerns into domain and is rejected.
+
 ## Required inputs
 
 - Current requirements and acceptance criteria.
@@ -82,22 +100,4 @@ Reject pattern cargo culting.
 
 Check that domain models, application DTOs, MCP schemas, persistence models, and external API models are not coupled accidentally. Sharing a model is allowed only when the ownership and lifecycle are genuinely the same.
 
-## Output
 
-Return:
-
-```text
-PASS | PASS WITH CONDITIONS | REJECT
-```
-
-Then provide:
-
-- violated rules;
-- dependency direction findings;
-- responsibility findings;
-- unnecessary abstractions;
-- missing boundaries;
-- required changes;
-- evidence used.
-
-Do not redesign the whole system merely because an alternative is aesthetically preferable. Apply KISS and YAGNI to the review itself.

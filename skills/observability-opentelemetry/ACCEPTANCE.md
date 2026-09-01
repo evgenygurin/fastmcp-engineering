@@ -32,3 +32,4 @@
 - [ ] Exporter failure tests pass.
 - [ ] Cancellation/exception lifecycle tests pass.
 - [ ] Current official docs were re-checked before completion.
+- [ ] Stops when telemetry behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

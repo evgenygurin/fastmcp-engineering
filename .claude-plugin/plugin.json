@@ -1,0 +1,20 @@
+{
+  "name": "fastmcp-engineering",
+  "description": "Research-first FastMCP and MCP engineering skills, contracts, and prompts for production MCP servers",
+  "version": "0.2.0",
+  "author": {
+    "name": "evgenygurin",
+    "url": "https://github.com/evgenygurin"
+  },
+  "homepage": "https://github.com/evgenygurin/fastmcp-engineering",
+  "repository": "https://github.com/evgenygurin/fastmcp-engineering",
+  "license": "MIT",
+  "keywords": [
+    "fastmcp",
+    "mcp",
+    "model-context-protocol",
+    "python",
+    "engineering",
+    "research-first"
+  ]
+}

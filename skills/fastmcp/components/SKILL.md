@@ -19,6 +19,24 @@ Design Tools, Resources, Resource Templates, and Prompts as thin MCP adapters ov
 
 FastMCP currently documents Tools as executable capabilities, Resources as readable data, and Prompts as reusable message templates. Official docs must be rechecked for the target release.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** MCP component architecture and API version-sensitive implementation for Tools, Resources, Resource Templates, and Prompts.
+**Trigger:** designing or changing a FastMCP Tool, Resource, Resource Template, or Prompt as a thin MCP adapter.
+**Upstream / Prerequisite:** `AGENTS.md` and engineering contracts read; identified exact FastMCP/Python versions; evidence recorded before coding.
+**Mission / Goal:** design Tools, Resources, Resource Templates, and Prompts as thin MCP adapters over explicit application capabilities.
+**Research / Evidence:** read official docs for every component type involved; inspect relevant official PrefectHQ/fastmcp examples; inspect source/tests for ambiguous identity, registration, schema, execution, and error semantics; check MCP specification/SEP material for protocol claims; check first-party dependency docs for Pydantic and directly involved libraries.
+**Decision / Selection rules:** choose the component by semantics — Tool for an operation, Resource for addressable data, Resource Template for parameterized data, Prompt for message templates; the adapter owns MCP-facing naming, descriptions, schemas, result shaping, Context access and protocol error translation; application/domain layers must not depend on FastMCP decorators or runtime Context.
+**Version / Compatibility:** identify exact FastMCP/Python versions; exact APIs are version-sensitive — research the target release first and recheck official docs for the target release.
+
+## Deliverables
+
+**Deliverables / Artifacts:** research package, component decision record, public MCP contract, application boundary map, implementation, Client/in-process tests, security/error verification, architecture re-check, evidence ledger.
+**Verification / Testing:** use `fastmcp.Client`/in-process testing where appropriate; test discovery, schemas, success/error paths, authorization, malformed input, URI/template behavior, prompt rendering, identity/collision behavior, and cancellation/timeouts where applicable.
+**Failure / Stop conditions:** reject thin database dumps, domain logic coupled to decorators, public schemas exposing persistence models, LLM-only authorization, guessed identity semantics, and implementations not verified against the target FastMCP version.
+**Positive scenario:** a FastMCP component is a thin adapter over an application capability and passes Client/in-process tests.
+**Negative scenario:** a component exposes a persistence model or delegates authorization to the LLM.
+
 ## Component decision
 - Tool: invoke an operation or cause an action.
 - Resource: read addressable data.
@@ -82,11 +100,3 @@ When components come from Providers, Transforms, mounts, or programmatic registr
 ## Testing
 
 Use `fastmcp.Client` / in-process testing where appropriate. Test discovery, schemas, success/error paths, authorization, malformed input, URI/template behavior, prompt rendering, identity/collision behavior, and cancellation/timeouts where applicable.
-
-## Reject
-
-Reject thin database dumps, domain logic coupled to decorators, public schemas exposing persistence models, LLM-only authorization, guessed identity semantics, and implementations not verified against the target FastMCP version.
-
-## Deliverables
-
-Research package, component decision record, public MCP contract, application boundary map, implementation, Client/in-process tests, security/error verification, architecture re-check, evidence ledger.

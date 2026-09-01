@@ -8,6 +8,24 @@ description: Evidence-first API lifecycle, schema evolution and compatibility en
 ## Mission
 Design MCP APIs that can evolve without silently breaking clients, agents, integrations, persisted data, or protocol interoperability.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** MCP API lifecycle, schema evolution, and compatibility across protocol, transport, discovery, schemas, errors, auth, persistence, and dependencies.
+**Trigger:** designing or changing an MCP API surface, schema, protocol negotiation, deprecation, or migration policy.
+**Upstream / Prerequisite:** identified exact versions; a research evidence ledger with source/version/date/claim/confidence; defined compatibility dimensions.
+**Mission / Goal:** design MCP APIs that can evolve without silently breaking clients, agents, integrations, persisted data, or protocol interoperability.
+**Research / Evidence:** read, in order, the current MCP specification and changelog; official FastMCP documentation/examples/source/tests for the exact version; Pydantic/PydanticAI documentation; serialization/schema dependencies; and the repository compatibility policy; re-check documentation immediately before implementation and verification.
+**Decision / Selection rules:** prefer additive changes (optional inputs with safe defaults, additive output fields, new tools/resources, explicit deprecation); version only externally observable contracts; choose the least complex versioning strategy that solves the compatibility requirement.
+**Version / Compatibility:** identify exact versions; protocol version negotiation follows the actual MCP specification; never invent custom protocol semantics when a standard capability exists.
+
+## Deliverables
+
+**Deliverables / Artifacts:** compatibility matrix; public-contract inventory; versioning decision record; schema evolution rules; deprecation/removal policy; migration plan; golden fixtures; contract tests; evidence ledger; unresolved questions; final verification report.
+**Verification / Testing:** maintain golden request/response/error fixtures and compatibility tests for supported client versions; test discovery and invocation; verify schema evolution, capability negotiation, protocol errors, auth failures and deprecation behavior.
+**Failure / Stop conditions:** reject silent breaking changes, undocumented schema changes, protocol-version assumptions unsupported by evidence, custom semantics duplicating MCP features, deprecations without migration paths, and compatibility claims without tests.
+**Positive scenario:** an MCP API evolves additively and every supported client version passes the golden compatibility fixtures.
+**Negative scenario:** a breaking change is shipped silently without a migration path and existing clients break.
+
 ## Mandatory research gate
 Before implementation identify exact versions and read, in order: current MCP specification and changelog; official FastMCP documentation/examples/source/tests for the exact version; relevant Pydantic/PydanticAI documentation; serialization/schema dependencies; repository compatibility policy. Secondary articles are supplementary only.
 
@@ -52,8 +70,3 @@ Maintain golden request/response/error fixtures and compatibility tests for supp
 ## Migration
 For breaking changes define a staged migration: introduce replacement → support old and new → communicate/measure → migrate consumers → remove old contract only after explicit criteria. Data migrations must use the database skill's expand/contract rules and must not be coupled to an MCP client rollout without justification.
 
-## Rejection criteria
-Reject silent breaking changes, undocumented schema changes, protocol-version assumptions unsupported by evidence, custom semantics duplicating MCP features, deprecations without migration paths, and compatibility claims without tests.
-
-## Deliverables
-Compatibility matrix; public-contract inventory; versioning decision record; schema evolution rules; deprecation/removal policy; migration plan; golden fixtures; contract tests; evidence ledger; unresolved questions; final verification report.

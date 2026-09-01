@@ -69,6 +69,15 @@ CI is an optional evidence source, not the definition of correctness. Local veri
 
 A minimal correct design is preferred over a sophisticated design. Framework correctness is not sufficient: responsibility boundaries, failure modes, security, testability, operability, documentation, and maintainability must also be correct.
 
+## Agent bootstrap
+
+When working in any harness that loads fastmcp-engineering skills, the
+`using-fastmcp-engineering` bootstrap skill is injected at session start. It
+teaches the agent to invoke a matching fastmcp-engineering skill BEFORE any
+response or action. Do not bypass the bootstrap; follow the invoked skill's
+procedure, including its research gate, architecture gate, TDD cycle, and
+verification requirements.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 

@@ -14,3 +14,4 @@
 - Schema evolution and compatibility are assessed.
 - Formatter, lint, type checks and tests pass.
 - Architecture re-check passes.
+- [ ] Stops when schema behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

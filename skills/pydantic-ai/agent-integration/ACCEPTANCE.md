@@ -38,3 +38,4 @@
 - [ ] MCP integration tests pass.
 - [ ] Static quality checks pass.
 - [ ] Architecture re-check passes.
+- [ ] Stops when agent integration behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

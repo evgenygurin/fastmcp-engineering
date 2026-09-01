@@ -1,6 +1,6 @@
 {
   "name": "fastmcp-engineering",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Research-first engineering skills for designing, implementing, testing, securing, and operating FastMCP and MCP systems.",
   "author": {
     "name": "evgenygurin",
@@ -20,6 +20,7 @@
     "security"
   ],
   "skills": "./skills/",
+  "hooks": {},
   "interface": {
     "displayName": "FastMCP Engineering",
     "shortDescription": "Research-first FastMCP and MCP engineering workflows",

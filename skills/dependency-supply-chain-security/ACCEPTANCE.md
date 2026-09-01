@@ -17,3 +17,4 @@
 - [ ] Clean installation from the lockfile succeeds.
 - [ ] Security/license/build verification is recorded.
 - [ ] Current authoritative documentation was re-checked before completion.
+- [ ] Stops when supply-chain behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

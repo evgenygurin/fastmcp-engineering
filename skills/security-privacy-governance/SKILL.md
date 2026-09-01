@@ -8,6 +8,24 @@ description: Evidence-first security, privacy, secrets and data-governance engin
 ## Mission
 Treat every boundary from MCP input through application, LLM, tools, database, queues and telemetry as a security and data-governance boundary.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** security, privacy, secrets and data-governance engineering for FastMCP systems.
+**Trigger:** designing or changing data classification, trust boundaries, secrets handling, PII/sensitive data flows, authorization, tenancy, the LLM boundary, telemetry, or audit.
+**Upstream / Prerequisite:** identified exact versions; an evidence ledger recorded and re-checked before completion.
+**Mission / Goal:** treat every boundary from MCP input through application, LLM, tools, database, queues and telemetry as a security and data-governance boundary.
+**Research / Evidence:** identify exact versions; read current official MCP security/specification material and exact-version FastMCP, Pydantic/PydanticAI, SQLAlchemy and provider documentation relevant to the data flow; review OWASP guidance and applicable repository policies as supplementary evidence; record an evidence ledger.
+**Decision / Selection rules:** classify every input, output and persisted field; model trust boundaries explicitly; let secrets enter through a dedicated secret/configuration boundary; apply data minimization and purpose limitation; enforce authorization in trusted server-side code close to the protected resource; derive tenant context server-side with defense-in-depth; treat model input/output as untrusted; use parameterized queries; redact telemetry by default; validate types, lengths, bounds, URLs, paths, identifiers and content types at boundaries; fail closed for authorization; record security-sensitive audit decisions.
+**Version / Compatibility:** identify exact versions of the involved frameworks and providers.
+
+## Deliverables
+
+**Deliverables / Artifacts:** data-flow/trust-boundary diagram; data inventory/classification; threat model; authorization matrix; secret lifecycle; provider data-flow policy; tenant isolation model; retention/deletion policy; audit schema; security test matrix; evidence ledger; residual risks; verification report.
+**Verification / Testing:** threat-model each exposed capability; test unauthorized, cross-tenant, malformed, injection, SSRF/path traversal, excessive-input and secret-leak cases; test model/tool prompt-injection scenarios when LLMs are involved; test authorization on direct use-case calls, not only MCP transport; include negative telemetry tests.
+**Failure / Stop conditions:** fail closed for authorization; avoid leaking existence of protected resources through error differences; ensure security checks cannot be bypassed by retries, alternate tools/resources, background workers or administrative paths; never use prompt text, tool descriptions or annotations as an authorization mechanism.
+**Positive scenario:** every boundary is threat-modeled and security tests pass, including negative telemetry tests.
+**Negative scenario:** a secret leaks into logs or model context, or authorization is bypassed through an alternate tool path.
+
 ## Mandatory research
 Identify exact versions. Read current official MCP security/specification material and exact-version FastMCP, Pydantic/PydanticAI, SQLAlchemy and provider documentation relevant to the data flow. Review OWASP guidance and applicable repository policies as supplementary evidence. Record an evidence ledger and re-check version-sensitive claims before completion.
 
@@ -49,6 +67,3 @@ Fail closed for authorization. Avoid leaking existence of protected resources th
 
 ## Testing
 Threat-model each exposed capability. Test unauthorized, cross-tenant, malformed, injection, SSRF/path traversal, excessive-input and secret-leak cases. Test model/tool prompt-injection scenarios when LLMs are involved. Test authorization on direct use-case calls, not only MCP transport. Include negative telemetry tests.
-
-## Deliverables
-Data-flow/trust-boundary diagram; data inventory/classification; threat model; authorization matrix; secret lifecycle; provider data-flow policy; tenant isolation model; retention/deletion policy; audit schema; security test matrix; evidence ledger; residual risks; verification report.

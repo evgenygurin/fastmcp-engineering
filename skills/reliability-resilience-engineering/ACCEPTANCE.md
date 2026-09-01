@@ -22,3 +22,4 @@
 - [ ] Fault-injection tests cover critical failure classes.
 - [ ] Reliability SLIs/SLOs/error-budget policy is defined.
 - [ ] Official documentation is re-checked before completion.
+- [ ] Stops when reliability behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

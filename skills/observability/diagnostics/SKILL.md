@@ -9,6 +9,24 @@ description: Design production observability for FastMCP systems with trace/log/
 
 Make every production failure diagnosable across the complete request path without logging secrets, credentials, sensitive prompts, private tool results, or uncontrolled payloads.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** production observability for FastMCP systems with trace/log/metric correlation, OpenTelemetry, safe redaction, MCP/agent/tool/database diagnostics and actionable failure taxonomy.
+**Trigger:** designing or changing tracing, logging, metrics, redaction, error taxonomy, or diagnostics across the request path.
+**Upstream / Prerequisite:** `AGENTS.md` and repository engineering contracts read; identified exact versions; evidence recorded before coding.
+**Mission / Goal:** make every production failure diagnosable across the complete request path without logging secrets, credentials, sensitive prompts, private tool results, or uncontrolled payloads.
+**Research / Evidence:** read official FastMCP observability/middleware/lifecycle documentation and llms material; read official PydanticAI instrumentation/observability documentation where applicable; read official OpenTelemetry Python documentation and relevant semantic conventions; inspect relevant official examples and source/tests when behavior is ambiguous.
+**Decision / Selection rules:** use a stable correlation strategy rather than inventing unrelated IDs at every layer; design traces, metrics and structured logs deliberately; capture safe MCP/agent/database diagnostics; distinguish error classes; define a centralized redaction policy with sensitive fields identified by contract and prefer allowlisting; use bounded metric labels; separate liveness, readiness and dependency health; define SLOs from user-visible behavior.
+**Version / Compatibility:** identify exact FastMCP, Python, OpenTelemetry, ASGI/server, PydanticAI, SQLAlchemy and logging versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** observability research package, telemetry data model, trace topology, metric catalog, logging schema, redaction policy, error taxonomy, implementation, telemetry tests, operational dashboard/alert specification and architecture re-check.
+**Verification / Testing:** test correlation propagation, redaction, error classification, metric label cardinality, trace creation, cancellation, exception paths and graceful shutdown; include tests proving sensitive values never reach logs/telemetry exporters.
+**Failure / Stop conditions:** reject if trace/log correlation is inconsistent, telemetry leaks secrets or full sensitive payloads, labels are unbounded, error classes are indistinguishable, instrumentation changes business behavior, or observability depends on a single local logger.
+**Positive scenario:** every production failure is diagnosable with correlated traces/logs/metrics and no sensitive values leak.
+**Negative scenario:** telemetry leaks secrets or full sensitive payloads to logs or exporters.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -97,11 +115,3 @@ Separate liveness, readiness and dependency health. Define SLOs from user-visibl
 ## Testing
 
 Test correlation propagation, redaction, error classification, metric label cardinality, trace creation, cancellation, exception paths and graceful shutdown. Include tests proving sensitive values never reach logs/telemetry exporters.
-
-## Rejection criteria
-
-Reject if trace/log correlation is inconsistent, telemetry leaks secrets or full sensitive payloads, labels are unbounded, error classes are indistinguishable, instrumentation changes business behavior, or observability depends on a single local logger.
-
-## Deliverables
-
-Observability research package, telemetry data model, trace topology, metric catalog, logging schema, redaction policy, error taxonomy, implementation, telemetry tests, operational dashboard/alert specification and architecture re-check.

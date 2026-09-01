@@ -9,6 +9,24 @@ description: Evidence-first database and SQLAlchemy 2.x engineering for producti
 
 Treat persistence as a deliberate architectural boundary. Keep domain/application logic independent from ORM details while preserving correct transaction, concurrency and database semantics.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** database and SQLAlchemy 2.x engineering for production FastMCP systems, including async ORM, transactions, repositories, migrations, concurrency, pooling, query performance and real database verification.
+**Trigger:** designing or changing persistence, sessions, transactions, repositories, ORM mapping, migrations, pooling, or database concurrency behavior.
+**Upstream / Prerequisite:** AGENTS.md and repository architecture/data-access contracts read; identified exact versions; evidence recorded.
+**Mission / Goal:** treat persistence as a deliberate architectural boundary; keep domain/application logic independent from ORM details while preserving correct transaction, concurrency and database semantics.
+**Research / Evidence:** read official SQLAlchemy 2.x ORM, Session, transactions, asyncio, relationship/loading, querying, connection pooling and performance documentation for the exact version; read official migration-tool and target-database documentation; read relevant FastMCP lifecycle/context documentation before deciding how DB sessions enter tool execution; inspect official examples/source/tests where semantics are ambiguous; record evidence before coding.
+**Decision / Selection rules:** keep MCP handlers free of SQL/transaction choreography; establish an explicit session ownership/lifetime policy with a short request/use-case/task-scoped lifetime; define who owns begin/commit/rollback/retry; use repositories for meaningful domain persistence boundaries and Unit of Work only when it clarifies coordination; use SQLAlchemy 2.x typed declarative mapping and explicit relationship semantics; enforce important invariants at the database layer; version all migrations; use SQLAlchemy async APIs consistently at async boundaries; configure pooling from deployment constraints.
+**Version / Compatibility:** identify exact Python, SQLAlchemy, asyncio extension, database, driver and migration-tool versions; verify exact SQLAlchemy behavior for the target version rather than assuming it.
+
+## Deliverables
+
+**Deliverables / Artifacts:** database architecture, transaction/session policy, domain persistence ports, ORM mapping strategy, repository/UoW policy, query/performance plan, migration strategy, concurrency model, security controls, integration-test strategy and architecture re-check.
+**Verification / Testing:** use real supported database integration tests for transaction, constraint, migration, query, isolation and locking semantics; unit-test pure policies without a database; verify migration from clean and representative previous states; include rollback/failure tests and concurrency tests for critical invariants.
+**Failure / Stop conditions:** reject if session ownership is ambiguous, repositories commit unexpectedly, ORM details leak across all layers, critical invariants exist only in Python, migrations are not authoritative, async sessions are shared concurrently, N+1 behavior is unexamined, or production correctness depends on SQLite/mock behavior that differs from the target database.
+**Positive scenario:** persistence is a clean architectural boundary with real-database verification of transactions, migrations and concurrency.
+**Negative scenario:** session ownership is ambiguous and repositories commit unexpectedly, breaking atomicity.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -96,11 +114,3 @@ Use least-privilege DB credentials, parameterized SQL, safe identifier handling 
 ## Testing
 
 Use real supported database integration tests for transaction, constraint, migration, query, isolation and locking semantics. Unit-test pure policies without a database. Verify migration from clean and representative previous states. Include rollback/failure tests and concurrency tests for critical invariants.
-
-## Rejection criteria
-
-Reject if session ownership is ambiguous, repositories commit unexpectedly, ORM details leak across all layers, critical invariants exist only in Python, migrations are not authoritative, async sessions are shared concurrently, N+1 behavior is unexamined, or production correctness depends on SQLite/mock behavior that differs from the target database.
-
-## Deliverables
-
-Database architecture, transaction/session policy, domain persistence ports, ORM mapping strategy, repository/UoW policy, query/performance plan, migration strategy, concurrency model, security controls, integration-test strategy and architecture re-check.

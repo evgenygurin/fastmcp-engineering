@@ -8,6 +8,24 @@ description: Evidence-first layered application architecture for FastMCP service
 ## Mission
 Keep MCP protocol concerns, application orchestration, domain rules and infrastructure independently understandable, testable and replaceable.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** layered application architecture for FastMCP services using explicit use cases, dependency inversion and domain boundaries.
+**Trigger:** structuring or restructuring a FastMCP service into layers, use cases, ports, domain, and a composition root.
+**Upstream / Prerequisite:** identified exact versions; repository skills and existing architecture read; a clarified requirement.
+**Mission / Goal:** keep MCP protocol concerns, application orchestration, domain rules and infrastructure independently understandable, testable and replaceable.
+**Research / Evidence:** identify exact versions of FastMCP, Python, Pydantic/PydanticAI and relevant framework libraries; read current official documentation and exact-version examples/source/tests; inspect all repository skills and existing architecture; record evidence and re-check version-sensitive claims before completion.
+**Decision / Selection rules:** use a deliberate dependency direction (MCP adapter → Application → Domain; Application → Ports ← Infrastructure); use cases own orchestration and the transaction boundary; define narrow ports; construct infrastructure in one composition root; use patterns only when they remove real complexity; keep mapping explicit and deterministic.
+**Version / Compatibility:** identify exact versions of FastMCP, Python, Pydantic/PydanticAI and relevant framework libraries.
+
+## Deliverables
+
+**Deliverables / Artifacts:** architecture diagram; dependency-direction rules; use-case catalog; port contracts; composition-root map; pattern decision record; mapping/error policy; authorization/transaction boundaries; architecture test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test domain invariants without infrastructure; test use cases with fake/test ports and explicit authorization/transaction boundaries; use integration tests for MCP adapters and real infrastructure; test architecture boundaries so forbidden imports/dependencies do not silently return.
+**Failure / Stop conditions:** reject god services, god handlers, service locators, hidden globals, domain imports of infrastructure/frameworks, speculative abstraction layers, generic mapper magic that hides semantics, repository-owned business transactions, and use cases that merely proxy one dependency without a real boundary.
+**Positive scenario:** a FastMCP service is layered with correct dependency direction and architecture boundary tests pass.
+**Negative scenario:** domain code imports infrastructure/framework and a god service violates responsibility and dependency-direction boundaries.
+
 ## Mandatory research
 Identify exact versions of FastMCP, Python, Pydantic/PydanticAI and relevant framework libraries. Read current official documentation and exact-version examples/source/tests before deciding architecture or APIs. Inspect all repository skills and existing architecture. Record evidence and re-check version-sensitive claims before completion.
 
@@ -62,8 +80,3 @@ Use async where the dependency and workload benefit from it. Do not make domain 
 ## Testing
 Test domain invariants without infrastructure. Test use cases with fake/test ports and explicit authorization/transaction boundaries. Use integration tests for MCP adapters and real infrastructure semantics. Test architecture boundaries so forbidden imports/dependencies do not silently return.
 
-## Rejection criteria
-Reject god services, god handlers, service locators, hidden globals, domain imports of infrastructure/frameworks, speculative abstraction layers, generic mapper magic that hides semantics, repository-owned business transactions and use cases that merely proxy one dependency without a real boundary.
-
-## Deliverables
-Architecture diagram; dependency-direction rules; use-case catalog; port contracts; composition-root map; pattern decision record; mapping/error policy; authorization/transaction boundaries; architecture test matrix; evidence ledger; rejected alternatives; verification report.

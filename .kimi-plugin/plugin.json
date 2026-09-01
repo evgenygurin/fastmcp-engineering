@@ -1,0 +1,41 @@
+{
+  "name": "fastmcp-engineering",
+  "version": "0.2.0",
+  "description": "Research-first FastMCP and MCP engineering skills, contracts, and prompts.",
+  "author": {
+    "name": "evgenygurin",
+    "url": "https://github.com/evgenygurin"
+  },
+  "homepage": "https://github.com/evgenygurin/fastmcp-engineering",
+  "repository": "https://github.com/evgenygurin/fastmcp-engineering",
+  "license": "MIT",
+  "keywords": [
+    "fastmcp",
+    "mcp",
+    "model-context-protocol",
+    "python",
+    "engineering",
+    "research-first"
+  ],
+  "skills": "./skills/",
+  "sessionStart": {
+    "skill": "using-fastmcp-engineering"
+  },
+  "skillInstructions": "Kimi Code tool mapping for fastmcp-engineering skills:\n\n- When a fastmcp-engineering skill refers to the `Skill` tool, use Kimi Code's native `Skill` tool.\n- When a skill says to ask the user, ask clarifying questions one at a time, presenting multiple-choice options where possible; use Kimi Code's `AskUserQuestion` tool for structured questions.\n- When a skill refers to `TodoWrite`, use Kimi Code's `TodoList` tool.\n- When a skill says `Subagent (general-purpose):` or asks to dispatch an implementer/reviewer subagent, use Kimi Code's `Agent` tool with a Kimi subagent type (`coder` for implementation/review, `explore` for read-only exploration, `plan` for design). Do not pass `general-purpose` as `subagent_type`.\n- For the fastmcp-engineering `fm-*` role agents, dispatch `Agent` with `subagent_type: \"coder\"` (or `explore`/`plan` per the role) and paste the fully filled prompt into `prompt`.\n- Use Kimi Code's `Read`, `Write`, `Edit`, `Bash`, `Grep`, `Glob`, `FetchURL`, `WebSearch`, and MCP tools by their actual exposed names.\n- When a skill asks to search file contents, use `Grep`; to find files by path or pattern, use `Glob`; to fetch a URL, use `FetchURL`; to search the web, use `WebSearch`.",
+  "interface": {
+    "displayName": "FastMCP Engineering",
+    "shortDescription": "Research-first FastMCP and MCP engineering workflows",
+    "longDescription": "A governed engineering skill system for FastMCP and MCP work. It combines research-first decision making, architecture gates, implementation guidance, testing and verification, security, observability, reliability, persistence, deployment, and evidence-based acceptance contracts.",
+    "developerName": "evgenygurin",
+    "capabilities": [
+      "FastMCP engineering",
+      "MCP protocol engineering",
+      "Research-first architecture",
+      "Testing and verification",
+      "Security and reliability",
+      "Database and persistence engineering",
+      "Deployment and observability"
+    ],
+    "websiteURL": "https://github.com/evgenygurin/fastmcp-engineering"
+  }
+}

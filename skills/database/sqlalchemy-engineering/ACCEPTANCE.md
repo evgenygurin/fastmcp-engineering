@@ -42,3 +42,4 @@
 - [ ] Concurrency tests pass where required.
 - [ ] Static quality gates pass.
 - [ ] Architecture re-check passes.
+- [ ] Stops when database behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

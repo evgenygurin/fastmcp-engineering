@@ -5,3 +5,4 @@
 - [ ] Distinguishes MCP protocol requirements from FastMCP implementation details.
 - [ ] Identifies unsupported, ambiguous, or version-sensitive behavior instead of guessing.
 - [ ] Produces protocol/conformance verification evidence.
+- [ ] Stops when protocol behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

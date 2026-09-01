@@ -38,3 +38,4 @@
 - [ ] Architecture re-check passes.
 - [ ] No flaky behavior is hidden by weakened assertions.
 - [ ] Verification commands/results are reproducible.
+- [ ] Stops when MCP contract behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

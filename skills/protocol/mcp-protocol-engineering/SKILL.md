@@ -8,6 +8,24 @@ description: Evidence-first MCP protocol engineering for FastMCP servers and cli
 ## Mission
 Implement MCP integrations from the protocol contract outward. FastMCP is the implementation framework; MCP protocol semantics remain the interoperability contract.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** MCP protocol engineering for FastMCP servers and clients, including lifecycle, transports, capabilities, sessions, tools/resources/prompts, errors, compatibility, and protocol testing.
+**Trigger:** implementing or changing MCP integration, lifecycle, transports, capabilities, primitives, errors, compatibility, or protocol testing.
+**Upstream / Prerequisite:** the exact MCP specification version targeted by the project; exact-version FastMCP documentation and examples; protocol assumptions and a compatibility matrix recorded.
+**Mission / Goal:** implement MCP integrations from the protocol contract outward; FastMCP is the implementation framework; MCP protocol semantics remain the interoperability contract.
+**Research / Evidence:** read the exact MCP specification version, including lifecycle, transports, authorization, tools, resources, prompts, notifications, capabilities, errors and version negotiation; read exact-version FastMCP documentation and relevant examples; inspect official FastMCP/MCP source and tests where documentation is ambiguous; identify supported/stable versus experimental/draft features; record protocol assumptions and compatibility matrix.
+**Decision / Selection rules:** model lifecycle as explicit states and respect notification semantics; advertise only capabilities actually implemented; choose transport from deployment requirements and exact FastMCP support; design tools, resources and prompts per their distinct semantics; preserve the distinction between protocol-level and application/tool errors; keep application state explicit and independently scoped; treat protocol authentication/authorization as separate from application authorization; maintain a compatibility matrix of spec/FastMCP/transport/client/feature; treat extensions such as Tasks as versioned opt-in features.
+**Version / Compatibility:** read the exact MCP specification version; never silently mix versions; for the modern `2026-07-28` protocol the core is stateless and requests are routable across instances; tool schemas use JSON Schema 2020-12.
+
+## Deliverables
+
+**Deliverables / Artifacts:** protocol version/feature matrix, lifecycle state model, transport decision, capability contract, primitive contracts, error mapping, authorization boundary, compatibility plan, protocol test matrix, implementation and verification report.
+**Verification / Testing:** use protocol-level tests for lifecycle/discovery, capability negotiation, valid/invalid messages, notifications, tool/resource/prompt discovery and invocation, error mapping, cancellation, disconnect/reconnect, transport behavior and authorization; prefer official SDK/client test facilities; add interoperability tests for supported client combinations where practical.
+**Failure / Stop conditions:** reject if protocol version is implicit, capabilities are over-advertised, lifecycle assumptions contradict the target version, custom transport code duplicates native functionality, protocol/application errors are conflated, unsupported features are silently accepted, deprecated/draft behavior is hidden, or tests cover only application internals without protocol interoperability checks.
+**Positive scenario:** an MCP integration is implemented from the protocol contract and passes protocol-level tests.
+**Negative scenario:** capabilities are over-advertised or protocol/application errors are conflated.
+
 ## Mandatory research gate
 Before design or code:
 1. Read the exact MCP specification version targeted by the project, including lifecycle, transports, authorization, tools, resources, prompts, notifications, capabilities, errors and version negotiation.
@@ -47,9 +65,3 @@ Treat extensions such as Tasks as explicitly versioned opt-in features. Do not s
 
 ## Testing
 Use protocol-level tests for lifecycle/discovery, capability negotiation, valid/invalid messages, notifications, tool/resource/prompt discovery and invocation, error mapping, cancellation, disconnect/reconnect, transport behavior and authorization. Prefer official SDK/client test facilities. Add interoperability tests for supported client combinations where practical.
-
-## Rejection criteria
-Reject if protocol version is implicit, capabilities are over-advertised, lifecycle assumptions contradict the target version, custom transport code duplicates native functionality, protocol/application errors are conflated, unsupported features are silently accepted, deprecated/draft behavior is hidden, or tests cover only application internals without protocol interoperability checks.
-
-## Deliverables
-Protocol version/feature matrix, lifecycle state model, transport decision, capability contract, primitive contracts, error mapping, authorization boundary, compatibility plan, protocol test matrix, implementation and verification report.

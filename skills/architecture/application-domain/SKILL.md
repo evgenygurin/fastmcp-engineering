@@ -8,6 +8,24 @@ description: Evidence-first design of layered Python application/domain architec
 ## Mission
 Keep MCP, agent, transport, persistence and external integrations at the edges. Business rules and application workflows must remain deterministic, testable and independent of FastMCP/PydanticAI/SQLAlchemy whenever practical.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** layered Python application/domain architecture for FastMCP and PydanticAI systems with explicit use cases, ports, adapters, policies, transaction ownership and dependency direction.
+**Trigger:** designing or restructuring layers, use cases, ports, adapters, policies, transaction ownership, or dependency direction.
+**Upstream / Prerequisite:** AGENTS.md and all repository architecture/security/testing contracts read; existing skills and research packages read; identified exact versions; repository structure and conventions inspected.
+**Mission / Goal:** keep MCP, agent, transport, persistence and external integrations at the edges; business rules and application workflows must remain deterministic, testable and independent of FastMCP/PydanticAI/SQLAlchemy whenever practical.
+**Research / Evidence:** identify exact versions and verify framework lifecycle/DI semantics from official documentation; research Clean Architecture, Hexagonal Architecture/Ports & Adapters, dependency inversion, domain modeling and transaction boundaries using authoritative sources; inspect official FastMCP/PydanticAI examples; inspect repository structure and existing conventions; record evidence, alternatives and unresolved questions.
+**Decision / Selection rules:** dependencies point inward toward stable policies; use cases orchestrate a single business purpose; define ports only at meaningful boundaries; prefer explicit constructor/function dependencies assembled in a composition root; transaction ownership belongs to the application/use-case boundary; use Repository and Unit of Work only when semantics are meaningful.
+**Version / Compatibility:** identify exact versions and verify framework lifecycle/DI semantics from official documentation.
+
+## Deliverables
+
+**Deliverables / Artifacts:** architecture diagram, responsibility matrix, dependency rule, use-case catalog, port/adapter matrix, transaction policy, error taxonomy, composition-root design, rejected alternatives, architecture tests, implementation and verification report.
+**Verification / Testing:** domain tests are pure and fast; application tests use deterministic ports/fakes; adapter tests verify framework/protocol behavior; persistence tests use the real DB for DB semantics; architecture tests may enforce dependency direction and forbidden imports.
+**Failure / Stop conditions:** reject god services, anemic-but-overabstracted domains, generic repositories, interface-per-class designs, service locators, circular dependencies, framework imports in domain policy, transaction commits in adapters, duplicated authorization, and abstractions without a demonstrated change/testing boundary.
+**Positive scenario:** a layered service with inward dependency direction passes its architecture, domain, and adapter tests.
+**Negative scenario:** domain policy imports a framework and a service locator hides dependencies, violating dependency direction.
+
 ## Mandatory research gate
 Before implementation:
 1. Read AGENTS.md and all repository architecture/security/testing contracts.
@@ -88,6 +106,3 @@ Reject god services, anemic-but-overabstracted domains, generic repositories, in
 
 ## Testing
 Domain tests are pure and fast. Application tests use deterministic ports/fakes where appropriate. Adapter tests verify framework/protocol behavior. Persistence tests use the real DB for DB semantics. Architecture tests may enforce dependency direction and forbidden imports. Do not make every layer require an end-to-end test.
-
-## Deliverables
-Architecture diagram, responsibility matrix, dependency rule, use-case catalog, port/adapter matrix, transaction policy, error taxonomy, composition-root design, rejected alternatives, architecture tests, implementation and verification report.

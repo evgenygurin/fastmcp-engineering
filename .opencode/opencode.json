@@ -11,7 +11,7 @@
     "paths": ["../skills"]
   },
   "instructions": ["../AGENTS.md"],
-  "plugin": ["./plugin/fastmcp-local.ts"],
+  "plugin": ["./plugin/fastmcp-local.ts", "./plugins/fastmcp-engineering.js"],
   "mcp": {
     "telegram": {
       "enabled": false

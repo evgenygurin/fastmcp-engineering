@@ -1,0 +1,22 @@
+{
+  "name": "fastmcp-engineering",
+  "version": "0.2.0",
+  "description": "Research-first FastMCP and MCP engineering skills and bootstrap for coding agents",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "skills",
+    "fastmcp",
+    "mcp",
+    "engineering",
+    "research-first"
+  ],
+  "pi": {
+    "extensions": [
+      "./.pi/extensions/fastmcp-engineering.ts"
+    ],
+    "skills": [
+      "./skills"
+    ]
+  }
+}

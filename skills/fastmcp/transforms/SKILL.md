@@ -11,6 +11,24 @@ Use a FastMCP Transform when the requirement is to systematically derive, modify
 
 A Transform is not a generic application service, repository, middleware pipeline, or arbitrary object mapper.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP Transforms for systematic component composition and representation changes while preserving clean application/domain boundaries.
+**Trigger:** when the requirement is to systematically derive, modify, filter, namespace, annotate, or otherwise compose MCP components from another component source.
+**Upstream / Prerequisite:** `AGENTS.md` and all applicable engineering contracts read; identified exact FastMCP version; evidence recorded before implementation.
+**Mission / Goal:** use a FastMCP Transform when the requirement is to systematically derive, modify, filter, namespace, annotate, or compose MCP components from another component source, per the exact semantics of the target FastMCP version; a Transform is not a generic application service, repository, middleware pipeline, or arbitrary object mapper.
+**Research / Evidence:** read the relevant official FastMCP Transform documentation; inspect relevant official PrefectHQ/fastmcp examples; inspect FastMCP source/tests when behavior is ambiguous or version-sensitive; check MCP specification/SEP material where protocol semantics are involved; check first-party documentation for directly involved dependencies; never copy a Transform API from another major version without verification.
+**Decision / Selection rules:** first compare the requirement with Tool/Resource/Prompt, Provider, Middleware, Context/DI, Lifespan, ordinary application composition, and explicit application DTO mapping; choose Transform only when the problem is genuinely a FastMCP component transformation/composition concern; document the transformation pipeline and ordering; prefer native FastMCP composition facilities over custom registries or wrapper frameworks.
+**Version / Compatibility:** identify the exact FastMCP version; never copy a Transform API from another major version without verification.
+
+## Deliverables
+
+**Deliverables / Artifacts:** version-specific research artifact; transformation decision record; responsibility/dependency map; implementation; focused tests; MCP integration tests where applicable; verification evidence; architecture re-check.
+**Verification / Testing:** prefer externally observable MCP behavior — test transformed component discovery, transformed schemas/metadata, success behavior, negative/error paths, composition order, filtering/visibility, authorization interaction, and lifecycle/concurrency where relevant; use the documented FastMCP Client/in-process testing seam where practical.
+**Failure / Stop conditions:** reject a Transform if it merely renames an application service to satisfy architecture, contains business rules, owns persistence, replaces a simpler DTO mapper or application composition with unnecessary FastMCP machinery, Middleware or Provider is the actual semantic fit, the target-version API has not been verified, or component exposure creates an unreviewed security/data-disclosure path.
+**Positive scenario:** a Transform systematically composes MCP components per target-version semantics and passes observable MCP tests.
+**Negative scenario:** a Transform contains business rules or replaces a simpler DTO mapper with unnecessary FastMCP machinery.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -113,26 +131,3 @@ Prefer externally observable MCP behavior. Test:
 - lifecycle and concurrency where relevant.
 
 Use the documented FastMCP Client/in-process testing seam where practical.
-
-## Rejection criteria
-
-Reject a Transform if:
-
-- it merely renames an application service to satisfy architecture;
-- it contains business rules;
-- it owns persistence;
-- it replaces a simpler DTO mapper or application composition with unnecessary FastMCP machinery;
-- Middleware or Provider is the actual semantic fit;
-- the target-version API has not been verified;
-- component exposure creates an unreviewed security/data-disclosure path.
-
-## Deliverables
-
-- version-specific research artifact;
-- transformation decision record;
-- responsibility/dependency map;
-- implementation;
-- focused tests;
-- MCP integration tests where applicable;
-- verification evidence;
-- architecture re-check.

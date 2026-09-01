@@ -9,6 +9,24 @@ description: Build FastMCP servers with explicit MCP specification compliance, s
 
 Treat MCP as a protocol contract, FastMCP as an implementation framework, and application behavior as a separate architectural layer. Every material behavior must be classified before implementation.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP servers with explicit MCP specification compliance, separating protocol guarantees from FastMCP behavior and application conventions.
+**Trigger:** designing or implementing MCP-facing behavior that must comply with the MCP specification.
+**Upstream / Prerequisite:** `AGENTS.md` and all repository engineering contracts read; identified exact FastMCP/Python versions; an evidence ledger and protocol/framework/convention classification recorded.
+**Mission / Goal:** treat MCP as a protocol contract, FastMCP as an implementation framework, and application behavior as a separate architectural layer; classify every material behavior before implementation.
+**Research / Evidence:** read official MCP specification material relevant to the feature; read official FastMCP documentation and `llms.txt`/`llms-full.txt` material; inspect all relevant official PrefectHQ/fastmcp examples; inspect FastMCP source/tests where behavior is ambiguous; inspect first-party dependency documentation where relevant; never use FastMCP behavior as evidence of an MCP requirement.
+**Decision / Selection rules:** classify every requirement as exactly one of MCP specification guarantee, FastMCP implementation behavior, or application convention; if a framework behavior is stricter or different from the protocol, document the distinction and test the actual target behavior; design against interoperable MCP clients, not only FastMCP Client; capabilities must reflect actual supported behavior; preserve the distinction between JSON-RPC/protocol, MCP, application/domain and infrastructure errors.
+**Version / Compatibility:** identify the exact MCP protocol version, FastMCP version, and any relevant feature/version gate; treat changes in draft/experimental MCP features as unstable until verified; do not copy an example from another protocol generation without checking compatibility.
+
+## Deliverables
+
+**Deliverables / Artifacts:** protocol/version matrix; feature compliance matrix; specification-to-FastMCP mapping; official examples catalog; interoperability assumptions; error mapping; capability matrix; implementation; protocol tests; MCP Client/integration tests; architecture re-check; evidence ledger.
+**Verification / Testing:** build a protocol verification layer covering initialization/negotiation, capability advertisement, valid and invalid requests, notifications, tool/resource/prompt contracts, schemas and structured output, progress/cancellation, task lifecycle, error mapping, pagination/completion, transport behavior, and authentication/authorization boundaries.
+**Failure / Stop conditions:** reject if a protocol claim lacks specification evidence, framework behavior is mistaken for protocol law, capabilities are over-advertised, error layers are conflated, version compatibility is unspecified, or interoperability depends on undocumented internals.
+**Positive scenario:** every material behavior is classified against the protocol and passes protocol-level verification with an independent client.
+**Negative scenario:** a protocol claim is made without specification evidence or a framework behavior is mistaken for protocol law.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -109,22 +127,3 @@ Build a protocol verification layer covering:
 - pagination/completion where applicable;
 - transport behavior;
 - authentication/authorization boundaries.
-
-## Rejection criteria
-
-Reject if a protocol claim lacks specification evidence, if framework behavior is mistaken for protocol law, if capabilities are over-advertised, if error layers are conflated, if version compatibility is unspecified, or if interoperability depends on undocumented internals.
-
-## Deliverables
-
-- protocol/version matrix;
-- feature compliance matrix;
-- specification-to-FastMCP mapping;
-- official examples catalog;
-- interoperability assumptions;
-- error mapping;
-- capability matrix;
-- implementation;
-- protocol tests;
-- MCP Client/integration tests;
-- architecture re-check;
-- evidence ledger.

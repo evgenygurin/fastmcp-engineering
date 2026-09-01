@@ -8,6 +8,24 @@ description: Evidence-first typed configuration and environment engineering for 
 ## Mission
 Make configuration explicit, typed, validated, environment-aware and safe. Configuration errors must fail early rather than becoming runtime business failures.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** typed configuration and environment engineering for production FastMCP systems.
+**Trigger:** designing or changing configuration models, environment separation, secrets handling, startup validation, operational limits, or feature flags.
+**Upstream / Prerequisite:** identified exact versions of Python, FastMCP, Pydantic and pydantic-settings plus deployment/runtime dependencies; evidence recorded.
+**Mission / Goal:** make configuration explicit, typed, validated, environment-aware and safe; configuration errors must fail early rather than becoming runtime business failures.
+**Research / Evidence:** identify exact versions; read current official documentation for Pydantic Settings and relevant FastMCP configuration/lifespan/CLI/server deployment APIs, then exact-version examples/source/tests; record evidence and re-check version-sensitive behavior before completion.
+**Decision / Selection rules:** keep a configuration boundary separate from secrets, runtime state and domain data; use typed Pydantic Settings at the application boundary with documented and tested precedence; treat secrets as not ordinary configuration; validate configuration before accepting MCP traffic; treat resolved configuration as immutable; use native FastMCP configuration mechanisms; centralize operational limits; give feature flags a lifecycle.
+**Version / Compatibility:** identify exact versions of Python, FastMCP, Pydantic and pydantic-settings; the exact precedence behavior must come from the installed library version, never from memory.
+
+## Deliverables
+
+**Deliverables / Artifacts:** configuration schema/catalog; source-precedence matrix; environment matrix; secret boundary; startup validation rules; operational limits catalog; feature-flag policy; deployment mapping; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test required settings, defaults, precedence, malformed values, cross-field constraints, secret loading/redaction, environment isolation, production safety checks and feature-flag behavior; test configuration startup failure before MCP traffic is served; verify configuration snapshots contain no secrets.
+**Failure / Stop conditions:** reject scattered environment reads, untyped config dictionaries, secret leakage, undocumented precedence, insecure production defaults, mutable global settings, configuration-dependent domain logic, and runtime acceptance of invalid configuration.
+**Positive scenario:** configuration is validated before MCP traffic and a missing or invalid production secret fails fast at startup.
+**Negative scenario:** scattered environment reads and untyped configuration allow invalid configuration to be accepted at runtime.
+
 ## Mandatory research
 Identify exact versions of Python, FastMCP, Pydantic and pydantic-settings plus deployment/runtime dependencies. Read current official documentation for Pydantic Settings and relevant FastMCP configuration/lifespan/CLI/server deployment APIs, then exact-version examples/source/tests. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -50,8 +68,3 @@ Test required settings, defaults, precedence, malformed values, cross-field cons
 ## Architecture
 Composition root → typed settings → application dependencies → use cases → domain/infrastructure. Configuration should flow inward through dependency injection; services should not reach outward to process environment state.
 
-## Rejection criteria
-Reject scattered environment reads, untyped config dictionaries, secret leakage, undocumented precedence, insecure production defaults, mutable global settings, configuration-dependent domain logic, and runtime acceptance of invalid configuration.
-
-## Deliverables
-Configuration schema/catalog; source-precedence matrix; environment matrix; secret boundary; startup validation rules; operational limits catalog; feature-flag policy; deployment mapping; test matrix; evidence ledger; rejected alternatives; verification report.

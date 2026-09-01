@@ -8,6 +8,24 @@ description: Evidence-first design of production MCP tools, resources and prompt
 ## Mission
 Design MCP tools, resources and prompts as deliberate public contracts, not thin wrappers around database tables or internal methods.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** design of MCP tools, resources and prompts as stable public APIs.
+**Trigger:** adding, changing, or reviewing a public MCP tool, resource, or prompt and its contract surface.
+**Upstream / Prerequisite:** identified exact versions; the repository architecture/security/testing/configuration/reliability skills read; an evidence ledger and compatibility matrix.
+**Mission / Goal:** design MCP tools, resources and prompts as deliberate public contracts, not thin wrappers around database tables or internal methods.
+**Research / Evidence:** read the current official MCP specification and FastMCP documentation/examples for the exact version, especially tools, resources, prompts, annotations, structured output, pagination, elicitation and error semantics; inspect official source/tests when documentation is ambiguous; research Pydantic/PydanticAI schema and validation behavior where used.
+**Decision / Selection rules:** one tool represents one coherent capability with bounded responsibility; use explicit Pydantic models to constrain inputs; separate protocol errors from application/domain errors; keep authorization deterministic and outside the LLM; classify side effects and require idempotency for mutations; never return unbounded collections; maintain a contract matrix for clients and server versions.
+**Version / Compatibility:** identify exact versions; removing/renaming a public tool, resource URI or required input is a breaking change unless the protocol/version policy explicitly permits it; add optional fields rather than silently changing meaning.
+
+## Deliverables
+
+**Deliverables / Artifacts:** capability inventory, contract matrix, schema definitions, authorization/risk classification, compatibility matrix, pagination strategy, error taxonomy, evidence ledger, implementation, contract tests and verification report.
+**Verification / Testing:** test schemas, protocol serialization, authorization, errors, idempotency, pagination, compatibility and dangerous side effects; use official FastMCP/MCP testing mechanisms plus application integration tests; test adversarial/invalid inputs and large result boundaries.
+**Failure / Stop conditions:** reject if a public tool bypasses application authorization, exposes ORM/domain internals, has unbounded output, conflates protocol/application errors, permits unsafe replay, uses descriptions as security controls, has ambiguous semantics, or introduces abstraction without evidence.
+**Positive scenario:** a public MCP tool is designed as a stable, bounded contract and passes adversarial input and authorization tests.
+**Negative scenario:** a tool bypasses application authorization or exposes ORM/domain internals as its public contract.
+
 ## Mandatory research gate
 Before implementation, read the repository architecture/security/testing/configuration/reliability skills and identify exact versions. Then read the current official MCP specification and FastMCP documentation/examples for the exact version, especially tools, resources, prompts, annotations, structured output, pagination, elicitation and error semantics. Inspect official source/tests when documentation is ambiguous. Research Pydantic/PydanticAI schema and validation behavior where used.
 
@@ -64,8 +82,3 @@ Do not add pagination, caching, filtering, versioning, generic CRUD abstractions
 ## Verification
 Test schemas, protocol serialization, authorization, errors, idempotency, pagination, compatibility and dangerous side effects. Use official FastMCP/MCP testing mechanisms where available plus application integration tests. Test adversarial/invalid inputs and large result boundaries.
 
-## Rejection criteria
-Reject if a public tool bypasses application authorization, exposes ORM/domain internals, has unbounded output, conflates protocol/application errors, permits unsafe replay, uses descriptions as security controls, has ambiguous semantics, or introduces abstraction without evidence.
-
-## Deliverables
-Capability inventory, contract matrix, schema definitions, authorization/risk classification, compatibility matrix, pagination strategy, error taxonomy, evidence ledger, implementation, contract tests and verification report.

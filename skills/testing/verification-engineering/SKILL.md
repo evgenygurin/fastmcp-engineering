@@ -9,6 +9,24 @@ description: Evidence-first testing and verification engineering for production 
 
 Tests are executable architecture constraints. Verification must establish correctness at the cheapest layer that can prove the invariant, while reserving real infrastructure for behavior that mocks cannot faithfully establish.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** testing and verification engineering for production FastMCP systems across unit, integration, contract, protocol, database, agent, security, property, mutation and end-to-end layers.
+**Trigger:** designing or changing verification strategy, test classes, test doubles, database/async verification, CI gates, or flake control.
+**Upstream / Prerequisite:** `AGENTS.md` and repository engineering/testing contracts read; identified exact versions; evidence recorded before changing tests or production code.
+**Mission / Goal:** treat tests as executable architecture constraints; verification must establish correctness at the cheapest layer that can prove the invariant, while reserving real infrastructure for behavior that mocks cannot faithfully establish.
+**Research / Evidence:** identify exact Python, FastMCP, Pydantic, PydanticAI, SQLAlchemy, database, driver, test framework and server versions; read official documentation for every testing mechanism used; read relevant FastMCP official testing/examples and MCP protocol material; read PydanticAI, SQLAlchemy and dependency testing guidance; inspect source/tests for ambiguous behavior.
+**Decision / Selection rules:** use the verification pyramid — the lowest level that can prove the invariant; define explicit test classes (unit, component, integration, contract, protocol, agent, security, property-based, mutation, E2E); choose test doubles by the invariant and prefer simple fakes/stubs; verify DB semantics against a real supported database; test cancellation, timeouts and race-sensitive invariants; test failure modes for each critical dependency; treat coverage as evidence, not the goal; define deterministic CI stages and fail closed on required quality gates; treat every flaky test as a defect until diagnosed.
+**Version / Compatibility:** identify exact Python, FastMCP, Pydantic, PydanticAI, SQLAlchemy, database, driver, test framework and server versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** verification strategy, test taxonomy, invariant-to-test matrix, fixture/fake strategy, integration environment, contract/protocol tests, agent test strategy, security regression suite, property/mutation plan, CI quality gates, flake policy and final verification report.
+**Verification / Testing:** define deterministic CI stages such as formatting/lint/type checks, unit tests, component tests, integration tests, security tests and selected E2E; separate expensive/live-provider suites explicitly; fail closed on required quality gates.
+**Failure / Stop conditions:** reject if tests assert implementation details instead of contracts, integration behavior is mocked away, protocol compliance is inferred from direct function calls, live LLM/network dependencies are required for normal unit CI, failures are swallowed, flaky tests are permanently ignored, or critical security/database invariants have no executable verification.
+**Positive scenario:** verification establishes correctness at the cheapest layer that proves each invariant.
+**Negative scenario:** protocol compliance is inferred from direct function calls and integration behavior is mocked away.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -93,11 +111,3 @@ Define deterministic stages such as formatting/lint/type checks, unit tests, com
 ## Flake control
 
 Every flaky test is a defect in the test system until diagnosed. Identify nondeterminism source, reproduce, fix root cause and quarantine only with an owner and expiration policy.
-
-## Rejection criteria
-
-Reject if tests assert implementation details instead of contracts, integration behavior is mocked away, protocol compliance is inferred from direct function calls, live LLM/network dependencies are required for normal unit CI, failures are swallowed, flaky tests are permanently ignored, or critical security/database invariants have no executable verification.
-
-## Deliverables
-
-Verification strategy, test taxonomy, invariant-to-test matrix, fixture/fake strategy, integration environment, contract/protocol tests, agent test strategy, security regression suite, property/mutation plan, CI quality gates, flake policy and final verification report.
