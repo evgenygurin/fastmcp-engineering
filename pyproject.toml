@@ -10,6 +10,7 @@ dev = ["pytest-asyncio", "inline-snapshot"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+pythonpath = ["."]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/server/conftest.py" = ["F401"]
