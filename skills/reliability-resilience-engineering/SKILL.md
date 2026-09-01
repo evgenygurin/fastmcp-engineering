@@ -8,6 +8,24 @@ description: Evidence-first reliability and resilience engineering for productio
 ## Mission
 Keep critical capabilities correct and recoverable under dependency failure, overload, partial failure, restart, duplication and network uncertainty. Resilience mechanisms must preserve security, consistency and bounded resource use.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** reliability and resilience engineering for production FastMCP systems.
+**Trigger:** designing or changing failure handling, timeouts, retries, idempotency, circuit breaking, backpressure, graceful degradation, recovery, or distributed consistency.
+**Upstream / Prerequisite:** identified exact versions; evidence recorded and re-checked before completion.
+**Mission / Goal:** keep critical capabilities correct and recoverable under dependency failure, overload, partial failure, restart, duplication and network uncertainty; resilience mechanisms must preserve security, consistency and bounded resource use.
+**Research / Evidence:** identify exact Python, FastMCP, SQLAlchemy, PydanticAI, MCP SDK, HTTP client, queue and deployment/runtime versions; read current official documentation first, then exact-version failure-handling, timeout, cancellation, retry, connection and lifecycle guidance; record evidence.
+**Decision / Selection rules:** define a reliability model with critical capabilities, dependencies, failure domains, recovery objectives and acceptable degraded modes; give every remote or potentially blocking operation an explicit bounded timeout; retry only demonstrably safe or idempotent operations with bounded attempts, exponential backoff and jitter; give every side-effecting operation an explicit duplicate/replay policy; use circuit breakers only where they improve failure containment; apply backpressure with admission control and bounded queues; preserve security controls and correctness invariants during degradation; model ambiguous commit/outcome states; handle DB failures per PostgreSQL/SQLAlchemy semantics; treat cancellation as a control signal; define readiness separately from liveness and recovery with durable state.
+**Version / Compatibility:** identify exact Python, FastMCP, SQLAlchemy, PydanticAI, MCP SDK, HTTP client, queue and deployment/runtime versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** reliability model; dependency/failure matrix; timeout/deadline policy; retry/idempotency policy; circuit/bulkhead design; backpressure/degradation model; distributed-consistency model; DB resilience policy; async cancellation policy; startup/shutdown recovery model; queue semantics; fault-injection plan; SLI/SLO/error-budget model; test matrix; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** test happy path, transient failure, permanent failure, timeout, cancellation, duplicate execution, ambiguous outcome, overload, restart/recovery and degraded mode; verify invariants after failure, not just returned errors.
+**Failure / Stop conditions:** reject infinite timeouts, unbounded retries, retrying unsafe side effects without idempotency, transactions held across remote calls, unbounded queues, swallowed cancellation, fallbacks that bypass policy, fake distributed atomicity and resilience mechanisms without measured failure-containment value.
+**Positive scenario:** critical capabilities remain correct and recoverable under injected failures with bounded resource use.
+**Negative scenario:** unbounded retries retry unsafe side effects without idempotency, duplicating business effects.
+
 ## Mandatory research
 Identify exact Python, FastMCP, SQLAlchemy, PydanticAI, MCP SDK, HTTP client, queue and deployment/runtime versions. Read current official documentation first, then exact-version failure-handling, timeout, cancellation, retry, connection and lifecycle guidance. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -67,9 +85,3 @@ Use the observability skill to measure retries, timeout rate, circuit state, que
 
 ## Testing
 Test happy path, transient failure, permanent failure, timeout, cancellation, duplicate execution, ambiguous outcome, overload, restart/recovery and degraded mode. Verify invariants after failure, not just returned errors.
-
-## Rejection criteria
-Reject infinite timeouts, unbounded retries, retrying unsafe side effects without idempotency, transactions held across remote calls, unbounded queues, swallowed cancellation, fallbacks that bypass policy, fake distributed atomicity and resilience mechanisms without measured failure-containment value.
-
-## Deliverables
-Reliability model; dependency/failure matrix; timeout/deadline policy; retry/idempotency policy; circuit/bulkhead design; backpressure/degradation model; distributed-consistency model; DB resilience policy; async cancellation policy; startup/shutdown recovery model; queue semantics; fault-injection plan; SLI/SLO/error-budget model; test matrix; evidence ledger; rejected alternatives; verification report.
