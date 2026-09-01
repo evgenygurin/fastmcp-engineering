@@ -12,7 +12,7 @@ def test_codex_plugin_manifest_exists_and_is_valid() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
     assert manifest["name"] == "fastmcp-engineering"
-    assert manifest["version"] == "0.1.0"
+    assert manifest["version"] == "0.2.0"
     assert manifest["description"]
     assert manifest["author"]["name"] == "evgenygurin"
     assert manifest["skills"] == "./skills/"
