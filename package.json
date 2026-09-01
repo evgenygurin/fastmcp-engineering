@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Research-first FastMCP and MCP engineering skills and bootstrap for coding agents",
   "type": "module",
+  "main": ".opencode/plugins/fastmcp-engineering.js",
   "keywords": [
     "pi-package",
     "skills",
