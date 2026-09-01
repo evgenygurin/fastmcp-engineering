@@ -75,16 +75,16 @@ FastMCP and MCP APIs are version-sensitive. Identify the exact supported version
 Invoke the matching domain skill when its trigger matches (full inventory lives in the repository `skills/`):
 
 - Research gate: `research-first`, `documentation-evidence-governance`, `fastmcp-research`
-- Architecture: `architecture-governor`, `application-domain`, `application-architecture-usecases`, `pattern-selection`
+- Architecture: `architecture-governor`, `application-domain-architecture`, `application-architecture-usecases`, `pattern-selection`
 - Components/API: `fastmcp-components`, `api-tool-engineering`, `mcp-primitives-engineering`, `api-contract-schema-engineering`, `api-lifecycle-versioning`, `pydantic-schema-engineering`
-- Protocol: `mcp-protocol-engineering`, `fastmcp-protocol-compliance`, `fastmcp-server-architecture`
+- Protocol: `mcp-protocol-engineering`, `fastmcp-protocol-compliance`, `mcp-server-architecture`
 - FastMCP internals: `fastmcp-auth`, `fastmcp-context-di`, `fastmcp-lifespan`, `fastmcp-middleware`, `fastmcp-providers`, `fastmcp-tasks`, `fastmcp-transforms`, `fastmcp-transports-deployment`, `fastmcp-client-testing`
 - Data: `sqlalchemy-engineering`, `sqlalchemy-postgresql-engineering`, `sqlalchemy-persistence-architecture`, `database-persistence-sqlalchemy`, `data-persistence-engineering`, `pydantic-engineering`
 - Security: `security-engineering`, `security-threat-modeling`, `security-privacy-governance`, `dependency-supply-chain-security`
-- Reliability/performance: `reliability-resilience-engineering`, `resilience-engineering`, `performance-capacity-engineering`, `performance-resource-engineering`, `async-event-driven-engineering`
+- Reliability/performance: `reliability-resilience-engineering`, `performance-capacity-engineering`, `performance-resource-engineering`, `async-event-driven-engineering`
 - Observability: `observability-diagnostics`, `observability-opentelemetry`, `observability-operations`
 - Testing/QA: `testing-tdd-engineering`, `testing-verification-engineering`, `testing-quality-engineering`, `final-review`
-- Ops: `deployment-operations-engineering`, `packaging-build-deployment`, `ci-cd-github-actions-engineering`, `configuration-environment-engineering`, `dependency-injection-composition-root`
+- Ops: `deployment-operations-engineering`, `packaging-build-deployment`, `github-actions-engineering`, `configuration-environment-engineering`, `dependency-injection-composition-root`
 
 ## Platform Adaptation
 
