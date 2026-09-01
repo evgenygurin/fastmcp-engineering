@@ -9,6 +9,24 @@ description: Evidence-first engineering of production PydanticAI agents integrat
 
 Treat the LLM as a probabilistic component behind explicit application boundaries. Agent orchestration must not become the domain, authorization, persistence, or infrastructure layer.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** production PydanticAI agents integrated with FastMCP, layered application architecture, deterministic tools, structured outputs, MCP toolsets, dependencies, model providers, retries, limits, streaming and human approval.
+**Trigger:** designing or changing a PydanticAI agent, its tools/toolsets, structured output, MCP integration, dependencies, retries, limits, streaming, or approval flows.
+**Upstream / Prerequisite:** AGENTS.md and repository architecture/security/testing contracts read; identified exact versions; an evidence ledger and unresolved questions.
+**Mission / Goal:** treat the LLM as a probabilistic component behind explicit application boundaries; agent orchestration must not become the domain, authorization, persistence, or infrastructure layer.
+**Research / Evidence:** read official PydanticAI documentation for Agent, run context/dependencies, tools/toolsets, output types, model/provider abstraction, retries, usage limits, streaming, message history, testing and MCP integration; read official examples and source/tests; read official FastMCP/MCP documentation and provider documentation; record an evidence ledger; do not rely on memory for current PydanticAI APIs or provider semantics.
+**Decision / Selection rules:** keep agent code inside an explicit layered boundary; use typed `deps_type`/run context; choose the smallest appropriate tool abstraction; validate model output before application use; bound retries, model calls, tool calls, tokens and execution time; treat approval as a policy boundary, not a prompt instruction; use streaming only where it provides a real benefit; never delegate security-sensitive authorization to the model.
+**Version / Compatibility:** identify exact Python, PydanticAI, Pydantic, FastMCP/MCP and model-provider versions; verify the exact PydanticAI MCP integration API and transport behavior against current official documentation.
+
+## Deliverables
+
+**Deliverables / Artifacts:** agent architecture, dependency contract, model/provider matrix, tool/toolset policy, MCP integration design, prompt/instruction contract, output schemas, retry/limit policy, approval strategy, testing strategy, implementation, verification report and residual-risk register.
+**Verification / Testing:** use deterministic PydanticAI test models or documented test seams for normal CI; test tool selection, arguments, structured outputs, validation retries, limits, failures, dependencies, MCP toolset composition and approval flows without requiring live providers; use separate controlled integration tests for real providers.
+**Failure / Stop conditions:** reject if an agent owns domain invariants/authorization/transactions, dependencies are hidden globals, live LLMs are required for deterministic CI, model output is trusted without validation, retries can duplicate side effects, unbounded tools are exposed, provider-specific details leak across stable boundaries without justification, or version-sensitive behavior was not checked against official sources.
+**Positive scenario:** a PydanticAI agent is integrated behind application boundaries and passes deterministic CI without live providers.
+**Negative scenario:** an agent owns domain invariants/authorization or trusts model output without validation, bypassing application boundaries.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -96,10 +114,3 @@ Instrument agent runs, model calls and tool calls with correlation IDs, latency,
 
 Use deterministic PydanticAI test models or documented test seams for normal CI. Test tool selection, arguments, structured outputs, validation retries, limits, failures, dependencies, MCP toolset composition and approval flows without requiring live providers. Use separate controlled integration tests for real providers.
 
-## Rejection criteria
-
-Reject if an agent owns domain invariants/authorization/transactions, dependencies are hidden globals, live LLMs are required for deterministic CI, model output is trusted without validation, retries can duplicate side effects, unbounded tools are exposed, provider-specific details leak across stable boundaries without justification, or version-sensitive behavior was not checked against official sources.
-
-## Deliverables
-
-Agent architecture, dependency contract, model/provider matrix, tool/toolset policy, MCP integration design, prompt/instruction contract, output schemas, retry/limit policy, approval strategy, testing strategy, implementation, verification report and residual-risk register.

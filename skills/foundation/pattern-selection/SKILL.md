@@ -9,6 +9,24 @@ description: Select the smallest justified architectural pattern for a concrete 
 
 Choose an abstraction only when the requirement demonstrates a real boundary, variability, lifecycle concern, or dependency inversion need.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** selecting an architectural pattern for a concrete problem without cargo-culting design patterns.
+**Trigger:** a requirement may warrant an abstraction, boundary, variability, lifecycle concern, or dependency inversion need.
+**Upstream / Prerequisite:** a concrete problem statement; the simplest direct solution considered mentally.
+**Mission / Goal:** choose an abstraction only when the requirement demonstrates a real boundary, variability, lifecycle concern, or dependency inversion need.
+**Research / Evidence:** check whether FastMCP already provides the relevant mechanism through Providers, Transforms, Middleware, Context, lifespan, tasks, authentication, authorization, pagination, versioning, proxy/composition, or Client testing.
+**Decision / Selection rules:** state the concrete problem, implement the simplest direct solution, identify why it becomes insufficient, list at least one viable simpler alternative, and select a pattern only if its benefit exceeds its complexity cost.
+**Version / Compatibility:** Привязан к целевому FastMCP/MCP/Python-релизу.
+
+## Deliverables
+
+**Deliverables / Artifacts:** selected approach, problem, simpler alternative, reason the alternative is insufficient, complexity cost, testing impact, YAGNI decision, and rejected patterns with reasons.
+**Verification / Testing:** record the decision in the architecture decision contract.
+**Failure / Stop conditions:** reject pattern cargo culting and abstractions whose complexity cost exceeds their demonstrated benefit.
+**Positive scenario:** a pattern is selected only when its benefit exceeds its complexity cost and the decision is recorded in the architecture decision contract.
+**Negative scenario:** an abstraction is introduced without a demonstrated change boundary or variability need, purely because the pattern is conventional.
+
 ## Required sequence
 
 1. State the concrete problem.

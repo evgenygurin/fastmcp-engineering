@@ -8,6 +8,24 @@ description: Design secure, reproducible GitHub Actions CI/CD for FastMCP/Pydant
 ## Mission
 Design secure, reproducible and observable GitHub Actions pipelines for FastMCP/PydanticAI Python services. CI must prove quality; CD must promote an already-tested immutable artifact.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** GitHub Actions CI/CD for FastMCP/PydanticAI services — workflow, OIDC, artifact, and deployment pipeline design.
+**Trigger:** designing or changing workflow, OIDC federation, artifact/provenance, caching, deployment gate, or rollback pipeline behavior.
+**Upstream / Prerequisite:** repository contracts read; exact Python/package-manager/container/deployment versions identified; evidence ledger.
+**Mission / Goal:** design secure, reproducible and observable GitHub Actions pipelines; CI must prove quality; CD must promote an already-tested immutable artifact.
+**Research / Evidence:** read repository contracts and verify current official GitHub Actions documentation for workflow syntax, permissions, reusable workflows, environments, concurrency, caching, artifacts, artifact attestations, OIDC, deployment protection and security hardening; verify every third-party action/version from its authoritative repository; research exact Python/package-manager/container/deployment versions and their official CI guidance.
+**Decision / Selection rules:** prefer explicit stages and build once then promote the exact immutable artifact; use reusable workflows with thin callers; default to least privilege; prefer short-lived OIDC federation over long-lived cloud credentials; distinguish cache from artifact; use lockfile-aware cache keys; deploy by immutable digest, not mutable tags; separate PR validation concurrency from deployment concurrency.
+**Version / Compatibility:** research exact Python/package-manager/container/deployment versions; prefer immutable SHA pinning where the repository policy requires it.
+
+## Deliverables
+
+**Deliverables / Artifacts:** CI/CD topology, workflow dependency graph, permissions matrix, action pinning policy, cache policy, artifact/provenance policy, OIDC trust model, environment/deployment policy, rollback model, verification matrix, implementation and final verification report.
+**Verification / Testing:** validate workflow syntax, action references, permissions, dependency/cache behavior, artifact transfer, provenance, deployment gates, concurrency and failure paths; test cancellation and rerun behavior; verify that a deployment consumes exactly the artifact produced by the tested build.
+**Failure / Stop conditions:** reject workflows with broad default write permissions, long-lived cloud credentials when OIDC is available, mutable production artifact references, rebuild-after-test deployment, unbounded secret exposure, untrusted PR access to deployment credentials, cache trust-boundary violations, missing deployment gates, or unverified provenance where provenance is a required control.
+**Positive scenario:** a secure pipeline builds once, runs deterministic tests, and promotes the tested immutable artifact through a deployment gate.
+**Negative scenario:** a workflow with broad write permissions or a mutable production artifact reference deploys without a gate.
+
 ## Mandatory research gate
 Before implementation, read repository contracts and verify current official GitHub Actions documentation for workflow syntax, permissions, reusable workflows, environments, concurrency, caching, artifacts, artifact attestations, OIDC, deployment protection and security hardening. Verify every third-party action/version from its authoritative repository and prefer immutable SHA pinning where the policy requires it.
 
@@ -59,8 +77,3 @@ Separate PR CI from release/deployment workflows. Tags/releases must have explic
 ## Verification
 Validate workflow syntax, action references, permissions, dependency/cache behavior, artifact transfer, provenance, deployment gates, concurrency and failure paths. Test cancellation and rerun behavior. Verify that a deployment consumes exactly the artifact produced by the tested build.
 
-## Rejection criteria
-Reject workflows with broad default write permissions, long-lived cloud credentials when OIDC is available, mutable production artifact references, rebuild-after-test deployment, unbounded secret exposure, untrusted PR access to deployment credentials, cache trust-boundary violations, missing deployment gates, or unverified provenance where provenance is a required control.
-
-## Deliverables
-CI/CD topology, workflow dependency graph, permissions matrix, action pinning policy, cache policy, artifact/provenance policy, OIDC trust model, environment/deployment policy, rollback model, verification matrix, implementation and final verification report.
