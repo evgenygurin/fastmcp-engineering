@@ -8,6 +8,24 @@ description: Evidence-first testing and quality engineering for production FastM
 ## Mission
 Build confidence from executable evidence, not coverage numbers or green unit tests. Test at the lowest useful level and reserve real infrastructure for behavior that cannot be proven with fakes.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** testing and quality engineering for production FastMCP systems.
+**Trigger:** designing or changing test strategy, TDD, the test pyramid, MCP protocol tests, contract tests, quality gates, or CI design.
+**Upstream / Prerequisite:** identified exact versions; evidence recorded and re-checked before completion.
+**Mission / Goal:** build confidence from executable evidence, not coverage numbers or green unit tests; test at the lowest useful level and reserve real infrastructure for behavior that cannot be proven with fakes.
+**Research / Evidence:** identify exact Python, FastMCP, Pydantic, SQLAlchemy, MCP SDK, pytest and relevant plugin versions; read current official pytest/FastMCP/Pydantic/SQLAlchemy/MCP documentation and exact-version examples/source/tests before designing tests; record evidence.
+**Decision / Selection rules:** use the test pyramid — domain unit tests, application tests, infrastructure integration tests, MCP protocol tests, and end-to-end tests for critical journeys; write a failing test that expresses the contract before behavior-changing implementation; mock at architectural boundaries, not arbitrary internal classes; prefer protocol-level tests for public MCP contracts; use real PostgreSQL for transaction/constraint/locking/query/migration/RLS semantics; use property-based testing for meaningful invariants; snapshot public schemas deliberately; apply mutation testing selectively; treat coverage as diagnostic; keep fixtures explicit, minimal and isolated; test dependency failure modes and security controls at trusted boundaries.
+**Version / Compatibility:** identify exact Python, FastMCP, Pydantic, SQLAlchemy, MCP SDK, pytest and relevant plugin versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** test strategy; test-level matrix; TDD evidence; fixture/factory policy; MCP contract tests; DB integration strategy; property/mutation testing plan; coverage policy; failure/security test matrix; CI quality gates; flakiness policy; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** before merge run formatting, lint, type checking, unit/integration/contract tests, security checks and any required mutation/property suites; capture exact commands and results; do not suppress failures merely to obtain green CI.
+**Failure / Stop conditions:** reject tests that assert implementation details unnecessarily, over-mock framework behavior, depend on ordering, use arbitrary sleeps, only check coverage, blindly update snapshots, omit cleanup, or prove PostgreSQL behavior only with SQLite.
+**Positive scenario:** confidence is built from executable evidence across the test pyramid with meaningful contract and integration tests.
+**Negative scenario:** coverage numbers or green unit tests are treated as proof while integration behavior is mocked away.
+
 ## Mandatory research
 Identify exact Python, FastMCP, Pydantic, SQLAlchemy, MCP SDK, pytest and relevant plugin versions. Read current official pytest/FastMCP/Pydantic/SQLAlchemy/MCP documentation and exact-version examples/source/tests before designing tests. Record evidence and re-check version-sensitive behavior before completion.
 
@@ -58,9 +76,3 @@ Keep fast deterministic checks on every change; partition expensive integration/
 
 ## Flakiness
 A flaky test is a defect in the test system. Quarantining must be explicit, temporary and tracked. Never add arbitrary sleeps as synchronization. Use deterministic polling/events and bounded timeouts.
-
-## Rejection criteria
-Reject tests that assert implementation details unnecessarily, over-mock framework behavior, depend on ordering, use arbitrary sleeps, only check coverage, blindly update snapshots, omit cleanup, or prove PostgreSQL behavior only with SQLite.
-
-## Deliverables
-Test strategy; test-level matrix; TDD evidence; fixture/factory policy; MCP contract tests; DB integration strategy; property/mutation testing plan; coverage policy; failure/security test matrix; CI quality gates; flakiness policy; evidence ledger; rejected alternatives; verification report.

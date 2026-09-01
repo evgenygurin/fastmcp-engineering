@@ -8,6 +8,24 @@ description: Evidence-first testing and TDD engineering for FastMCP, PydanticAI,
 ## Mission
 Build a test system that proves behavior, contracts, failure handling and architecture without making the suite slow, flaky, provider-dependent or coupled to implementation details.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** testing and TDD engineering for FastMCP, PydanticAI, SQLAlchemy and production Python services.
+**Trigger:** designing or changing the test system, TDD workflow, fixtures, async testing, PydanticAI/FastMCP/database testing, or quality gates.
+**Upstream / Prerequisite:** repository architecture, security, reliability and configuration contracts read; identified exact versions; evidence and unresolved questions recorded.
+**Mission / Goal:** build a test system that proves behavior, contracts, failure handling and architecture without making the suite slow, flaky, provider-dependent or coupled to implementation details.
+**Research / Evidence:** read official pytest documentation for fixtures, parametrization, markers, collection, monkeypatching, async testing and plugin behavior; read official PydanticAI testing documentation and source/tests for TestModel, FunctionModel, Agent.override and request blocking; read official FastMCP testing/client/server documentation and examples for the exact version; read SQLAlchemy testing/async transaction documentation and PostgreSQL integration requirements; inspect official examples/source/tests for version-sensitive behavior.
+**Decision / Selection rules:** write a failing test that expresses the desired contract before behavior-changing implementation; use an explicit test taxonomy (unit, component, contract, integration, end-to-end, resilience/failure, security, property-based/fuzz); keep the fast deterministic suite broad and expensive provider/network/e2e tests narrow and separately selectable; make fixtures explicit, modular and lifecycle-scoped; use the current documented async testing mode; keep normal CI free of live model requests via TestModel/FunctionModel/Agent.override; test MCP schemas and behavior at the MCP boundary; use a real PostgreSQL environment for SQL semantics; assert externally meaningful behavior; enforce dependency direction with architecture checks.
+**Version / Compatibility:** identify exact Python, pytest, FastMCP, PydanticAI, SQLAlchemy and database-driver versions.
+
+## Deliverables
+
+**Deliverables / Artifacts:** test strategy, test taxonomy, fixture/lifecycle policy, TDD plan, provider-isolation strategy, MCP contract tests, DB integration strategy, resilience/security test matrix, architecture tests, implementation, verification report and residual-risk register.
+**Verification / Testing:** run formatting, linting, typing, unit/component tests, contract/integration tests and targeted failure/security suites according to the repository's gates; record exact commands and real results; separate tests skipped because infrastructure/provider access is unavailable from passing tests.
+**Failure / Stop conditions:** reject if CI requires live LLMs, tests rely on sleeps/races, integration behavior is claimed from mocks, fixtures leak state, AsyncSession is shared across concurrent tasks, security boundaries are untested, failures are swallowed, or tests assert implementation details instead of contracts without justification.
+**Positive scenario:** the test system proves behavior and contracts without a live model in normal CI.
+**Negative scenario:** CI requires live LLMs or integration behavior is claimed from mocks.
+
 ## Mandatory research gate
 Before implementation:
 1. Read repository architecture, security, reliability and configuration contracts.
@@ -74,9 +92,3 @@ Use mutation testing selectively on high-value domain/security logic. Use proper
 
 ## Verification
 Run formatting, linting, typing, unit/component tests, contract/integration tests and targeted failure/security suites according to the repository's gates. Record exact commands and real results. Separate tests skipped because infrastructure/provider access is unavailable from passing tests.
-
-## Rejection criteria
-Reject if CI requires live LLMs, tests rely on sleeps/races, integration behavior is claimed from mocks, fixtures leak state, AsyncSession is shared across concurrent tasks, security boundaries are untested, failures are swallowed, or tests assert implementation details instead of contracts without justification.
-
-## Deliverables
-Test strategy, test taxonomy, fixture/lifecycle policy, TDD plan, provider-isolation strategy, MCP contract tests, DB integration strategy, resilience/security test matrix, architecture tests, implementation, verification report and residual-risk register.

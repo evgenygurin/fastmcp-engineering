@@ -8,6 +8,24 @@ description: Evidence-first security engineering for production MCP/FastMCP and 
 ## Mission
 Treat MCP as a security boundary between untrusted model-driven requests, remote tools, identities, data and side effects. Security controls must be deterministic, layered and independently enforceable; prompts are never a security mechanism.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** security engineering for production MCP/FastMCP and PydanticAI systems, covering authentication, authorization, OAuth, trust boundaries, tool security, prompt injection, SSRF, secrets, tenancy and supply-chain risk.
+**Trigger:** designing or changing authentication, authorization, OAuth/token validation, trust boundaries, tool security, SSRF protection, secrets handling, tenancy, or supply-chain controls.
+**Upstream / Prerequisite:** repository security, architecture, configuration and testing contracts read; identified exact versions; a threat model, evidence ledger and unresolved-risk register produced before implementation.
+**Mission / Goal:** treat MCP as a security boundary between untrusted model-driven requests, remote tools, identities, data and side effects; security controls must be deterministic, layered and independently enforceable; prompts are never a security mechanism.
+**Research / Evidence:** read current official MCP specification, authorization/security guidance, SEPs and migration notes; read official FastMCP authentication/authorization/security documentation and examples for the exact version; read official PydanticAI security/tool/MCP documentation; read OAuth 2.1/OIDC/JWT guidance relevant to the identity provider and token library; inspect official source/tests for security-sensitive behavior; research dependency and supply-chain security from authoritative sources.
+**Decision / Selection rules:** keep authentication (identity), authorization (permission) and application/domain policy (operation enforcement) separate; validate issuer, audience/resource, signature, expiry/not-before, token type and scopes according to the exact protocol; enforce least privilege at the tool/application boundary; assign every tool a risk class; treat tool descriptions, arguments and results as untrusted; apply SSRF restrictions to URL-fetching features; keep credentials outside model-visible context; enforce tenant isolation below the agent/tool layer; pin and audit dependencies; record security-relevant audit decisions.
+**Version / Compatibility:** identify exact FastMCP, MCP SDK, PydanticAI, Python, auth-library, SQLAlchemy/DB and deployment versions; MCP authorization changed materially in 2026 (2026-07-28 introduced issuer validation and issuer-bound client credentials) — security implementation must be version-pinned and migration-aware.
+
+## Deliverables
+
+**Deliverables / Artifacts:** threat model, trust-boundary diagram, authn/authz design, OAuth/token validation matrix, tool risk classification, SSRF policy, secret-handling policy, tenant isolation strategy, supply-chain policy, security test matrix, implementation, verification report and residual-risk register.
+**Verification / Testing:** mandatory tests include authentication failures, issuer/audience failures, expired/replayed tokens, scope/role violations, tenant isolation, tool authorization bypass, prompt-injection resistance at the application boundary, malicious tool metadata/results, SSRF, secret leakage, unsafe redirects, destructive-operation approval, duplicate side effects and dependency policy checks; use deterministic fakes for most tests and controlled integration tests for actual OAuth/MCP/DB semantics; add regression tests for every discovered vulnerability.
+**Failure / Stop conditions:** reject if authorization depends on prompts, tool descriptions or model decisions; tokens are accepted without issuer/audience/resource validation; caller credentials are blindly forwarded; SSRF-capable fetches lack restrictions; secrets enter model-visible context/logs; tenant isolation exists only in the agent layer; mutating tools lack deterministic policy; or version-sensitive MCP auth behavior was not checked against official sources.
+**Positive scenario:** an MCP server enforces deterministic, layered security controls verified by the security test matrix.
+**Negative scenario:** authorization depends on prompts or model decisions, or tokens are accepted without issuer/audience validation.
+
 ## Mandatory research gate
 1. Read repository security, architecture, configuration and testing contracts.
 2. Identify exact FastMCP, MCP SDK, PydanticAI, Python, auth-library, SQLAlchemy/DB and deployment versions.
@@ -108,10 +126,3 @@ Record security-relevant decisions with correlation IDs: principal, tenant, serv
 Mandatory tests include authentication failures, issuer/audience failures, expired/replayed tokens, scope/role violations, tenant isolation, tool authorization bypass, prompt-injection resistance at the application boundary, malicious tool metadata/results, SSRF, secret leakage, unsafe redirects, destructive-operation approval, duplicate side effects and dependency policy checks.
 
 Use deterministic fakes for most tests and controlled integration tests for actual OAuth/MCP/DB semantics. Add regression tests for every discovered vulnerability.
-
-## Rejection criteria
-
-Reject if authorization depends on prompts, tool descriptions or model decisions; tokens are accepted without issuer/audience/resource validation; caller credentials are blindly forwarded; SSRF-capable fetches lack restrictions; secrets enter model-visible context/logs; tenant isolation exists only in the agent layer; mutating tools lack deterministic policy; or version-sensitive MCP auth behavior was not checked against official sources.
-
-## Deliverables
-Threat model, trust-boundary diagram, authn/authz design, OAuth/token validation matrix, tool risk classification, SSRF policy, secret-handling policy, tenant isolation strategy, supply-chain policy, security test matrix, implementation, verification report and residual-risk register.
