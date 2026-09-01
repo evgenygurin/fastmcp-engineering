@@ -42,3 +42,4 @@
 - [ ] Static quality gates pass.
 - [ ] Real-provider tests are separated and only claimed when executed.
 - [ ] Architecture re-check passes.
+- [ ] Stops when agent behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

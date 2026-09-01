@@ -22,3 +22,4 @@
 - [ ] Real PostgreSQL integration tests cover DB-specific behavior.
 - [ ] Rollback, constraints, concurrency and pagination are tested.
 - [ ] Current official documentation was re-checked before completion.
+- [ ] Stops when persistence behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

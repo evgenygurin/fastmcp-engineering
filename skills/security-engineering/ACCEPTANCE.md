@@ -35,3 +35,4 @@
 - [ ] Real OAuth/MCP/DB semantics are integration-tested where necessary.
 - [ ] Static quality gates pass.
 - [ ] Architecture/security re-check passes.
+- [ ] Stops when security behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

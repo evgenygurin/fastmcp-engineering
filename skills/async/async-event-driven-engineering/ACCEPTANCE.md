@@ -18,3 +18,4 @@
 - [ ] Cancellation, duplicate delivery, overload, restart and recovery tests pass.
 - [ ] Real DB/broker integration tests cover semantics mocks cannot prove.
 - [ ] Security and observability boundaries remain intact.
+- [ ] Stops when async and delivery behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

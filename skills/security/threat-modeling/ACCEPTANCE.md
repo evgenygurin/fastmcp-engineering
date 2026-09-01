@@ -42,3 +42,4 @@
 - [ ] Security regression suite passes.
 - [ ] Static/security tooling passes.
 - [ ] Architecture/security re-check passes.
+- [ ] Stops when threat-model behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

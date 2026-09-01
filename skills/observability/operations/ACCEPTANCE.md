@@ -33,3 +33,4 @@
 - [ ] Cancellation/shutdown tests pass where applicable.
 - [ ] Static quality gates pass.
 - [ ] Architecture/security re-check passes.
+- [ ] Stops when production behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

@@ -20,3 +20,4 @@
 - [ ] Background-task ownership is explicit.
 - [ ] Composition-root tests detect missing/unsafe bindings.
 - [ ] Official documentation is re-checked before completion.
+- [ ] Stops when dependency graph behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

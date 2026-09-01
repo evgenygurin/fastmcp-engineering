@@ -38,3 +38,4 @@
 - [ ] Static quality gates pass.
 - [ ] All executed commands/results are recorded.
 - [ ] Architecture re-check passes.
+- [ ] Stops when test behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

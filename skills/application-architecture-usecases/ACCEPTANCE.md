@@ -21,3 +21,4 @@
 - [ ] Integration tests cover MCP/infrastructure adapters.
 - [ ] Architecture tests prevent forbidden dependencies.
 - [ ] Current official documentation was re-checked before completion.
+- [ ] Stops when application architecture behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

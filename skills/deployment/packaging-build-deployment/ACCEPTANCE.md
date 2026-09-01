@@ -52,3 +52,4 @@
 - [ ] Deployment verification passes where environment permits.
 - [ ] Static quality gates pass.
 - [ ] Architecture re-check passes.
+- [ ] Stops when packaging/build behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

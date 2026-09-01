@@ -20,3 +20,4 @@
 - [ ] CI gates are reproducible and documented.
 - [ ] Flaky tests are tracked rather than suppressed.
 - [ ] Official documentation is re-checked before completion.
+- [ ] Stops when testing behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

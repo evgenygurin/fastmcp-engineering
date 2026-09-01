@@ -36,3 +36,4 @@
 - [ ] Auth boundary tests pass where applicable.
 - [ ] Security/observability/database regressions pass where affected.
 - [ ] Architecture re-check passes.
+- [ ] Stops when server architecture behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

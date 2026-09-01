@@ -16,3 +16,4 @@
 - [ ] Static quality gates pass.
 - [ ] Architecture re-check passes.
 - [ ] Evidence ledger is complete.
+- [ ] Stops when tool/resource/prompt contract behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

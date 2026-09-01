@@ -19,3 +19,4 @@
 - [ ] Schema/protocol discovery tests exist.
 - [ ] Invocation/validation/error contract tests exist.
 - [ ] Current official documentation re-checked before completion.
+- [ ] Stops when API contract and schema behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

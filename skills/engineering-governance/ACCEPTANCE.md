@@ -17,3 +17,4 @@
 - [ ] Post-merge verification is performed when operationally relevant.
 - [ ] Final governance audit can detect skipped or stale controls.
 - [ ] Governance remains proportional and does not add ceremony without value.
+- [ ] Stops when engineering gate behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

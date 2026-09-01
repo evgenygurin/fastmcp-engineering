@@ -11,3 +11,4 @@
 - [ ] Implementation agent re-checks critical version-sensitive claims.
 - [ ] Non-blocking unknowns are documented.
 - [ ] Research did not introduce unsupported assumptions.
+- [ ] Stops when version-sensitive behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

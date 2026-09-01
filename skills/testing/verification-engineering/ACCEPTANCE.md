@@ -32,3 +32,4 @@
 - [ ] Static quality gates pass.
 - [ ] No unexplained flaky tests remain.
 - [ ] Architecture re-check passes.
+- [ ] Stops when verification behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.

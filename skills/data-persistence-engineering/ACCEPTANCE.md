@@ -24,3 +24,4 @@
 - [ ] Retention/deletion/archival policy is explicit.
 - [ ] Security and observability constraints are satisfied.
 - [ ] Official documentation is re-checked before completion.
+- [ ] Stops when persistence behavior cannot be established from evidence; rejects invented behavior and escalates to the user instead of guessing.
