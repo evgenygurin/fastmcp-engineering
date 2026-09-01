@@ -8,6 +8,24 @@ description: Evidence-first production deployment and operations engineering for
 ## Mission
 Deliver reproducible, secure, observable and recoverable production deployments. Deployment machinery is infrastructure; domain/application code must remain independent of it.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** production deployment and operations engineering for FastMCP systems.
+**Trigger:** designing or changing build reproducibility, container security, CI/CD gates, environments, migrations, probes, shutdown, deployment strategy, rollback, or recovery.
+**Upstream / Prerequisite:** identified exact versions; evidence recorded.
+**Mission / Goal:** deliver reproducible, secure, observable and recoverable production deployments; deployment machinery is infrastructure.
+**Research / Evidence:** identify exact Python, FastMCP, container/runtime, CI/CD platform, database, migration-tool and deployment-target versions; read current official documentation first for every version-sensitive mechanism, then inspect exact-version examples/source/tests; verify commands and platform semantics rather than relying on memory.
+**Decision / Selection rules:** build immutable artifacts from pinned, reviewable inputs; separate build-time and runtime configuration; prefer minimal images, non-root runtime users and deterministic entrypoints; keep promotion tied to the exact artifact digest/identity; coordinate deployment with persistence migrations; separate liveness from readiness; choose deployment strategy based on compatibility and risk; distinguish code rollback from schema rollback; define post-deploy verification targeting the deployed artifact.
+**Version / Compatibility:** identify exact versions; verify commands and platform semantics rather than relying on memory.
+
+## Deliverables
+
+**Deliverables / Artifacts:** build/artifact policy; CI/CD gate map; environment/promotion model; container hardening policy; migration/deployment compatibility matrix; probe model; shutdown model; deployment strategy; rollback/forward-fix plan; resource limits; secrets/config boundary; runtime security policy; observability/deployment telemetry; post-deploy verification; recovery/DR plan; evidence ledger; rejected alternatives; verification report.
+**Verification / Testing:** every deployment needs post-deploy verification appropriate to risk: health/readiness, smoke tests, MCP contract checks, critical-path checks and telemetry inspection; verification must target the deployed artifact/environment, not merely CI; test recovery procedures periodically.
+**Failure / Stop conditions:** reject mutable/untracked artifacts, secrets in images/logs, production credentials in ordinary tests, rebuild-per-environment promotion, unsafe schema rollback, unbounded runtime resources, missing graceful shutdown, deployment without verification, and rollback plans that ignore data compatibility.
+**Positive scenario:** a reproducible immutable artifact is promoted through verified gates and passes post-deploy checks.
+**Negative scenario:** a mutable/untracked artifact or unsafe schema rollback is deployed without verification.
+
 ## Mandatory research
 Identify exact Python, FastMCP, container/runtime, CI/CD platform, database, migration-tool and deployment-target versions. Read current official documentation first for every version-sensitive mechanism, then inspect exact-version examples/source/tests. Verify commands and platform semantics rather than relying on memory.
 
@@ -61,9 +79,3 @@ Define behavior for failed builds, failed migrations, unhealthy instances, depen
 
 ## Disaster recovery
 Coordinate deployment with backup/restore and RPO/RTO. Verify that a restored database can run a compatible application version. Test recovery procedures periodically; configuration documentation alone is insufficient.
-
-## Rejection criteria
-Reject mutable/untracked artifacts, secrets in images/logs, production credentials in ordinary tests, rebuild-per-environment promotion, unsafe schema rollback, unbounded runtime resources, missing graceful shutdown, deployment without verification, and rollback plans that ignore data compatibility.
-
-## Deliverables
-Build/artifact policy; CI/CD gate map; environment/promotion model; container hardening policy; migration/deployment compatibility matrix; probe model; shutdown model; deployment strategy; rollback/forward-fix plan; resource limits; secrets/config boundary; runtime security policy; observability/deployment telemetry; post-deploy verification; recovery/DR plan; evidence ledger; rejected alternatives; verification report.

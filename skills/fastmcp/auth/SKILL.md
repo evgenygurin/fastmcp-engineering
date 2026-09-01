@@ -9,6 +9,24 @@ description: Design FastMCP authentication and authorization as explicit securit
 
 Design authentication and authorization as explicit security boundaries. Authentication establishes who/what is calling; authorization decides what that principal may do. Never collapse identity, credential validation, policy, and application business rules into one abstraction.
 
+## Trigger / Когда применять
+
+**Scope / When to use:** FastMCP authentication and authorization as explicit security boundaries — OAuth, JWT, and MCP auth implementation.
+**Trigger:** designing or changing authentication or authorization boundaries, token/secret handling, or client/server auth flows.
+**Upstream / Prerequisite:** `AGENTS.md` and all engineering contracts read; identified exact FastMCP and Python versions; an evidence ledger recorded before coding.
+**Mission / Goal:** design authentication and authorization as explicit security boundaries; never collapse identity, credential validation, policy, and application business rules into one abstraction.
+**Research / Evidence:** read complete target-version FastMCP authentication documentation; inspect all relevant official PrefectHQ/fastmcp auth examples; inspect FastMCP source/tests when semantics are ambiguous; read applicable MCP authentication/security specification material; read first-party dependency/security-library documentation; no remembered OAuth/JWT/API behavior is acceptable evidence.
+**Decision / Selection rules:** select only mechanisms verified for the target release; authentication is not authorization — define principal model, permissions, policy enforcement, default-deny and audit; prefer explicit application authorization ports/policies; validate security-critical claims and never treat unverified claims as trusted identity; research both client and server sides.
+**Version / Compatibility:** identify exact FastMCP and Python versions; select only mechanisms verified for the target release.
+
+## Deliverables
+
+**Deliverables / Artifacts:** target-version research; OAuth/protocol flow diagrams; Principal and authorization model; trust-boundary map; implementation; negative security tests; client/server integration verification; security review; architecture re-check; reproducible evidence ledger.
+**Verification / Testing:** use documented FastMCP client/in-process testing seams; test authentication and authorization separately with positive, negative, boundary, expiry and policy cases; never use real third-party credentials in automated tests; test OAuth discovery, redirect construction, PKCE/registration, refresh and protected requests with deterministic providers/mocks.
+**Failure / Stop conditions:** reject if identity is inferred from unverified input, authorization is fail-open, authentication and authorization are conflated, secrets are logged/stored insecurely, token validation is guessed, mounted OAuth discovery is unverified, or application/domain layers directly depend on FastMCP auth internals without an adapter boundary.
+**Positive scenario:** authentication and authorization are separated as explicit boundaries and pass negative security tests.
+**Negative scenario:** authorization is fail-open or identity is inferred from unverified input.
+
 ## Mandatory research gate
 
 Before implementation:
@@ -92,11 +110,3 @@ Explicitly test: missing/malformed credentials, expired tokens, invalid issuer/a
 ## Testing
 
 Use documented FastMCP client/in-process testing seams. Test authentication and authorization separately with positive, negative, boundary, expiry and policy cases. Never use real third-party credentials in automated tests. For OAuth, test discovery, redirect construction, PKCE/registration where supported, refresh, and protected requests with deterministic providers/mocks.
-
-## Rejection criteria
-
-Reject if identity is inferred from unverified input, authorization is fail-open, authentication and authorization are conflated, secrets are logged/stored insecurely, token validation is guessed, mounted OAuth discovery is unverified, or application/domain layers directly depend on FastMCP auth internals without an adapter boundary.
-
-## Deliverables
-
-Target-version research; OAuth/protocol flow diagrams; Principal and authorization model; trust-boundary map; implementation; negative security tests; client/server integration verification; security review; architecture re-check; reproducible evidence ledger.
