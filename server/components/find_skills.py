@@ -2,6 +2,8 @@ from pathlib import Path
 from typing import Annotated
 from fastmcp.tools import tool
 from fastmcp import Context
+from fastmcp.server.sessions import SessionId
+from fastmcp.server.dependencies import get_session
 from mcp.types import ElicitRequest, ElicitRequestFormParams, InputRequiredResult
 from server.indexing import build_index, search_index
 
@@ -9,13 +11,35 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 SKILLS_ROOT = REPO_ROOT / "skills"
 
 @tool
-def find_skills(
+async def find_skills(
     task: Annotated[str, "Task description to find relevant skills for"],
     domain: Annotated[str | None, "Optional domain filter"] = None,
     limit: Annotated[int, "Max results"] = 5,
+    session_id: SessionId | None = None,
 ) -> list[dict]:
     idx = build_index(SKILLS_ROOT)
-    hits = search_index(idx, task, domain=domain, limit=limit)
+    # session history boost
+    recent_domains: list[str] = []
+    if session_id:
+        try:
+            session = await get_session(session_id)
+            recent_domains = await session.get("recent_domains", default=[])
+        except Exception:
+            pass
+    hits = search_index(idx, task, domain=domain, limit=limit * 2)  # oversample for boost
+    # boost recent domains
+    for h in hits:
+        if h.domain in recent_domains:
+            h.score *= 1.5
+    hits.sort(key=lambda h: h.score, reverse=True)
+    hits = hits[:limit]
+    # record domains for next call
+    if session_id and hits:
+        try:
+            session = await get_session(session_id)
+            await session.set("recent_domains", list({h.domain for h in hits[:3]}))
+        except Exception:
+            pass
     return [{"name": h.name, "description": h.description, "uri": h.uri, "domain": h.domain, "score": h.score} for h in hits]
 
 @tool

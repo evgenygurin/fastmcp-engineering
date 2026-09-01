@@ -2,6 +2,7 @@ from pathlib import Path
 from fastmcp import FastMCP
 from fastmcp.server.providers.skills import SkillsDirectoryProvider
 from fastmcp.server.providers import FileSystemProvider
+from fastmcp.server.sessions import SessionProvider
 from mcp.types import PromptReference, ResourceTemplateReference
 
 # Patch SkillProvider to use frontmatter `name` as canonical skill identifier.
@@ -69,6 +70,9 @@ def _skill_roots() -> list[Path]:
     return roots
 
 mcp = FastMCP("fastmcp-engineering")
+
+# SessionProvider enables create_session/end_session tools and SessionId resolution
+mcp.add_provider(SessionProvider())
 
 # 58 skills as skill:// resources (SKILL.md + ACCEPTANCE.md + _manifest)
 mcp.add_provider(SkillsDirectoryProvider(roots=_skill_roots()))
